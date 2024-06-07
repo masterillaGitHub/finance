@@ -1,12 +1,32 @@
 <script setup>
 import {ref} from "vue";
+import {useAuthStore} from "@/stores/auth.store.js";
+import {useRouter} from "vue-router";
+
+const authStore = useAuthStore()
+const router = useRouter()
 
 const loading = ref(false)
-const email = ref()
-const password = ref()
+const email = ref('user@test.com')
+const password = ref('123123123')
 const imgUrl = new URL('/public/images/login.jpg', import.meta.url).href
 const title = 'Login'
 const desc = ''
+
+async function login() {
+  loading.value = true
+
+  try {
+    const isLogin = await authStore.login(email.value, password.value)
+
+    if (isLogin) {
+      await router.push({name: 'dashboard'})
+    }
+  }
+  finally {
+    loading.value = false
+  }
+}
 </script>
 
 <template>
@@ -51,7 +71,11 @@ const desc = ''
 
     <v-card-actions class="justify-space-between">
       <v-btn :to="{name: 'main'}" text="Back"/>
-      <v-btn text="Login"/>
+      <v-btn
+          text="Login"
+          :loading="loading"
+          @click="login"
+      />
     </v-card-actions>
   </v-card>
 </template>

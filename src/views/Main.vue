@@ -1,19 +1,24 @@
 <script setup>
+import {useAuthStore} from "@/stores/auth.store.js";
 
+const store = useAuthStore();
 </script>
 
 <template>
 
   <h2 class="text-center py-3 mb-5">Finance</h2>
   <div class="d-flex flex-column align-items-center s-buttons">
-    <v-btn :to="{name: 'login'}">
+    <v-btn
+        v-if="store.isAuth"
+        :to="{name: 'dashboard'}"
+    >
+      Dashboard
+    </v-btn>
+    <v-btn v-if="store.isNotAuth" :to="{name: 'login'}">
       Login
     </v-btn>
-    <v-btn :to="{name: 'register'}">
+    <v-btn v-if="store.isNotAuth" :to="{name: 'register'}">
       Register
-    </v-btn>
-    <v-btn :to="{name: 'dashboard'}">
-      Dashboard
     </v-btn>
 
   </div>
