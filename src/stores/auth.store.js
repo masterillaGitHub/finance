@@ -18,40 +18,31 @@ export const useAuthStore = defineStore('auth', {
         async register(name, email, password) {
             const resource = new AuthResource()
 
-            try {
-                await resource.getCsrfCookie()
-                const loginRequest = await resource.register(name, email, password)
+            await resource.getCsrfCookie()
+            const loginRequest = await resource.register(name, email, password)
 
-                if (loginRequest.status !== 200 && loginRequest.status !== 204) {
-                    this.resetUser()
-                    return false
-                }
+            if (loginRequest.status !== 200 && loginRequest.status !== 204) {
+                this.resetUser()
+                return false
+            }
 
-                await this.loadUser()
-                return true
-            }
-            catch (e) {
-                throw new Error(e)
-            }
+            await this.loadUser()
+            return true
         },
         async login(email, password) {
             const resource = new AuthResource()
 
-            try {
-                await resource.getCsrfCookie()
-                const loginRequest = await resource.login(email, password)
+            await resource.getCsrfCookie()
+            const loginRequest = await resource.login(email, password)
 
-                if (loginRequest.status !== 200 && loginRequest.status !== 204) {
-                    this.resetUser()
-                    return false
-                }
+            if (loginRequest.status !== 200 && loginRequest.status !== 204) {
+                this.resetUser()
+                return false
+            }
 
-                await this.loadUser()
-                return true
-            }
-            catch (e) {
-                throw new Error(e)
-            }
+            await this.loadUser()
+
+            return true
         },
         async logout() {
             const resource = new AuthResource()

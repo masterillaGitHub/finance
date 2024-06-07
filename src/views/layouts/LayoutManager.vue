@@ -6,6 +6,7 @@ import MainLayout from "@/views/layouts/MainLayout.vue";
 import AuthLayout from "@/views/layouts/AuthLayout.vue";
 import AccountLayout from "@/views/layouts/AccountLayout.vue";
 import {useAuthStore} from "@/stores/auth.store.js";
+import Snackbar from '@/components/Snackbar.vue'
 
 const authStore = useAuthStore()
 const route = useRoute()
@@ -25,6 +26,7 @@ const layout = computed(() => {
 
 <template>
   <v-app>
+    <Snackbar/>
     <div v-if="isAuthLoading">
       <v-progress-linear
           indeterminate

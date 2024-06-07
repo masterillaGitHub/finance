@@ -2,8 +2,10 @@
 import {ref} from "vue";
 import {useAuthStore} from "@/stores/auth.store.js";
 import {useRouter} from "vue-router";
+import {useSnackbarStore} from "@/stores/snackbar.store.js";
 
 const authStore = useAuthStore()
+const snackbarStore = useSnackbarStore()
 const router = useRouter()
 
 const loading = ref(false)
@@ -21,6 +23,16 @@ async function login() {
 
     if (isLogin) {
       await router.push({name: 'dashboard'})
+    }
+  }
+  catch ($axiosError) {
+    const response = $axiosError.response
+
+    if (response.status === 422) {
+      snackbarStore.show(response.data.message)
+    }
+    else {
+      throw new Error(e)
     }
   }
   finally {
