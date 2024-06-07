@@ -16,5 +16,10 @@ const app = createApp(App)
 app.use(vuetify)
 app.use(createPinia())
 app.use(router)
+app.config.errorHandler = errorHandler
 
 app.mount('#app')
+
+function errorHandler(err, vm, info) {
+    console.error('Vue error:', info, err)
+}
