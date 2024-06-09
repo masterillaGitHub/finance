@@ -131,22 +131,28 @@ export function numberFormat(value) {
     return new Intl.NumberFormat().format(value)
 }
 
-export function toCurrencyUAH(value) {
-    return toCurrency(value, 'uk-UA', 'UAH')
+export function toCurrencyUAH(value, options = {}) {
+    return toCurrency(value, 'uk-UA', 'UAH', options)
 }
 
-export function toCurrencyUSD(value) {
-    return toCurrency(value, 'en-US', 'USD')
+export function toCurrencyUSD(value, options = {}) {
+    return toCurrency(value, 'en-US', 'USD', options)
 }
 
-export function toCurrency (value, locales = 'en-US', currency = 'USD') {
+export function toCurrency (value, locales = 'en-US', currency = 'USD', options = {}) {
     if (typeof value !== 'number') {
         return value;
     }
 
-    let formatter = new Intl.NumberFormat(locales, {
+    const defaultOptions = {
         style: 'currency',
-        currency
+        currency,
+        currencyDisplay: 'narrowSymbol',
+    }
+
+    const formatter = new Intl.NumberFormat(locales, {
+        ...defaultOptions,
+        ...options
     })
 
     return formatter.format(value);
