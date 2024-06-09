@@ -3,9 +3,7 @@ import LayoutManager from "@/views/layouts/LayoutManager.vue";
 </script>
 
 <template>
-  <v-app>
-    <LayoutManager/>
-  </v-app>
+  <LayoutManager/>
 </template>
 
 <style scoped>

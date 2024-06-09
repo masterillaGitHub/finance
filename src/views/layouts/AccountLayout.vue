@@ -1,31 +1,17 @@
 <script setup>
-import {useAuthStore} from "@/stores/auth.store.js";
-import {computed, watch} from "vue";
-import {useRouter} from "vue-router";
-
-const store = useAuthStore()
-const router = useRouter()
-
-
-const isNotAuth = computed(() => store.isNotAuth)
-
-watch(isNotAuth, () => {
-  checkAuth()
-})
-
-function checkAuth() {
-  if (isNotAuth.value) {
-    router.push({name: 'login'})
-  }
-}
-
-checkAuth()
+import TheButtonNavigation from "@/views/account/components/TheButtonNavigation.vue";
+import TheAppBar from "@/views/account/components/TheAppBar.vue";
 </script>
 
 <template>
-  <v-main class="pa-2">
-    <RouterView/>
+  <TheAppBar/>
+  <v-main class="bg-grey-lighten-3">
+    <div class="pa-2" >
+      <RouterView/>
+    </div>
   </v-main>
+
+  <TheButtonNavigation />
 </template>
 
 <style scoped>
