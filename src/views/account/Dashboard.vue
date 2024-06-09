@@ -13,6 +13,8 @@ function getAuth() {
 </script>
 
 <template>
+<div>
+
   <div class="mb-2">
     <v-btn
         text="get auth"
@@ -28,6 +30,7 @@ function getAuth() {
       variant="tonal"
   ></v-alert>
 
+</div>
 </template>
 
 <style scoped>

@@ -33,7 +33,6 @@ const layout = computed(() => {
 
 <template>
   <v-app
-      full-height
       :theme="appStore.theme"
   >
     <Snackbar/>
@@ -44,7 +43,11 @@ const layout = computed(() => {
       />
     </div>
 
-    <component v-else :is="layout"/>
+    <template v-else>
+      <v-slide-x-transition mode="out-in">
+        <component :is="layout"/>
+      </v-slide-x-transition>
+    </template>
   </v-app>
 </template>
 

@@ -6,9 +6,11 @@ import TheAddAccount from "@/views/account/accounts/components/create/TheAddAcco
 </script>
 
 <template>
-  <TheWealthChart class="mb-5"/>
-  <TheAccountsItems class="mb-5"/>
-  <TheAddAccount/>
+  <div>
+    <TheWealthChart class="mb-5"/>
+    <TheAccountsItems class="mb-5"/>
+    <TheAddAccount/>
+  </div>
 </template>
 
 <style scoped>
