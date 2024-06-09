@@ -1,9 +1,11 @@
 import {useAuthStore} from "@/stores/auth.store.js";
-import {LAYOUT_AUTH} from "@/helpers/constants.js";
+import {LAYOUT_ACCOUNT, LAYOUT_AUTH} from "@/helpers/constants.js";
 
 export default async function (to, from) {
     const isPagePublic = to.meta.isPublic ?? false
     const isUserAuth = await checkAuthUser()
+
+    to.meta.layout = to.meta.layout || LAYOUT_ACCOUNT
 
     if (!isPagePublic && !isUserAuth) {
         return {name: 'login'}
