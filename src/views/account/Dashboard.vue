@@ -10,35 +10,23 @@ const auth = computed(() => store.user)
 function getAuth() {
   store.loadUser()
 }
-async function logout() {
-  logoutLoading.value = true
-  try {
-    await store.logout()
-  }
-  finally {
-    logoutLoading.value = false
-  }
-
-}
 </script>
 
 <template>
-  <div class="text-right">
-    <v-btn
-        icon="mdi-exit-run"
-        size="x-small"
-        :loading="logoutLoading"
-        @click="logout()"
-    />
-  </div>
-  <div>
+  <div class="mb-2">
     <v-btn
         text="get auth"
         @click="getAuth"
     />
   </div>
-  <div>Content</div>
-  <div>{{ auth }}</div>
+  <v-alert
+      v-if="auth"
+      icon="$vuetify"
+      title="User data"
+      :text="`id ${auth.id}, name ${auth.name}, email ${auth.email}`"
+      type="info"
+      variant="tonal"
+  ></v-alert>
 
 </template>
 
