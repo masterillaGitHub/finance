@@ -1,1 +1,0 @@
-import{_ as e,c,o as s}from"./index-IspYZlCs.js";const t={};function o(n,r){return s(),c("div",null,"Budgets")}const a=e(t,[["render",o],["__file","D:/My_files/Work/Web/projects/finance.local/src/views/account/Budgets.vue"]]);export{a as default};
