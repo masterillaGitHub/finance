@@ -15,8 +15,8 @@ const vitePWA = VitePWA({
     description: 'App which save your money',
     theme_color: '#ffffff',
     icons: [
-      {src: 'public/assets/images/icons/android-chrome-192x192.png', sizes: '192', type: 'image/png'},
-      {src: 'public/assets/images/icons/android-chrome-256x256.png', sizes: '256', type: 'image/png'},
+      {src: 'assets/images/icons/android-chrome-192x192.png', sizes: '192x192', type: 'image/png'},
+      {src: 'assets/images/icons/android-chrome-256x256.png', sizes: '256x256', type: 'image/png'},
     ]
   }
 })
