@@ -23,34 +23,6 @@ const vitePWA = VitePWA({
         "src": "assets/images/mobile_1.jpg",
         "sizes": "576x1280",
         "type": "image/jpg",
-        "form_factor": "wide",
-        "label": "Рахунки"
-      },
-      {
-        "src": "assets/images/mobile_2.jpg",
-        "sizes": "576x1280",
-        "type": "image/jpg",
-        "form_factor": "wide",
-        "label": "Типи рахунків"
-      },
-      {
-        "src": "assets/images/mobile_3.jpg",
-        "sizes": "576x1280",
-        "type": "image/jpg",
-        "form_factor": "wide",
-        "label": "Додати новий рахунок"
-      },
-      {
-        "src": "assets/images/mobile_4.jpg",
-        "sizes": "576x1280",
-        "type": "image/jpg",
-        "form_factor": "wide",
-        "label": "Історія транзакцій"
-      },
-      {
-        "src": "assets/images/mobile_1.jpg",
-        "sizes": "576x1280",
-        "type": "image/jpg",
         "form_factor": "narrow",
         "label": "Рахунки"
       },
@@ -65,14 +37,14 @@ const vitePWA = VitePWA({
         "src": "assets/images/mobile_3.jpg",
         "sizes": "576x1280",
         "type": "image/jpg",
-        "form_factor": "narrow",
+        "form_factor": "wide",
         "label": "Додати новий рахунок"
       },
       {
         "src": "assets/images/mobile_4.jpg",
         "sizes": "576x1280",
         "type": "image/jpg",
-        "form_factor": "narrow",
+        "form_factor": "wide",
         "label": "Історія транзакцій"
       }
     ]
