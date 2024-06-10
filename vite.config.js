@@ -17,6 +17,64 @@ const vitePWA = VitePWA({
     icons: [
       {src: 'assets/images/icons/android-chrome-192x192.png', sizes: '192x192', type: 'image/png'},
       {src: 'assets/images/icons/android-chrome-256x256.png', sizes: '256x256', type: 'image/png'},
+    ],
+    "screenshots": [
+      {
+        "src": "assets/images/mobile_1.jpg",
+        "sizes": "576x1280",
+        "type": "image/jpg",
+        "form_factor": "wide",
+        "label": "Рахунки"
+      },
+      {
+        "src": "assets/images/mobile_2.jpg",
+        "sizes": "576x1280",
+        "type": "image/jpg",
+        "form_factor": "wide",
+        "label": "Типи рахунків"
+      },
+      {
+        "src": "assets/images/mobile_3.jpg",
+        "sizes": "576x1280",
+        "type": "image/jpg",
+        "form_factor": "wide",
+        "label": "Додати новий рахунок"
+      },
+      {
+        "src": "assets/images/mobile_4.jpg",
+        "sizes": "576x1280",
+        "type": "image/jpg",
+        "form_factor": "wide",
+        "label": "Історія транзакцій"
+      },
+      {
+        "src": "assets/images/mobile_1.jpg",
+        "sizes": "576x1280",
+        "type": "image/jpg",
+        "form_factor": "narrow",
+        "label": "Рахунки"
+      },
+      {
+        "src": "assets/images/mobile_2.jpg",
+        "sizes": "576x1280",
+        "type": "image/jpg",
+        "form_factor": "narrow",
+        "label": "Типи рахунків"
+      },
+      {
+        "src": "assets/images/mobile_3.jpg",
+        "sizes": "576x1280",
+        "type": "image/jpg",
+        "form_factor": "narrow",
+        "label": "Додати новий рахунок"
+      },
+      {
+        "src": "assets/images/mobile_4.jpg",
+        "sizes": "576x1280",
+        "type": "image/jpg",
+        "form_factor": "narrow",
+        "label": "Історія транзакцій"
+      }
     ]
   }
 })
@@ -26,7 +84,7 @@ export default defineConfig({
     host: 'finance.local',
     port: '5200',
     strictPort: true,
-    https: false,
+    https: true,
     cors: false,
   },
   plugins: [
