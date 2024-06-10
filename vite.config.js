@@ -11,7 +11,8 @@ export default defineConfig({
     host: 'finance.local',
     port: '5200',
     strictPort: true,
-    https: true,
+    https: false,
+    cors: false,
   },
   plugins: [
     vue(),
