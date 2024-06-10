@@ -32,7 +32,7 @@ async function login() {
       snackbarStore.show(response.data.message)
     }
     else {
-      throw new Error(e)
+      throw new Error($axiosError)
     }
   }
   finally {
