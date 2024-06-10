@@ -2,17 +2,19 @@
 
 import AccountItem from "@/views/account/accounts/components/index/AccountItem.vue";
 import {toCurrencyUAH} from "@/helpers/functions.js";
+import DraggableComponent from "vuedraggable";
+import {ref} from "vue";
 
 defineProps({
   account: Object
 })
 
-const accountItems = [
+const accountItems = ref([
   {icon: 'mdi-bank-circle', name: 'Monobank UAH, Black', sum: 4000},
   {icon: 'mdi-bank-circle-outline', name: 'Monobank UAH, White', sum: 200},
   {icon: 'mdi-bank-circle-outline', name: 'Приват. Універсальна', sum: 0},
   {icon: 'mdi-wallet-outline', name: 'Готівка', sum: -2500},
-]
+])
 
 </script>
 
@@ -25,7 +27,7 @@ const accountItems = [
     >
       <template v-slot:default="{ expanded }">
         <div class="d-flex w-100 justify-space-between align-center">
-          <div>
+          <div class="s-handle-sorting-account-group">
               <span v-if="expanded" key="0">
                 <v-icon icon="mdi-menu-down"/>
               </span>
@@ -45,15 +47,18 @@ const accountItems = [
 
     <v-expansion-panel-text class="s-custom-expansion-panel-text">
       <v-list>
-        <AccountItem
-            v-for="(account, idx) in accountItems"
-            :key="idx"
 
-            :icon="account.icon"
-            :name="account.name"
-            :sum="account.sum"
-        />
-
+        <DraggableComponent
+            v-model="accountItems"
+            item-key="name"
+            handle=".s-handle-sorting-account-item"
+        >
+          <template #item="{element}">
+              <AccountItem
+                  :element="element"
+              />
+          </template>
+        </DraggableComponent>
       </v-list>
     </v-expansion-panel-text>
   </v-expansion-panel>

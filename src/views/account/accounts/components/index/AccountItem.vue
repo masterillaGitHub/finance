@@ -1,33 +1,28 @@
 <script setup>
 import {toCurrencyUAH} from "@/helpers/functions.js";
-import {useShowStore} from "@/stores/accounts/show.store.js";
 
 defineProps({
-  icon: String,
-  name: String,
-  sum: Number
+  element: Object
 })
-const accountShowStore = useShowStore()
+
 </script>
 
 <template>
-
-  <v-list-item
-      :prepend-icon="icon"
-      v-ripple
-      :to="{name: 'accounts.show', params: {id:1}}"
-  >
-    <template v-slot:title>
-      <div class="d-flex justify-space-between">
-        <div>{{name}}</div>
-        <div>
-          <span>{{ toCurrencyUAH(sum, {minimumFractionDigits: 0})}}</span>
-        </div>
+<v-list-item
+    :to="{name: 'accounts.show', params: {id:1}}"
+>
+  <template v-slot:prepend>
+    <v-icon class="s-handle-sorting-account-item" :icon="element.icon"/>
+  </template>
+  <template v-slot:title>
+    <div class="d-flex justify-space-between">
+      <div>{{element.name}}</div>
+      <div>
+        <span>{{ toCurrencyUAH(element.sum, {minimumFractionDigits: 0})}}</span>
       </div>
-    </template>
-  </v-list-item>
-
-  <v-divider inset></v-divider>
+    </div>
+  </template>
+</v-list-item>
 </template>
 
 <style scoped>
