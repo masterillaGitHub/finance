@@ -6,6 +6,20 @@ import VueDevTools from 'vite-plugin-vue-devtools'
 import mkcert from 'vite-plugin-mkcert'
 import { VitePWA } from 'vite-plugin-pwa'
 
+const vitePWA = VitePWA({
+  registerType: 'autoUpdate',
+  outDir: 'dist',
+  manifest: {
+    name: 'Finance App',
+    short_name: 'Finance',
+    description: 'App which save your money',
+    theme_color: '#ffffff',
+    icons: [
+      {src: 'public/assets/images/icons/android-chrome-192x192.png', sizes: '192', type: 'image/png'},
+      {src: 'public/assets/images/icons/android-chrome-256x256.png', sizes: '256', type: 'image/png'},
+    ]
+  }
+})
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
@@ -19,7 +33,7 @@ export default defineConfig({
     vue(),
     // VueDevTools(),
     mkcert(),
-    VitePWA({ registerType: 'autoUpdate' }),
+    vitePWA,
   ],
   resolve: {
     alias: {

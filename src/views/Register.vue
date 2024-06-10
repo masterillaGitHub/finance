@@ -10,7 +10,7 @@ const loading = ref(false)
 const name = ref('User 1')
 const email = ref('user1@test.com')
 const password = ref('123123123')
-const imgUrl = new URL('/public/images/login.jpg', import.meta.url).href
+const imgUrl = new URL('/assets/images/login.jpg', import.meta.url).href
 const title = 'Register'
 const desc = ''
 

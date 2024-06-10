@@ -1,6 +1,5 @@
 <script setup>
 
-const imgUrl = new URL('/public/images/login.jpg', import.meta.url).href
 </script>
 
 <template>
