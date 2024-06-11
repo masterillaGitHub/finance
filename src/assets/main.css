@@ -1,2 +1,12 @@
+/* Disable mobile browser reload by scroll down, style section */
+html {
+    /*
+    overflow: hidden;
+    overscroll-behavior: none;
+    */
 
+    overscroll-behavior-y: contain;
+}
+
+/* Disable mobile browser reload by scroll down, style section - end */
 
