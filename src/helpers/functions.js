@@ -236,6 +236,10 @@ export function getImageUrl(name) {
     return new URL(`./dir/${name}.png`, import.meta.url).href
 }
 
+export function arrayObjectsSum(array, field) {
+    return array.reduce((a, b) => a + b[field], 0)
+}
+
 
 /**
  * Клас для додаткових функцій
