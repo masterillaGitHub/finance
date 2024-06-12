@@ -1,19 +1,16 @@
 <script setup>
 
 import {ref} from "vue";
-import {ACCOUNT_TYPE_BANK, ACCOUNT_TYPE_CASH, ACCOUNT_TYPE_DEBT, ACCOUNT_TYPE_OTHER} from "@/helpers/constants.js";
+import {
+  ACCOUNT_TYPES
+} from "@/helpers/constants.js";
 import TheCreateAccount from "@/views/account/accounts/components/create/TheCreateAccount.vue";
 import TheDialog from "@/components/TheDialog.vue";
 
 
 const dialog = ref(false)
 const sheet = ref(false)
-const items = [
-  { icon: 'mdi-credit-card-outline', title: 'Банківський рахунок', account_type: ACCOUNT_TYPE_BANK },
-  { icon: 'mdi-cash', title: 'Готівка', account_type: ACCOUNT_TYPE_CASH },
-  { icon: 'mdi-cash-register', title: 'Іншій актив', account_type: ACCOUNT_TYPE_OTHER },
-  { icon: 'mdi-account-cash-outline', title: 'Борг', account_type: ACCOUNT_TYPE_DEBT },
-]
+const items = ACCOUNT_TYPES
 const selectedAccountType = ref()
 
 function openDialog(accountType) {

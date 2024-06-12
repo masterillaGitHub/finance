@@ -1,20 +1,17 @@
 <script setup>
 
 import AccountItem from "@/views/account/accounts/components/index/AccountItem.vue";
-import {toCurrencyUAH} from "@/helpers/functions.js";
 import DraggableComponent from "vuedraggable";
-import {ref} from "vue";
+import {ACCOUNT_TYPES} from "@/helpers/constants.js";
+import {toCurrencyUAH} from "@/helpers/functions.js";
 
-defineProps({
-  account: Object
+const props = defineProps({
+  category: Object
 })
 
-const accountItems = ref([
-  {icon: 'mdi-bank-circle', name: 'Monobank UAH, Black', sum: 4000},
-  {icon: 'mdi-bank-circle-outline', name: 'Monobank UAH, White', sum: 200},
-  {icon: 'mdi-bank-circle-outline', name: 'Приват. Універсальна', sum: 0},
-  {icon: 'mdi-wallet-outline', name: 'Готівка', sum: -2500},
-])
+function getIcon() {
+  return ACCOUNT_TYPES.find(type => type.account_type === props.category.name)?.icon ?? null
+}
 
 </script>
 
@@ -34,12 +31,12 @@ const accountItems = ref([
             <span v-else key="1">
                 <v-icon icon="mdi-menu-right"/>
               </span>
-            <span>{{account.title}}</span>
+            <span>{{category.name}}</span>
           </div>
           <div
               :class="{'text-grey': expanded}"
           >
-            <span>{{ toCurrencyUAH(account.sum, {minimumFractionDigits: 0})}}</span>
+            <span>{{ toCurrencyUAH(category.getSum(), {minimumFractionDigits: 0})}}</span>
           </div>
         </div>
       </template>
@@ -47,15 +44,15 @@ const accountItems = ref([
 
     <v-expansion-panel-text class="s-custom-expansion-panel-text">
       <v-list>
-
         <DraggableComponent
-            v-model="accountItems"
+            v-model="category.accounts"
             item-key="name"
             handle=".s-handle-sorting-account-item"
         >
           <template #item="{element}">
               <AccountItem
-                  :element="element"
+                  :account="element"
+                  :icon="getIcon()"
               />
           </template>
         </DraggableComponent>
