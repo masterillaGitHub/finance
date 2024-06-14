@@ -1,5 +1,8 @@
 import ApiResource from '@/models_resources/ModelApiResource'
 import ModelStore from '@/models_resources/ModelStore'
+import {console} from "vuedraggable/src/util/console.js";
+import {replaceInArray} from "@/helpers/functions.js";
+import {isArray, isNotArray, isNull} from "@/helpers/validators.js";
 
 const RELATION_ARRAY = 'array'
 const RELATION_OBJECT = 'object'
@@ -7,11 +10,13 @@ const RELATION_OBJECT = 'object'
 export default class Model
 {
     relationships = {}
+    #dependentRelationships = {}
     exists = false
     _baseUrl = '/api/v1'
     _resourceName = null
     #lastSyncIds = []
     _storageName = null
+    _includeName = null
     // _relations = [] // TODO: Need realization params with, for loaded all relationships like as with: ['category, 'group']
     _primaryKey = 'id'
     #apiResource = null
@@ -65,8 +70,12 @@ export default class Model
         return this._resourceName
     }
 
+    includeName() {
+        return this._includeName || this.resourceName().replace('-', '_')
+    }
+
     storageName() {
-        return this._storageName
+        return this._storageName || this.includeName()
     }
 
     relations() {
@@ -91,6 +100,12 @@ export default class Model
 
     setResourceName(value) {
         this._resourceName = value
+
+        return this
+    }
+
+    setIncludeName(value) {
+        this._includeName = value
 
         return this
     }
@@ -121,30 +136,8 @@ export default class Model
         }, {})
     }
 
-    setRelation(name, value) {
-        this._checkAndCreateRelationshipsField()
-
-        this.relationships[name] = value
-    }
-
-    addRelation(name, value) {
-        this._checkAndCreateRelationshipsField()
-
-        if (!this.relationships.hasOwnProperty(name)) {
-            this.relationships[name] = []
-        }
-
-        this.relationships[name].push(value)
-    }
-
-    getRelation(name) {
-        return this.relationships[name] ?? null
-    }
-
-    removeRelation(name) {
-        delete this.relationships[name]
-
-        this._checkAndDeleteRelationshipsField()
+    clone() {
+        return Object.assign(Object.create(Object.getPrototypeOf(this)), this)
     }
 
     query() {
@@ -180,11 +173,22 @@ export default class Model
     }
 
     createLocal() {
-        return ModelStore.make(this).create()
+        const modelId = ModelStore.make(this).create()
+        this._updateDependentRelationships(modelId)
+
+        return modelId
     }
 
     updateLocal() {
         ModelStore.make(this).update()
+    }
+
+    copyToStorage(storageName) {
+        ModelStore.make(this).copyToStorage(storageName)
+    }
+
+    moveToStorage(storageName) {
+        ModelStore.make(this).moveToStorage(storageName)
     }
 
     save(params = {}) {
@@ -204,9 +208,14 @@ export default class Model
         const store = ModelStore.make(this)
 
         const modelId = store.create()
+        this._updateDependentRelationships(modelId)
 
         try {
-            const response = await this.query().setParams(urlParams).create()
+            const response = await this.query()
+                .setParams(urlParams)
+                .create()
+
+            this._updateDependentRelationships(response.data.data, modelId)
 
             console.log('model create response', response)
 
@@ -219,8 +228,6 @@ export default class Model
 
             console.error('Error: ' + e)
         }
-
-        return modelId
     }
 
     async update(params = {}) {
@@ -265,7 +272,89 @@ export default class Model
     }
 
     isFieldAttribute(field) {
+        return this.isPublicField(field)
+    }
+
+    isPublicField(field) {
         return !field.startsWith('_') && !field.startsWith('#')
+    }
+
+
+    /* Relation Block */
+
+    hasOne(fieldName, model) {
+        if (!this.relationships.hasOwnProperty(fieldName)) {
+            return null
+        }
+
+        return model.find(this.relationships[fieldName]) ?? null
+    }
+
+    hasMany(fieldName, model) {
+        if (!this.relationships.hasOwnProperty(fieldName)) {
+            return []
+        }
+
+        return model.findIn(this.relationships[fieldName]) ?? []
+    }
+
+    belongsTo(fieldName, entityId, model = null, localRelationName = null, localStorageName = null) {
+        this.putRelation(fieldName, entityId)
+
+        if (isNull(model)) {
+            return
+        }
+
+        const entity = model.find(entityId)
+        localRelationName = localRelationName || this.storageName()
+
+        this.#dependentRelationships[fieldName] = {
+            relationEntity: entity,
+            localRelationName,
+            localStorageName
+        }
+    }
+
+    hasRelation(name) {
+        return !!this.getRelation(name)
+    }
+
+    setRelation(name, value) {
+        this._checkAndCreateRelationshipsField()
+
+        this.relationships[name] = value
+    }
+
+    addRelation(name, value) {
+        this._checkAndCreateRelationshipsField()
+
+        if (!this.relationships.hasOwnProperty(name)) {
+            this.relationships[name] = []
+        }
+
+        this.relationships[name].push(value)
+    }
+
+    getRelation(name) {
+        return this.relationships[name] ?? null
+    }
+
+    removeRelation(name) {
+        delete this.relationships[name]
+
+        this._checkAndDeleteRelationshipsField()
+    }
+
+    removeRelationValue(name, value) {
+        const relation = this.getRelation(name)
+
+        if (isNull(relation) || isNotArray(relation)) {
+            return
+        }
+
+        const idx = relation.indexOf(value)
+
+        delete this.relationships[name][idx]
     }
 
     // TODO: method need for relation 'with'
@@ -282,20 +371,9 @@ export default class Model
         return this[field] instanceof Model
     }
 
-    hasOne(model, fieldName) {
-        if (!this.relationships.hasOwnProperty(fieldName)) {
-            return null
-        }
-
-        return model.find(this.relationships[fieldName]) ?? null
-    }
-
-    hasMany(model, fieldName) {
-        if (!this.relationships.hasOwnProperty(fieldName)) {
-            return []
-        }
-
-        return model.findIn(this.relationships[fieldName]) ?? []
+    // TODO: method need for relation 'with'
+    _convertModelToId(model) {
+        return model.getId()
     }
 
     _creator(data) {
@@ -317,9 +395,62 @@ export default class Model
         }
     }
 
-    // TODO: method need for relation 'with'
-    _convertModelToId(model) {
-        return model.getId()
+    _updateDependentRelationships(entityId, replaceId = null) {
+        const list = Object.entries(this.#dependentRelationships)
+
+        for (let [fieldName, {relationEntity, localRelationName}] of list) {
+
+            if (isNull(replaceId)) {
+                relationEntity.putRelation(localRelationName, entityId)
+            }
+            else if (replaceId !== 0) {
+                relationEntity.replaceRelation(localRelationName, entityId, replaceId)
+            }
+            else {
+                relationEntity.deleteRelation(localRelationName, entityId)
+            }
+
+            relationEntity.updateLocal()
+        }
+    }
+
+    deleteRelation(relationName, value = null) {
+        const relation = this[relationName] // call to exactly relation method
+
+        if (isArray(relation)) {
+            if (isNull(value)) {
+                throw Error('Delete Relation: no value specified')
+            }
+
+            this.removeRelationValue(relationName, value)
+        }
+        else {
+            this.removeRelation(relationName)
+        }
+    }
+
+    replaceRelation(relationName, newValue, oldValue) {
+        const relation = this[relationName] // call to exactly relation method
+
+        if (isArray(relation)) {
+            const relations = this.getRelation(relationName)
+            this.setRelation(relationName, replaceInArray(relations, oldValue, newValue))
+        }
+        else {
+            this.setRelation(relationName, newValue)
+        }
+
+    }
+
+    putRelation(relationName, value) {
+        const relation = this[relationName] // call to exactly relation method
+
+        if (isArray(relation)) {
+            this.addRelation(relationName, value)
+        }
+        else {
+            this.setRelation(relationName, value)
+        }
     }
 }
 
