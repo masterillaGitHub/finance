@@ -21,11 +21,18 @@ export const useModelsStore = defineStore('models', {
     },
     actions: {
         setLoadedIds(modelName, ids) {
-            if (typeof this.loadedIds[modelName] === 'undefined') {
-                this.loadedIds[modelName] = []
-            }
-
+            checkLoadedIds(this, modelName)
             this.loadedIds[modelName] = ids
+        },
+        addLoadedId(modelName, id) {
+            checkLoadedIds(this, modelName)
+            this.loadedIds[modelName].push(id)
+        },
+        removeLoadedId(modelName, id) {
+            checkLoadedIds(this, modelName)
+
+            const idx = this.loadedIds.indexOf(id)
+            delete this.loadedIds[idx]
         },
         setCollection(modelName, collection) {
             if (typeof this.models[modelName] === 'undefined') {
@@ -69,6 +76,12 @@ export const useModelsStore = defineStore('models', {
         },
     },
 })
+
+function checkLoadedIds(store, modelName) {
+    if (typeof store.loadedIds[modelName] === 'undefined') {
+        store.loadedIds[modelName] = []
+    }
+}
 
 function getLoadedIds(state, modelName) {
     return state.loadedIds[modelName] ?? []
