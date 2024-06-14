@@ -34,21 +34,21 @@ export default class ModelApiResource
 
     all() {
         const models = useModelsStore()
-        const entities = models.getAll(this._moduleName())
+        const entities = models.getAll(this._storageName())
 
         return this._handlerEntities(entities)
     }
 
     find(id) {
         const models = useModelsStore()
-        const entity = models.getById(this._moduleName(), id)
+        const entity = models.getById(this._storageName(), id)
 
         return entity ? this._handlerEntities([entity])[0] : null
     }
 
     findIn(ids) {
         const models = useModelsStore()
-        const entities = models.getByIds(this._moduleName(), ids)
+        const entities = models.getByIds(this._storageName(), ids)
 
         const res = this._handlerEntities(entities)
 
@@ -57,11 +57,24 @@ export default class ModelApiResource
 
     findLoaded() {
         const models = useModelsStore()
-        const entities = models.getByLoaded(this._moduleName())
+        const entities = models.getByLoaded(this._storageName())
 
         const res = this._handlerEntities(entities)
 
         return res
+    }
+
+    copyToStorage(storageName) {
+        const models = useModelsStore()
+        const entity = models.getById(this._storageName(), this.model.id)
+
+        models.updateById(storageName, this.model.id, entity)
+    }
+
+    moveToStorage(storageName) {
+        this.copyToStorage(storageName)
+
+        this._storeRemoveById(this.model.id)
     }
 
     update(){
@@ -88,14 +101,14 @@ export default class ModelApiResource
 
     _storeRemoveById(id) {
         const models = useModelsStore()
-        models.removeById(this._moduleName(), id)
+        models.removeById(this._storageName(), id)
     }
 
     _storeCommit() {
         const models = useModelsStore()
 
         const data = deepCopy(this.model.toObject())
-        models.updateById(this._moduleName(), this.model.getId(), data)
+        models.updateById(this._storageName(), this.model.getId(), data)
     }
 
     _getDefaultParams() {
@@ -115,11 +128,11 @@ export default class ModelApiResource
         return this.model.relations()[fieldName] ?? null
     }
 
-    _moduleName() {
+    _storageName() {
         const moduleName = this.model.storageName()
 
         if (!moduleName) {
-            throw new Error('Is not founded store module name')
+            throw new Error('Is not founded storage name')
         }
 
         return moduleName
@@ -172,7 +185,7 @@ export default class ModelApiResource
     }
 
     _completeModel(entity){
-        return this.model.instance().fill(entity)
+        return this.model.clone().fill(entity)
     }
 
     _isWithRelations() {
