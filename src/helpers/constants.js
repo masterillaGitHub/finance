@@ -10,14 +10,13 @@ export const LAYOUT_ACCOUNT_FULLSCREEN = 'AccountFullscreen'
 export const LAYOUT_MAIN = 'Main'
 export const LAYOUT_AUTH = 'Auth'
 
-export const ACCOUNT_TYPE_BANK = 'bank'
-export const ACCOUNT_TYPE_CASH = 'cash'
-export const ACCOUNT_TYPE_OTHER = 'other'
-export const ACCOUNT_TYPE_DEBT = 'debt'
 
-export const ACCOUNT_TYPES = [
-    { icon: 'mdi-credit-card-outline', title: 'Банківський рахунок', account_type: ACCOUNT_TYPE_BANK },
-    { icon: 'mdi-cash', title: 'Готівка', account_type: ACCOUNT_TYPE_CASH },
-    { icon: 'mdi-cash-register', title: 'Іншій актив', account_type: ACCOUNT_TYPE_OTHER },
-    { icon: 'mdi-account-cash-outline', title: 'Борг', account_type: ACCOUNT_TYPE_DEBT },
+export const ACCOUNT_CATEGORY_ICONS = [
+    { id: 1, icon: 'mdi-cash'},
+    { id: 2, icon: 'mdi-credit-card-outline'},
+    { id: 3, icon: 'mdi-account-cash-outline'},
+    { id: 4, icon: 'mdi-cash-register'},
 ]
+
+export const STORAGE_NAME_ACCOUNT_CATEGORIES = 'account_categories'
+export const STORAGE_NAME_ACCOUNT_CATEGORIES_INDEX = 'account_categories_index'

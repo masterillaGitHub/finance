@@ -226,7 +226,9 @@ export function removeItemAll(arr, value) {
 
 export function removeNullableProperties (obj) {
     Object.keys(obj).forEach(key => {
-        if (!obj[key]) delete obj[key]
+        if (!obj[key]) {
+            delete obj[key]
+        }
     })
 
     return obj
