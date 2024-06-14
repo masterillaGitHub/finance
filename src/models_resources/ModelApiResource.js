@@ -33,6 +33,20 @@ export default class ModelApiResource {
         return this.#meta
     }
 
+    getResourceUrl(url = null) {
+        return !!url ? this.#model.urlResource() + url : this.#model.urlResource()
+    }
+
+    getStorageNames() {
+        let storageNames = {}
+
+        if (this.#model) {
+            storageNames[this.#model.includeName()] = this.#model.storageName()
+        }
+
+        return {...storageNames, ...this.#storageNames}
+    }
+
     setModel(model) {
         this.#model = model
 
@@ -61,10 +75,10 @@ export default class ModelApiResource {
         return this
     }
 
-    async get() {
+    async get(url = null) {
         this.api.params(this.#urlParams)
 
-        this.#response = await this.api.query(this.#model.urlResource())
+        this.#response = await this.api.query(this.getResourceUrl(url))
         this.#meta = this.#response.data?.meta
 
         this.#fillResponseData(this.#response.data, this.#updateMode)
@@ -118,7 +132,7 @@ export default class ModelApiResource {
         fillModels(
             this.#addServerMarkerInCollections(data.included),
             updateMode,
-            this.#storageNames,
+            this.getStorageNames(),
             this.#updateModes
         )
     }
