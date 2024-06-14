@@ -3,14 +3,14 @@
 import TheAppBar from "@/views/account/accounts/components/show/TheAppBar.vue";
 import TheWealthChart from "@/views/account/accounts/components/show/TheWealthChart.vue";
 import TheTransactions from "@/views/account/accounts/components/show/TheTransactions.vue";
-import TheCreateAccount from "@/views/account/accounts/components/show/TheCreateAccount.vue";
+import TheShowAccount from "@/views/account/accounts/components/show/TheShowAccount.vue";
 </script>
 
 <template>
   <TheAppBar />
   <TheWealthChart class="mb-4"/>
   <TheTransactions/>
-  <TheCreateAccount/>
+<!--  <TheShowAccount/>-->
 </template>
 
 <style scoped>

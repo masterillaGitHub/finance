@@ -16,7 +16,7 @@ const routes = [
   {path: '/register', name:'register', component: Register, meta: {isPublic: true, layout: LAYOUT_AUTH}},
 
   {path: '/dashboard', name:'dashboard', component: Dashboard},
-  {path: '/accounts', name:'accounts', component: Accounts},
+  {path: '/accounts', name:'accounts.index', component: Accounts},
   {path: '/accounts/:id/show', name:'accounts.show', component: AccountsShow, meta: {layout: LAYOUT_ACCOUNT_FULLSCREEN}},
   {path: '/budgets', name:'budgets', component: Budgets},
 ]

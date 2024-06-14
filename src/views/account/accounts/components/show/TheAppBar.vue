@@ -13,7 +13,7 @@ const showStore = useShowStore()
     <template v-slot:prepend>
       <v-btn
           icon="mdi-arrow-left"
-          :to="{name: 'accounts'}"
+          :to="{name: 'accounts.index'}"
       />
     </template>
     <div>Monobank UAH, black</div>

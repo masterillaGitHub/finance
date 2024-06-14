@@ -21,7 +21,7 @@ const testing = ref('good')
     </v-btn>
 
     <v-btn
-        :to="{name: 'accounts'}"
+        :to="{name: 'accounts.index'}"
         value="accounts"
     >
       <v-icon>mdi-wallet-bifold-outline</v-icon>

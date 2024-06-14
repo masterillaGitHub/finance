@@ -15,7 +15,7 @@ defineProps({
 
 <template>
 <v-list-item
-    :to="{name: 'accounts.show', params: {id:1}}"
+    :to="{name: 'accounts.show', params: {id: account.id}}"
     class="s-list-item"
 >
   <template v-slot:prepend>

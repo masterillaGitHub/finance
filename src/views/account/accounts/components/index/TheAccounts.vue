@@ -12,10 +12,7 @@ async function load() {
   accountsLoading.value = true
 
   try {
-    await AccountCategory.sync({
-      include: 'accounts.sums'
-      // include: 'accounts.sums.currency,accounts.currency'
-    })
+    await AccountCategory.loadMainPage()
   }
   finally {
     accountsLoading.value = false
@@ -27,7 +24,6 @@ async function load() {
 <template>
   <div>
     <v-btn text="load" @click="load" class="mb-4"/>
-<!--    <v-skeleton-loader type="article"></v-skeleton-loader>-->
 
     <v-progress-linear
         v-if="accountsLoading"

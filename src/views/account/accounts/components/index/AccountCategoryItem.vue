@@ -2,16 +2,17 @@
 
 import AccountItem from "@/views/account/accounts/components/index/AccountItem.vue";
 import DraggableComponent from "vuedraggable";
-import {ACCOUNT_TYPES} from "@/helpers/constants.js";
 import {toCurrencyUAH} from "@/helpers/functions.js";
+import AccountCategory from "@/models_resources/models/AccountCategory.js";
 
 const props = defineProps({
-  category: Object
+  category: {
+    type: Object,
+    required: true,
+    validator: category => category instanceof AccountCategory
+  }
 })
 
-function getIcon() {
-  return ACCOUNT_TYPES.find(type => type.account_type === props.category.name)?.icon ?? null
-}
 
 </script>
 
@@ -31,7 +32,7 @@ function getIcon() {
             <span v-else key="1">
                 <v-icon icon="mdi-menu-right"/>
               </span>
-            <span>{{category.name}}</span>
+            <span>{{ category.name }}</span>
           </div>
           <div
               :class="{'text-grey': expanded}"
@@ -52,7 +53,7 @@ function getIcon() {
           <template #item="{element}">
               <AccountItem
                   :account="element"
-                  :icon="getIcon()"
+                  :icon="category.icon"
               />
           </template>
         </DraggableComponent>
