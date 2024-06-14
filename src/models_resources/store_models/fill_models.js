@@ -1,5 +1,6 @@
 import {MODEL_UPDATE_ALL, MODEL_UPDATE_ENTITY, MODEL_UPDATE_FIELD} from "@/helpers/constants.js";
 import {useModelsStore} from "@/models_resources/store_models/models.store.js";
+import {isEmpty} from "@/helpers/functions.js";
 
 export function fillModels(included, updateMode, storageNames = {}, updateModes = {}) {
 
@@ -16,9 +17,13 @@ export function fillModels(included, updateMode, storageNames = {}, updateModes 
     }
 }
 
-export function fillIds(modelName, ids) {
+export function fillIds(storageName, ids) {
+    if (isEmpty(ids)) {
+        return
+    }
+
     const models = useModelsStore()
-    models.setLoadedIds(modelName, ids)
+    models.setLoadedIds(storageName, ids)
 }
 
 function updateStorage(updateMode, modelName, collection) {
