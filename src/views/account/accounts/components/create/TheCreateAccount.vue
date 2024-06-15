@@ -3,7 +3,7 @@ import {computed, onMounted, ref} from "vue";
 import Currency from "@/models_resources/models/Currency.js";
 import Account from "@/models_resources/models/Account.js";
 import AccountSum from "@/models_resources/models/AccountSum.js";
-import {requiredRule} from "@/helpers/form_rules.js";
+import {numberRule, requiredRule} from "@/helpers/form_rules.js";
 import {useFormValidate} from "@/composables/form_validate.js";
 import AccountCategory from "@/models_resources/models/AccountCategory.js";
 import {STORAGE_NAME_ACCOUNT_CATEGORIES} from "@/helpers/constants.js";
@@ -22,7 +22,7 @@ const form = ref()
 const {check} = useFormValidate(form)
 
 const currencyModel = ref('Гривня')
-const balanceModel = ref()
+const balanceModel = ref(0)
 const nameModel = ref()
 const currencyLoading = ref(false)
 const accountSum = ref(new AccountSum())
@@ -33,7 +33,7 @@ const currencies = computed(() => Currency.findLoaded())
 const currencySelected = computed(() => currencies.value.find(c => c.id === currencyModel.value))
 
 const nameRules = [requiredRule]
-const balanceRules = [requiredRule]
+const balanceRules = [numberRule]
 
 
 onMounted(async () => {
