@@ -132,14 +132,18 @@ export function numberFormat(value) {
 }
 
 export function toCurrencyUAH(value, options = {}) {
-    return toCurrency(value, 'uk-UA', 'UAH', options)
+    return toCurrency(value, 'UAH', options)
 }
 
 export function toCurrencyUSD(value, options = {}) {
-    return toCurrency(value, 'en-US', 'USD', options)
+    return toCurrency(value, 'USD', options)
 }
 
-export function toCurrency (value, locales = 'en-US', currency = 'USD', options = {}) {
+export function toCurrencyEUR(value, options = {}) {
+    return toCurrency(value, 'EUR', options)
+}
+
+export function toCurrency (value, currency = 'UAH', options = {}, locales = 'uk-UA') {
     if (typeof value !== 'number') {
         return value;
     }
