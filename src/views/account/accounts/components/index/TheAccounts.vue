@@ -4,7 +4,9 @@ import AccountGroupItem from "@/views/account/accounts/components/index/AccountC
 import DraggableComponent from "vuedraggable";
 import {computed, ref} from "vue";
 import AccountCategory from "@/models_resources/models/AccountCategory.js";
+import {useIndexStore} from "@/stores/accounts/index.store.js";
 
+const indexStore = useIndexStore()
 const categories = computed(() => AccountCategory.findLoaded())
 const accountsLoading = ref(false)
 
@@ -29,11 +31,16 @@ async function load() {
         v-if="accountsLoading"
         indeterminate
     />
+
+    <v-expansion-panels
+        multiple
+        v-model="indexStore.accountsPanelModel"
+    >
       <DraggableComponent
           v-model="categories"
-          item-key="title"
-          tag="v-expansion-panels"
+          item-key="name"
           handle=".s-handle-sorting-account-group"
+          style="width: 100%"
       >
         <template #item="{element}">
           <AccountGroupItem
@@ -41,6 +48,7 @@ async function load() {
           />
         </template>
       </DraggableComponent>
+    </v-expansion-panels>
   </div>
 
 </template>

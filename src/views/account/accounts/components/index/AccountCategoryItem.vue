@@ -17,8 +17,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <v-expansion-panel
-  >
+  <v-expansion-panel>
     <v-expansion-panel-title
         hide-actions
         class="s-panel-title"
