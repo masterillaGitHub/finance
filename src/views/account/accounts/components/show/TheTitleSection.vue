@@ -2,10 +2,12 @@
 import {computed, ref} from "vue";
 import {useRoute} from "vue-router";
 import Account from "@/models_resources/models/Account.js";
+import {toCurrency, toCurrencyUAH} from "@/helpers/functions.js";
 
 const route = useRoute()
 
 const account = computed(() => Account.find(route.params.id))
+const sumsCount = computed(() => account.value.sums.length)
 
 const labels = ref([
   'січ',
@@ -60,14 +62,28 @@ const avg = 34
       </v-sparkline>
     </v-sheet>
 
-    <v-card-text class="pt-0 text-center">
-      <div class="text-h6 font-weight-light mb-2">
-        {{ account.name }}
+    <v-card-title class="text-center">{{ account.name }}</v-card-title>
+    <v-card-text class="pt-0">
+      <div class="subheading font-weight-light text-grey text-center">
+        Поточний баланс<span v-if="sumsCount > 1">, в {{sumsCount}} валютах</span>
       </div>
-      <div class="subheading font-weight-light text-grey">
-        Поточний баланс
-      </div>
-      <div class="font-weight-bold">50 000 грн</div>
+      <div class="font-weight-bold text-center">{{ toCurrencyUAH(account.getSum()) }}</div>
+
+      <v-list v-if="sumsCount > 1">
+        <v-list-item
+          v-for="sum in account.sums"
+          :key="sum.id"
+          prepend-icon="mdi-flag-outline"
+          class="s-list-item"
+        >
+          <template v-slot:title>
+            <div class="d-flex justify-space-between">
+              <div>{{ sum.currency.name}}</div>
+              <div>{{ toCurrency(sum.balance, sum.currency.alphabetic_code)}}</div>
+            </div>
+          </template>
+        </v-list-item>
+      </v-list>
     </v-card-text>
   </v-card>
 </template>
@@ -77,5 +93,9 @@ const avg = 34
 .v-sheet--offset {
   top: -24px;
   position: relative;
+}
+
+.s-list-item :deep(.v-list-item__spacer) {
+  width: 10px;
 }
 </style>

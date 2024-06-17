@@ -61,7 +61,9 @@ async function saveAccountSums(accountId) {
 
   for (const accountSum of sums.value) {
     accountSum.account = accountId
-    await accountSum.save()
+    await accountSum.save({
+      include: 'currency'
+    })
   }
 
 }
