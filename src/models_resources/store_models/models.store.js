@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const useModelsStore = defineStore('models', {
     state: () => ({
         models: {},
-        loadedIds: {},
+        activeIds: {},
     }),
     getters: {
         getAll: state =>
@@ -16,22 +16,22 @@ export const useModelsStore = defineStore('models', {
                 getEntities(state, modelName, ids),
         getByLoaded: state =>
             modelName =>
-                getEntities(state, modelName, getLoadedIds(state, modelName))
+                getEntities(state, modelName, getActiveIds(state, modelName))
     },
     actions: {
-        setLoadedIds(modelName, ids) {
-            checkLoadedIds(this, modelName)
-            this.loadedIds[modelName] = ids
+        setActiveIds(modelName, ids) {
+            checkActiveIds(this, modelName)
+            this.activeIds[modelName] = ids
         },
-        addLoadedId(modelName, id) {
-            checkLoadedIds(this, modelName)
-            this.loadedIds[modelName].push(id)
+        addActiveId(modelName, id) {
+            checkActiveIds(this, modelName)
+            this.activeIds[modelName].push(id)
         },
         removeLoadedId(modelName, id) {
-            checkLoadedIds(this, modelName)
+            checkActiveIds(this, modelName)
 
-            const idx = this.loadedIds.indexOf(id)
-            delete this.loadedIds[idx]
+            const idx = this.activeIds.indexOf(id)
+            delete this.activeIds[idx]
         },
         setCollection(modelName, collection) {
             if (typeof this.models[modelName] === 'undefined') {
@@ -76,14 +76,14 @@ export const useModelsStore = defineStore('models', {
     },
 })
 
-function checkLoadedIds(store, modelName) {
-    if (typeof store.loadedIds[modelName] === 'undefined') {
-        store.loadedIds[modelName] = []
+function checkActiveIds(store, modelName) {
+    if (typeof store.activeIds[modelName] === 'undefined') {
+        store.activeIds[modelName] = []
     }
 }
 
-function getLoadedIds(state, modelName) {
-    return state.loadedIds[modelName] ?? []
+function getActiveIds(state, modelName) {
+    return state.activeIds[modelName] ?? []
 }
 
 function getAllEntities(state, modelName, raw = false) {

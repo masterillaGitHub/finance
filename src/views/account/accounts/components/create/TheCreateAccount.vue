@@ -35,7 +35,7 @@ async function createAccount() {
   if (isNotExistsCategory()) {
     category.value.copyToStorage(STORAGE_NAME_ACCOUNT_CATEGORIES)
 
-    modelsStore.addLoadedId(STORAGE_NAME_ACCOUNT_CATEGORIES, props.categoryId)
+    modelsStore.addActiveId(STORAGE_NAME_ACCOUNT_CATEGORIES, props.categoryId)
   }
 
   emit('accountSave')

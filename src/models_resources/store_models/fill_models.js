@@ -23,7 +23,7 @@ export function fillIds(storageName, ids) {
     }
 
     const models = useModelsStore()
-    models.setLoadedIds(storageName, ids)
+    models.setActiveIds(storageName, ids)
 }
 
 function updateStorage(updateMode, modelName, collection) {
