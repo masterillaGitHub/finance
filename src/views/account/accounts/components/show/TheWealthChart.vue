@@ -1,5 +1,11 @@
 <script setup>
-import {ref} from "vue";
+import {computed, ref} from "vue";
+import {useRoute} from "vue-router";
+import Account from "@/models_resources/models/Account.js";
+
+const route = useRoute()
+
+const account = computed(() => Account.find(route.params.id))
 
 const labels = ref([
   'січ',
@@ -56,7 +62,7 @@ const avg = 34
 
     <v-card-text class="pt-0 text-center">
       <div class="text-h6 font-weight-light mb-2">
-        Monobank UAH, black
+        {{ account.name }}
       </div>
       <div class="subheading font-weight-light text-grey">
         Поточний баланс
