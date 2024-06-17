@@ -10,7 +10,7 @@ const RELATION_OBJECT = 'object'
 export default class Model
 {
     relationships = {}
-    #dependentRelationships = {}
+    _dependentRelationships = {}
     exists = false
     _baseUrl = '/api/v1'
     _resourceName = null
@@ -29,6 +29,10 @@ export default class Model
         return new this.constructor()
     }
 
+    static make() {
+        return new this()
+    }
+
     static query() {
         return (new this().query())
     }
@@ -39,6 +43,10 @@ export default class Model
 
     static fill(data) {
         return (new this()).fill(data)
+    }
+
+    static createLocal() {
+        return (new this()).createLocal()
     }
 
     static all(data) {
@@ -183,6 +191,10 @@ export default class Model
         ModelStore.make(this).update()
     }
 
+    destroyLocal() {
+        const store = ModelStore.make(this).remove()
+    }
+
     copyToStorage(storageName) {
         ModelStore.make(this).copyToStorage(storageName)
     }
@@ -308,7 +320,7 @@ export default class Model
         const entity = model.find(entityId)
         localRelationName = localRelationName || this.storageName()
 
-        this.#dependentRelationships[fieldName] = {
+        this._dependentRelationships[fieldName] = {
             relationEntity: entity,
             localRelationName,
             localStorageName
@@ -396,7 +408,7 @@ export default class Model
     }
 
     _updateDependentRelationships(entityId, replaceId = null) {
-        const list = Object.entries(this.#dependentRelationships)
+        const list = Object.entries(this._dependentRelationships)
 
         for (let [fieldName, {relationEntity, localRelationName}] of list) {
 
@@ -439,7 +451,6 @@ export default class Model
         else {
             this.setRelation(relationName, newValue)
         }
-
     }
 
     putRelation(relationName, value) {
