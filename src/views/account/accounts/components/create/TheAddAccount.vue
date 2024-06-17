@@ -4,7 +4,7 @@ import {computed, ref} from "vue";
 import TheCreateAccount from "@/views/account/accounts/components/create/TheCreateAccount.vue";
 import DialogComponent from "@/components/DialogComponent.vue";
 import AccountCategory from "@/models_resources/models/AccountCategory.js";
-import {isEmptyArray} from "@/helpers/validators.js";
+import {isEmptyArray} from "@/helpers/validators/index.js";
 
 
 const dialog = ref(false)

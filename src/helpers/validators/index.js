@@ -52,6 +52,8 @@ function isSelectOptionValid({ value, label }) {
 
 
 /* global validators */
+import empty from "@/helpers/validators/empty.js";
+
 export function isArray(value) {
     return Array.isArray(value)
 }
@@ -85,6 +87,10 @@ export function isNumberInString(value) {
 }
 
 export function isNumber(value) {
+    return !isNaN(Number(value))
+}
+
+export function isInteger(value) {
     return typeof value === 'number'
 }
 
@@ -93,11 +99,11 @@ export function isBetween(value, start, end) {
 }
 
 export function isEmpty(value) {
-    if (isArray(value) || isString(value)) {
-        return value.length === 0
-    }
+    return empty(value)
+}
 
-    return Object.keys(value).length === 0
+export function isNotEmpty(value) {
+    return !isEmpty(value)
 }
 
 export function isNotEmptyArray(value) {

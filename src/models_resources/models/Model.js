@@ -2,7 +2,7 @@ import ApiResource from '@/models_resources/ModelApiResource'
 import ModelStore from '@/models_resources/ModelStore'
 import {console} from "vuedraggable/src/util/console.js";
 import {replaceInArray} from "@/helpers/functions.js";
-import {isArray, isNotArray, isNull} from "@/helpers/validators.js";
+import {isArray, isNotArray, isNull} from "@/helpers/validators/index.js";
 
 const RELATION_ARRAY = 'array'
 const RELATION_OBJECT = 'object'
