@@ -7,8 +7,7 @@ export const useModelsStore = defineStore('models', {
     }),
     getters: {
         getAll: state =>
-            modelName =>
-                state.models[modelName] ?? [],
+            (modelName, raw = false) => getAllEntities(state, modelName, raw),
         getById: state =>
             (modelName, id) =>
                 getEntity(state, modelName, id),
@@ -85,6 +84,16 @@ function checkLoadedIds(store, modelName) {
 
 function getLoadedIds(state, modelName) {
     return state.loadedIds[modelName] ?? []
+}
+
+function getAllEntities(state, modelName, raw = false) {
+    const entities = state.models[modelName]
+
+    if (raw) {
+        return entities ?? {}
+    }
+
+    return entities ? Object.values(entities) : []
 }
 
 function getEntities(state, modelName, ids) {

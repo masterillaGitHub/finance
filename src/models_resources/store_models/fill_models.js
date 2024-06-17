@@ -46,6 +46,7 @@ function setCollection(modelName, collection) {
 }
 
 function updateEntity(modelName, collection) {
+    const collect = getCollection(modelName)
     setCollection(modelName, Object.assign({}, {...getCollection(modelName), ...collection}))
 }
 
@@ -63,6 +64,6 @@ function updateField(modelName, collection) {
 
 function getCollection(modelName) {
     const model = useModelsStore()
-    return model.getAll(modelName)
+    return model.getAll(modelName, true)
 }
 
