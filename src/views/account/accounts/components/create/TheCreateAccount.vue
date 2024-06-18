@@ -44,15 +44,11 @@ function createdAccountSum(accountSum) {
   createStore.createAccountSum(accountSum)
 }
 
-function removeAccountSum(accountSum) {
-  createStore.deleteAccountSum(accountSum)
-}
-
 </script>
 
 <template>
   <v-card
-      prepend-icon="mdi-wallet-plus-outline"
+      prepend-icon="mdi-credit-card-plus-outline"
       title="Додати рахунок"
   >
     <v-card-text>
@@ -82,7 +78,6 @@ function removeAccountSum(accountSum) {
             :account-sums="createStore.sums"
             :is-create-first="true"
             @created-account-sum="createdAccountSum"
-            @remove-account-sum="removeAccountSum"
         />
       </v-form>
     </v-card-text>

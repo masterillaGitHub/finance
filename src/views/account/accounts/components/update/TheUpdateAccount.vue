@@ -52,6 +52,7 @@ async function saveAccount() {
 
 async function saveAccountSums() {
   for (const accountSum of accountSums.value) {
+    accountSum.account = account.value.id
     await accountSum.save({
       include: 'currency'
     })
@@ -73,16 +74,12 @@ function createdAccountSum(accountSum) {
   accountSums.value.push(accountSum)
 }
 
-function removeAccountSum(accountSum) {
-  removeElementByObject(accountSums.value, accountSum)
-}
-
 </script>
 
 <template>
   <v-card
-      prepend-icon="mdi-wallet-plus-outline"
-      title="Додати рахунок"
+      prepend-icon="mdi-credit-card-edit-outline"
+      title="Редагування рахунку"
   >
     <v-card-text
         v-if="account"
@@ -109,7 +106,6 @@ function removeAccountSum(accountSum) {
         <TheCurrenciesChoiceList
             :account-sums="accountSums"
             @created-account-sum="createdAccountSum"
-            @remove-account-sum="removeAccountSum"
         />
       </v-form>
       <ConfirmBottomComponent

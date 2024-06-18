@@ -7,7 +7,8 @@ import {toCurrency, toCurrencyUAH} from "@/helpers/functions.js";
 const route = useRoute()
 
 const account = computed(() => Account.find(route.params.id))
-const sumsCount = computed(() => account.value.sums.length)
+const sums = computed(() => account.value.sums.filter(s => s.balance > 0))
+const sumsCount = computed(() => sums.value.length)
 const accountLoading = ref(false)
 
 onMounted(initComponent)
@@ -92,7 +93,7 @@ async function initComponent() {
 
         <v-list v-if="sumsCount > 1">
           <v-list-item
-            v-for="sum in account.sums"
+            v-for="sum in sums"
             :key="sum.id"
             prepend-icon="mdi-flag-outline"
             class="s-list-item"

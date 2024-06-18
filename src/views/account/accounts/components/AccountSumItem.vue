@@ -15,7 +15,7 @@ const props = defineProps({
   },
   isAvailableRemove: {
     type: Boolean,
-    required: true
+    required: false
   }
 })
 const emit = defineEmits({
@@ -44,6 +44,7 @@ const balanceRules = [
           width="100"
           variant="underlined"
           class="s-text-field"
+          type="number"
       >
         <template v-slot:append-inner>
           <span>{{ currency.symbol}}</span>

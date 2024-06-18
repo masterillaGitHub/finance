@@ -19,12 +19,10 @@ const props = defineProps({
   }
 })
 const emit = defineEmits({
-  createdAccountSum: isAccountSumValid,
-  removeAccountSum: isAccountSumValid
+  createdAccountSum: isAccountSumValid
 })
 const currencyLoading = ref(false)
 const currencies = computed(() => Currency.findLoaded())
-const isAvailableRemove = computed(() => props.accountSums.length > 1)
 
 onMounted(() => {
   initComponent()
@@ -92,8 +90,6 @@ function createAccountSum(currency) {
       :key="sum.id"
 
       :account-sum="sum"
-      :is-available-remove="isAvailableRemove"
-      @remove-account-sum="emit('removeAccountSum', $event)"
   />
   <TheAddAccountSum
     @selected-currency="selectedCurrency"
