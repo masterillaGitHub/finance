@@ -7,14 +7,16 @@ import AccountCategory from "@/models_resources/models/AccountCategory.js";
 import {useIndexStore} from "@/stores/accounts/index.store.js";
 
 const indexStore = useIndexStore()
-const categories = computed(() => AccountCategory.findLoaded())
+const categoriesIds = ref([])
+const categories = computed(() => AccountCategory.findIn(indexStore.categoriesIds))
 const accountsLoading = ref(false)
 
 async function load() {
   accountsLoading.value = true
 
   try {
-    await AccountCategory.loadMainPage()
+    const response = await AccountCategory.loadMainPage()
+    indexStore.categoriesIds = response.data.data
   }
   finally {
     accountsLoading.value = false

@@ -55,6 +55,8 @@ export default class ModelApiResource {
 
     setUpdateMode(val) {
         this.#updateMode = val
+
+        return this
     }
 
     setParams(params) {

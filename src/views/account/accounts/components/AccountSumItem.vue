@@ -3,7 +3,10 @@ import AccountSum from "@/models_resources/models/AccountSum.js";
 import {computed} from "vue";
 import Currency from "@/models_resources/models/Currency.js";
 import {integer, requiredZeroPossible} from "@/helpers/form_rules.js";
-import {updateAccountSum, deleteAccountSum, sumsCount} from "@/services/accounts/create.js";
+import {useCreateStore} from "@/stores/accounts/create.store.js";
+import {updateObject} from "@/helpers/functions.js";
+
+const createStore = useCreateStore()
 
 const props = defineProps({
   accountSum: {
@@ -15,7 +18,7 @@ const props = defineProps({
 
 const balanceModel = computed({
   get:() => props.accountSum.balance ?? 0,
-  set: val => updateAccountSum(props.accountSum, {balance: val})
+  set: val => updateObject(props.accountSum, {balance: val})
 })
 const currency = computed(() => Currency.find(props.accountSum.getRelation('currency')))
 const balanceRules = [
@@ -44,12 +47,12 @@ const balanceRules = [
     </div>
     <div
         class="align-self-center"
-        v-if="sumsCount > 1"
+        v-if="createStore.sums.length > 1"
     >
       <v-btn
           variant="text"
           icon="mdi-close"
-          @click="deleteAccountSum(accountSum)"
+          @click="createStore.deleteAccountSum(accountSum)"
       />
     </div>
   </div>

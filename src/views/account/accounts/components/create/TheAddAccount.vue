@@ -5,25 +5,24 @@ import TheCreateAccount from "@/views/account/accounts/components/create/TheCrea
 import DialogComponent from "@/components/DialogComponent.vue";
 import AccountCategory from "@/models_resources/models/AccountCategory.js";
 import {isEmptyArray} from "@/helpers/validators/index.js";
+import {useCreateStore} from "@/stores/accounts/create.store.js";
+import {MODEL_UPDATE_FIELD} from "@/helpers/constants.js";
 
-
+const createStore = useCreateStore()
 const dialog = ref(false)
-const selectedCategoryId = ref()
 const categoryLoading = ref(false)
 const sheet = ref(false)
-const categories = computed(() =>
-    (new AccountCategory)
-        .storageIndex()
-        .findLoaded()
-)
+const categoriesIds = ref([])
+const categories = computed(() => AccountCategory.findIn(categoriesIds.value))
 
 async function categorySync() {
   categoryLoading.value = true
 
   try {
-    await (new AccountCategory())
-        .storageIndex()
-        .sync()
+    const response = await AccountCategory.query()
+        .setUpdateMode(MODEL_UPDATE_FIELD)
+        .get()
+    categoriesIds.value = response.data.data
   }
   finally {
     categoryLoading.value = false
@@ -38,8 +37,8 @@ const openPanel = async () => {
   sheet.value = true
 }
 
-function openDialog(category) {
-  selectedCategoryId.value = category
+function openDialog(categoryId) {
+  createStore.createAccount(categoryId)
   dialog.value = true
 }
 function accountSave() {
@@ -92,7 +91,6 @@ function accountSave() {
     v-model="dialog"
   >
     <TheCreateAccount
-        :categoryId="selectedCategoryId"
         @accountSave="accountSave"
         @dialogClose="dialog = false"
     />

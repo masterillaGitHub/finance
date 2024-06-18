@@ -3,14 +3,16 @@ import CurrencyChoiceItem from "@/views/account/accounts/components/AccountSumIt
 import Currency from "@/models_resources/models/Currency.js";
 import {computed, onMounted, onUnmounted, ref} from "vue";
 import TheAddAccountSum from "@/views/account/accounts/components/TheAddAccountSum.vue";
-import {sums, createAccountSum, reset} from '@/services/accounts/create.js'
+import {useCreateStore} from "@/stores/accounts/create.store.js";
 
 
+const createStore = useCreateStore()
 const currencyLoading = ref(false)
+const sums = computed(() => createStore.sums)
 const currencies = computed(() => Currency.findLoaded())
 
 onMounted(() => {
-  reset()
+  createStore.resetAccountSum()
   initComponent()
 })
 
@@ -19,7 +21,7 @@ async function initComponent() {
     await loadCurrencies()
   }
 
-  createAccountSum(1)
+  createStore.createAccountSum(1)
 }
 
 async function loadCurrencies() {

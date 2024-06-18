@@ -1,28 +1,23 @@
 <script setup>
-import {computed, ref} from "vue";
+import {ref} from "vue";
 import {required} from "@/helpers/form_rules.js";
 import {useFormValidate} from "@/composables/form_validate.js";
-import AccountCategory from "@/models_resources/models/AccountCategory.js";
 import {useModelsStore} from "@/models_resources/store_models/models.store.js";
 import TheCurrenciesChoiceList from "@/views/account/accounts/components/TheAccountSums.vue";
-import {account, sums} from '@/services/accounts/create.js'
-import {STORAGE_NAME_ACCOUNT_CATEGORIES} from "@/helpers/constants.js";
+import {useCreateStore} from "@/stores/accounts/create.store.js";
+import {useIndexStore} from "@/stores/accounts/index.store.js";
 
 const emit = defineEmits([
     'accountSave',
     'dialogClose'
 ])
-const props = defineProps({
-  categoryId: Number
-})
 const modelsStore = useModelsStore()
+const createStore = useCreateStore()
+const {categoriesIds} = useIndexStore()
 
 const form = ref()
 const {check} = useFormValidate(form)
 
-const category = computed(() =>
-    (new AccountCategory().storageIndex().find(props.categoryId))
-)
 const nameRules = [required]
 
 async function createAccount() {
@@ -32,44 +27,11 @@ async function createAccount() {
     return
   }
 
-  if (isNotExistsCategory()) {
-    category.value.copyToStorage(STORAGE_NAME_ACCOUNT_CATEGORIES)
-
-    modelsStore.addActiveId(STORAGE_NAME_ACCOUNT_CATEGORIES, props.categoryId)
-  }
-
   emit('accountSave')
 
-  saveAccount().then(r => '')
-}
+  categoriesIds.push(createStore.account.getRelation('category'))
 
-async function saveAccount() {
-  account.value.category = category.value.id
-  account.value.currency = sums.value[0].currency.id
-
-  const accountId = await account.value.save({
-    include: 'sums'
-  })
-
-  await saveAccountSums(accountId)
-}
-
-async function saveAccountSums(accountId) {
-  if (!accountId) {
-    return
-  }
-
-  for (const accountSum of sums.value) {
-    accountSum.account = accountId
-    await accountSum.save({
-      include: 'currency'
-    })
-  }
-
-}
-
-function isNotExistsCategory() {
-  return !AccountCategory.find(props.categoryId)
+  await createStore.saveAccount()
 }
 
 </script>
@@ -85,20 +47,20 @@ function isNotExistsCategory() {
       </div>
       <v-form
           ref="form"
-          v-if="account"
+          v-if="createStore.account"
       >
 
         <v-text-field
             autofocus
             label="Назва рахунку"
-            v-model="account.name"
+            v-model="createStore.account.name"
             :rules="nameRules"
         />
 
         <div class="s-card-text-block">
           <div>
             <div>Тип рахунку</div>
-            <div>{{category.name}}</div>
+            <div>{{createStore.account.category.name}}</div>
           </div>
           <v-divider/>
         </div>
