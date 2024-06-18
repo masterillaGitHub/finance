@@ -253,6 +253,9 @@ export default class Model
             const response = await this.query().setParams(params).update()
             console.log('model update response', response)
 
+            // TODO: Need check for work.
+            // this._updateDependentRelationships(response.data.data)
+
             return response.data.data
         }
         catch (e) {

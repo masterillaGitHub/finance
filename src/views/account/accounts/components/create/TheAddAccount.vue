@@ -38,9 +38,11 @@ const openPanel = async () => {
 }
 
 function openDialog(categoryId) {
+  createStore.resetAccountSum()
   createStore.createAccount(categoryId)
   dialog.value = true
 }
+
 function accountSave() {
   sheet.value = false
   dialog.value = false

@@ -6,7 +6,6 @@ export const useCreateStore = defineStore('accounts/create', {
     state: () => ({
         account: null,
         sums: [],
-
     }),
     getters: {},
     actions: {

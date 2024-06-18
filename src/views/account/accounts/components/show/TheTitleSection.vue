@@ -39,7 +39,7 @@ async function initComponent() {
 
     try {
       await Account.sync({
-        include: 'sums.currency',
+        include: 'category,sums.currency',
         'filter[id]': route.params.id
       })
     }

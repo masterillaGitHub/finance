@@ -7,5 +7,13 @@ export const useIndexStore = defineStore('accounts/index', {
         categoriesIds: []
     }),
     getters: {},
-    actions: {},
+    actions: {
+        addCategoryId(categoryId) {
+            const idx = this.categoriesIds.indexOf(categoryId)
+
+            if (idx === -1) {
+                this.categoriesIds.push(categoryId)
+            }
+        }
+    },
 })

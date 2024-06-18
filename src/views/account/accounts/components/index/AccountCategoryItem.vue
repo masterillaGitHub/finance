@@ -3,6 +3,7 @@
 import AccountItem from "@/views/account/accounts/components/index/AccountItem.vue";
 import {toCurrencyUAH} from "@/helpers/functions.js";
 import AccountCategory from "@/models_resources/models/AccountCategory.js";
+import {computed} from "vue";
 
 const props = defineProps({
   category: {
@@ -12,6 +13,7 @@ const props = defineProps({
   }
 })
 
+const sum = computed(() => toCurrencyUAH(props.category.getSum(), {minimumFractionDigits: 0}))
 
 </script>
 
@@ -35,7 +37,7 @@ const props = defineProps({
           <div
               :class="{'text-grey': expanded}"
           >
-            <span>{{ toCurrencyUAH(category.getSum(), {minimumFractionDigits: 0})}}</span>
+            <span>{{ sum }}</span>
           </div>
         </div>
       </template>

@@ -1,7 +1,7 @@
 <script setup>
 
 import AccountGroupItem from "@/views/account/accounts/components/index/AccountCategoryItem.vue";
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import AccountCategory from "@/models_resources/models/AccountCategory.js";
 import {useIndexStore} from "@/stores/accounts/index.store.js";
 
@@ -9,6 +9,10 @@ const indexStore = useIndexStore()
 const categoriesIds = ref([])
 const categories = computed(() => AccountCategory.findIn(indexStore.categoriesIds))
 const accountsLoading = ref(false)
+
+onMounted(async () => {
+  await load()
+})
 
 async function load() {
   accountsLoading.value = true
@@ -33,16 +37,18 @@ async function load() {
         indeterminate
     />
 
-    <v-expansion-panels
-        multiple
-        v-model="indexStore.accountsPanelModel"
-    >
-      <AccountGroupItem
-          v-for="element in categories"
-          :key="element.id"
-          :category="element"
-      />
-    </v-expansion-panels>
+    <div v-if="categories.length">
+      <v-expansion-panels
+          multiple
+          v-model="indexStore.accountsPanelModel"
+      >
+        <AccountGroupItem
+            v-for="element in categories"
+            :key="element.id"
+            :category="element"
+        />
+      </v-expansion-panels>
+    </div>
   </div>
 
 </template>

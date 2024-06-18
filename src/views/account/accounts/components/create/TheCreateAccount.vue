@@ -13,16 +13,12 @@ const emit = defineEmits([
 ])
 const modelsStore = useModelsStore()
 const createStore = useCreateStore()
-const {categoriesIds} = useIndexStore()
+const indexStore = useIndexStore()
 
 const form = ref()
 const {check} = useFormValidate(form)
 
 const nameRules = [required]
-
-onMounted(() => {
-  createStore.resetAccountSum()
-})
 
 async function createAccount() {
   const valid = await check()
@@ -33,9 +29,15 @@ async function createAccount() {
 
   emit('accountSave')
 
-  categoriesIds.push(createStore.account.getRelation('category'))
+  updateCategoriesIds()
 
   await createStore.saveAccount()
+}
+
+function updateCategoriesIds() {
+  const categoryId = createStore.account.getRelation('category')
+
+  indexStore.addCategoryId(categoryId)
 }
 
 function createdAccountSum(accountSum) {

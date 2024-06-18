@@ -1,8 +1,9 @@
 <script setup>
 import {toCurrencyUAH} from "@/helpers/functions.js";
 import Account from '@/models_resources/models/Account.js'
+import {computed} from "vue";
 
-defineProps({
+const props = defineProps({
   account: {
     type: Object,
     required: true,
@@ -10,6 +11,8 @@ defineProps({
   },
   icon: String,
 })
+
+const sum = computed(() => toCurrencyUAH(props.account.getSum(), {minimumFractionDigits: 0}))
 
 </script>
 
@@ -29,7 +32,7 @@ defineProps({
     <div class="d-flex justify-space-between">
       <div class="text-truncate">{{account.name}}</div>
       <div>
-        <span>{{ toCurrencyUAH(account.getSum(), {minimumFractionDigits: 0})}}</span>
+        <span>{{ sum }}</span>
       </div>
     </div>
   </template>
