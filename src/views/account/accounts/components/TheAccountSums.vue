@@ -59,6 +59,21 @@ async function loadCurrencies() {
   }
 }
 
+function selectedCurrency(currency) {
+  if (!isExistsCurrency(currency)) {
+    createAccountSum(currency)
+  }
+}
+
+/**
+ *
+ * @param {Currency} currency
+ * @returns {boolean}
+ */
+function isExistsCurrency(currency) {
+  return props.accountSums.some(a => a.currency.id === currency.id)
+}
+
 function createAccountSum(currency) {
   const accountSum = new AccountSum()
   accountSum.balance = 0
@@ -81,7 +96,7 @@ function createAccountSum(currency) {
       @remove-account-sum="emit('removeAccountSum', $event)"
   />
   <TheAddAccountSum
-    @selected-currency="createAccountSum"
+    @selected-currency="selectedCurrency"
   />
 
 </template>

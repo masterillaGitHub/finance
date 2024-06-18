@@ -125,7 +125,7 @@ function removeAccountSum(accountSum) {
     <v-card-actions>
       <v-btn
           class="text-red"
-          text="Видалити"
+          icon="mdi-delete-outline"
           variant="plain"
           @click="confirmModel = true"
       />
