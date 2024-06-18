@@ -1,7 +1,6 @@
 <script setup>
 
 import AccountItem from "@/views/account/accounts/components/index/AccountItem.vue";
-import DraggableComponent from "vuedraggable";
 import {toCurrencyUAH} from "@/helpers/functions.js";
 import AccountCategory from "@/models_resources/models/AccountCategory.js";
 
@@ -44,18 +43,12 @@ const props = defineProps({
 
     <v-expansion-panel-text class="s-custom-expansion-panel-text">
       <v-list>
-        <DraggableComponent
-            v-model="category.accounts"
-            item-key="name"
-            handle=".s-handle-sorting-account-item"
-        >
-          <template #item="{element}">
-              <AccountItem
-                  :account="element"
-                  :icon="category.icon"
-              />
-          </template>
-        </DraggableComponent>
+        <AccountItem
+            v-for="element in category.accounts"
+            :key="element.id"
+            :account="element"
+            :icon="category.icon"
+        />
       </v-list>
     </v-expansion-panel-text>
   </v-expansion-panel>
