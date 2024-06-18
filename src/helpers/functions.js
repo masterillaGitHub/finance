@@ -166,8 +166,23 @@ export function convertCommaToSpace (value) {
     return value.replace(',', ' ');
 }
 
+/**
+ * Update or add some fields into base object
+ * @param {Object} obj
+ * @param {Object} fields
+ * @returns {{}}
+ */
 export function updateObject(obj, fields) {
     return Object.assign(obj, fields)
+}
+
+/**
+ *
+ * @param {Array} array
+ * @param {Object} obj
+ */
+export function removeElementByObject(array, obj) {
+    array.splice(array.indexOf(obj), 1)
 }
 
 export function appendSymbol(value, arg) {
@@ -247,7 +262,9 @@ export function getImageUrl(name) {
 }
 
 export function arrayObjectsSum(array, field) {
-    return array.reduce((a, b) => a + b[field], 0)
+    return array.reduce((a, b) => {
+        return parseInt(a,10) + parseInt(b[field], 10)
+    }, 0)
 }
 
 
