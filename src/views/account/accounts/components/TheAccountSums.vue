@@ -1,18 +1,32 @@
 <script setup>
 import CurrencyChoiceItem from "@/views/account/accounts/components/AccountSumItem.vue";
 import Currency from "@/models_resources/models/Currency.js";
-import {computed, onMounted, onUnmounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import TheAddAccountSum from "@/views/account/accounts/components/TheAddAccountSum.vue";
-import {useCreateStore} from "@/stores/accounts/create.store.js";
+import {isAccountSumValid, validateAccountSumItems} from "@/helpers/validators/entities.js";
+import AccountSum from "@/models_resources/models/AccountSum.js";
 
 
-const createStore = useCreateStore()
+const props = defineProps({
+  accountSums: {
+    type: Array,
+    required: true,
+    validator: validateAccountSumItems
+  },
+  isCreateFirst: {
+    type: Boolean,
+    default: false
+  }
+})
+const emit = defineEmits({
+  createdAccountSum: isAccountSumValid,
+  removeAccountSum: isAccountSumValid
+})
 const currencyLoading = ref(false)
-const sums = computed(() => createStore.sums)
 const currencies = computed(() => Currency.findLoaded())
+const isAvailableRemove = computed(() => props.accountSums.length > 1)
 
 onMounted(() => {
-  createStore.resetAccountSum()
   initComponent()
 })
 
@@ -21,7 +35,16 @@ async function initComponent() {
     await loadCurrencies()
   }
 
-  createStore.createAccountSum(1)
+  if (props.isCreateFirst) {
+    createFirstAccountSum()
+  }
+
+}
+
+function createFirstAccountSum() {
+  const currencies = Currency.all()
+
+  createAccountSum(currencies[0])
 }
 
 async function loadCurrencies() {
@@ -36,18 +59,30 @@ async function loadCurrencies() {
   }
 }
 
+function createAccountSum(currency) {
+  const accountSum = new AccountSum()
+  accountSum.balance = 0
+  accountSum.currency = currency.id
+
+  emit('createdAccountSum', accountSum)
+}
+
 </script>
 
 <template>
 
   <v-progress-linear v-if="currencyLoading" indeterminate />
   <CurrencyChoiceItem
-      v-for="sum in sums"
+      v-for="sum in accountSums"
       :key="sum.id"
 
       :account-sum="sum"
+      :is-available-remove="isAvailableRemove"
+      @remove-account-sum="emit('removeAccountSum', $event)"
   />
-  <TheAddAccountSum />
+  <TheAddAccountSum
+    @selected-currency="createAccountSum"
+  />
 
 </template>
 

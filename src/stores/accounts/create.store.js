@@ -28,15 +28,11 @@ export const useCreateStore = defineStore('accounts/create', {
         resetAccountSum() {
             this.sums = []
         },
-        createAccountSum(currencyId) {
-            const sum = new AccountSum()
-            sum.balance = 0
-            sum.currency = currencyId
-
-            this.sums.push(sum)
+        createAccountSum(accountSum) {
+            this.sums.push(accountSum)
         },
-        deleteAccountSum(sum) {
-            this.sums.splice(this.sums.indexOf(sum), 1)
+        deleteAccountSum(accountSum) {
+            this.sums.splice(this.sums.indexOf(accountSum), 1)
         },
         async saveAccount() {
             this.account.currency = this.sums[0].currency.id

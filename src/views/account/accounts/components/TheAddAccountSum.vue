@@ -1,8 +1,12 @@
 <script setup>
 import {computed} from "vue";
 import Currency from "@/models_resources/models/Currency.js";
-import {useCreateStore} from "@/stores/accounts/create.store.js";
-const createStore = useCreateStore()
+import {isCurrencyValid} from "@/helpers/validators/entities.js";
+
+
+const emit = defineEmits({
+  selectedCurrency: isCurrencyValid
+})
 
 const currencies = computed(() => Currency.all())
 </script>
@@ -23,7 +27,7 @@ const currencies = computed(() => Currency.all())
       <v-list-item
           v-for="currency in currencies"
           :key="currency.id"
-          @click="createStore.createAccountSum(currency.id)"
+          @click="emit('selectedCurrency', currency)"
       >
         <v-list-item-title>{{ currency.name }}</v-list-item-title>
         <v-list-item-subtitle>{{ currency.symbol}}, {{currency.alphabetic_code}}</v-list-item-subtitle>

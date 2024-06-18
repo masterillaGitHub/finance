@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {required} from "@/helpers/form_rules.js";
 import {useFormValidate} from "@/composables/form_validate.js";
 import {useModelsStore} from "@/models_resources/store_models/models.store.js";
@@ -20,6 +20,10 @@ const {check} = useFormValidate(form)
 
 const nameRules = [required]
 
+onMounted(() => {
+  createStore.resetAccountSum()
+})
+
 async function createAccount() {
   const valid = await check()
 
@@ -32,6 +36,14 @@ async function createAccount() {
   categoriesIds.push(createStore.account.getRelation('category'))
 
   await createStore.saveAccount()
+}
+
+function createdAccountSum(accountSum) {
+  createStore.createAccountSum(accountSum)
+}
+
+function removeAccountSum(accountSum) {
+  createStore.deleteAccountSum(accountSum)
 }
 
 </script>
@@ -64,7 +76,12 @@ async function createAccount() {
           </div>
           <v-divider/>
         </div>
-        <TheCurrenciesChoiceList />
+        <TheCurrenciesChoiceList
+            :account-sums="createStore.sums"
+            :is-create-first="true"
+            @created-account-sum="createdAccountSum"
+            @remove-account-sum="removeAccountSum"
+        />
       </v-form>
     </v-card-text>
 

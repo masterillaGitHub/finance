@@ -3,19 +3,24 @@ import AccountSum from "@/models_resources/models/AccountSum.js";
 import {computed} from "vue";
 import Currency from "@/models_resources/models/Currency.js";
 import {integer, requiredZeroPossible} from "@/helpers/form_rules.js";
-import {useCreateStore} from "@/stores/accounts/create.store.js";
 import {updateObject} from "@/helpers/functions.js";
+import {isAccountSumValid} from "@/helpers/validators/entities.js";
 
-const createStore = useCreateStore()
 
 const props = defineProps({
   accountSum: {
     type: Object,
     required: true,
     validator: a => a instanceof AccountSum
+  },
+  isAvailableRemove: {
+    type: Boolean,
+    required: true
   }
 })
-
+const emit = defineEmits({
+  removeAccountSum: isAccountSumValid
+})
 const balanceModel = computed({
   get:() => props.accountSum.balance ?? 0,
   set: val => updateObject(props.accountSum, {balance: val})
@@ -47,12 +52,12 @@ const balanceRules = [
     </div>
     <div
         class="align-self-center"
-        v-if="createStore.sums.length > 1"
+        v-if="isAvailableRemove"
     >
       <v-btn
           variant="text"
           icon="mdi-close"
-          @click="createStore.deleteAccountSum(accountSum)"
+          @click="emit('removeAccountSum', accountSum)"
       />
     </div>
   </div>
