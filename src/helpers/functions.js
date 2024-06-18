@@ -166,6 +166,10 @@ export function convertCommaToSpace (value) {
     return value.replace(',', ' ');
 }
 
+export function updateObject(obj, fields) {
+    return Object.assign(obj, fields)
+}
+
 export function appendSymbol(value, arg) {
     if (!value || !arg) {
         return value
