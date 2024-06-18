@@ -7,7 +7,7 @@ export function required(value) {
 }
 
 export function requiredZeroPossible(value) {
-    if (isNotEmpty(value) || value === 0) return true
+    if (isNotEmpty(value) || value === 0 || value === '0') return true
 
     return 'Поле не може бути пустим.'
 }
