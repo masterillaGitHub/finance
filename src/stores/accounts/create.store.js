@@ -37,7 +37,7 @@ export const useCreateStore = defineStore('accounts/create', {
             this.account.currency = this.sums[0].currency.id
 
             const accountId = await this.account.save({
-                include: 'sums'
+                include: 'sums,category'
             })
 
             await this.saveAccountSums(accountId)
