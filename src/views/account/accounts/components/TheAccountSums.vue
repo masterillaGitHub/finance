@@ -31,7 +31,7 @@ onMounted(() => {
 })
 
 async function initComponent() {
-  if (currencies.value.length === 0) {
+  if (currencies.value.length !== 3) {
     await loadCurrencies()
   }
 
