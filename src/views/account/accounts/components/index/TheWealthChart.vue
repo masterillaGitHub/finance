@@ -1,5 +1,7 @@
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import AccountResource from "@/models_resources/resources/AccountResource.js";
+import AnimateCounter from "@/components/AnimateCounter.vue";
 
 const labels = ref([
   'січ',
@@ -22,7 +24,22 @@ const value = ref([
   240,
 ])
 
-const avg = 34
+const loading = ref(false)
+const balanceTotal = ref(0)
+
+onMounted( loadBalanceTotal)
+
+async function loadBalanceTotal() {
+  loading.value = true
+
+  try {
+    const response = await AccountResource.balanceTotal()
+    balanceTotal.value = response.data.data
+  }
+  finally {
+    loading.value = false
+  }
+}
 
 </script>
 
@@ -54,11 +71,21 @@ const avg = 34
     </v-sheet>
 
     <v-card-text class="pt-0">
-      <div class="text-h6 font-weight-light mb-2">
+      <div class="subheading font-weight-light text-grey mb-2">
         Статок
       </div>
-      <div class="subheading font-weight-light text-grey">
-        50 000 грн
+      <div class="text-h6 font-weight-light">
+        <AnimateCounter :counter="balanceTotal" suffix=" ₴" />
+
+        <v-fade-transition>
+          <v-progress-circular
+              v-if="loading"
+              indeterminate
+              :size="20"
+              :width="3"
+              class="ml-4"
+          />
+        </v-fade-transition>
       </div>
     </v-card-text>
   </v-card>
