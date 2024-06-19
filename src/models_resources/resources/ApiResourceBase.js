@@ -81,8 +81,8 @@ export default class ApiResourceBase {
 
     // ------- Simple functions
 
-    async get() {
-        return await this.query(this.#path())
+    async get(url = null) {
+        return await this.query(this.#path(url))
     }
 
     async find(id) {
@@ -143,10 +143,12 @@ export default class ApiResourceBase {
         return path + '?' + new URLSearchParams(this.#urlParams).toString()
     }
 
-    #path() {
-        return this.getResource()
+    #path(url = null) {
+        const path = this.getResource()
             ? this.getBaseUrl() + '/' + this.getResource()
             : this.getBaseUrl()
+
+        return url === null ? path : path + url
     }
 }
 
