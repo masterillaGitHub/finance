@@ -6,6 +6,14 @@ export function uniqId() {
     return Date.now().toString(36) + Math.random().toString(36).substring(2)
 }
 
+export function randomInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
+export function randomFloat(min, max, desimals = 2) {
+    return (Math.random() * (max - min) + min).toFixed(desimals)
+}
+
 export function classToObject(theClass) {
     const originalClass = theClass || {}
 
