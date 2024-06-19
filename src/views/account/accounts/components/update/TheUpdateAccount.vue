@@ -7,8 +7,7 @@ import {useCreateStore} from "@/stores/accounts/create.store.js";
 import {useIndexStore} from "@/stores/accounts/index.store.js";
 import Account from "@/models_resources/models/Account.js";
 import {useRoute, useRouter} from "vue-router";
-import {removeElementByObject} from "@/helpers/functions.js";
-import ConfirmBottomComponent from "@/components/ConfirmBottomComponent.vue";
+import BottomConfirm from "@/components/BottomConfirm.vue";
 
 const emit = defineEmits([
   'accountUpdate',
@@ -90,7 +89,6 @@ function createdAccountSum(accountSum) {
       <v-form ref="form">
 
         <v-text-field
-            autofocus
             label="Назва рахунку"
             v-model="account.name"
             :rules="nameRules"
@@ -108,7 +106,7 @@ function createdAccountSum(accountSum) {
             @created-account-sum="createdAccountSum"
         />
       </v-form>
-      <ConfirmBottomComponent
+      <BottomConfirm
           v-model="confirmModel"
           title="Видалити?"
 
