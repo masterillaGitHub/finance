@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import VueDevTools from 'vite-plugin-vue-devtools'
 import mkcert from 'vite-plugin-mkcert'
-import vitePWA from "@/plugins/vitePWA.js";
+import vitePWA from "./src/plugins/vitePWA.js";
 
 // https://vitejs.dev/config/
 export default defineConfig({
