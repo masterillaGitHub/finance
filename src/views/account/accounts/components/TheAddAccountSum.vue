@@ -2,6 +2,7 @@
 import {computed} from "vue";
 import Currency from "@/models_resources/models/Currency.js";
 import {isCurrencyValid} from "@/helpers/validators/entities.js";
+import CurrenciesList from "@/components/CurrenciesList.vue";
 
 
 const emit = defineEmits({
@@ -23,16 +24,10 @@ const currencies = computed(() => Currency.all())
         Додати валюту
       </v-btn>
     </template>
-    <v-list>
-      <v-list-item
-          v-for="currency in currencies"
-          :key="currency.id"
-          @click="emit('selectedCurrency', currency)"
-      >
-        <v-list-item-title>{{ currency.name }}</v-list-item-title>
-        <v-list-item-subtitle>{{ currency.symbol}}, {{currency.alphabetic_code}}</v-list-item-subtitle>
-      </v-list-item>
-    </v-list>
+    <CurrenciesList
+        :currencies="currencies"
+        @selected="emit('selectedCurrency', $event)"
+    />
   </v-menu>
 </div>
 </template>
