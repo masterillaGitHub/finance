@@ -1,5 +1,5 @@
 <script setup>
-import TransactionItem from "@/views/account/accounts/components/show/TransactionItem.vue";
+import TransactionItem from "@/views/account/transactions/components/index/TransactionItem.vue";
 
 defineProps({
   group: Object

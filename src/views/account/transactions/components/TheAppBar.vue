@@ -13,15 +13,11 @@ const showStore = useShowStore()
     <template v-slot:prepend>
       <v-btn
           icon="mdi-arrow-left"
-          :to="{name: 'accounts.index'}"
+          :to="{name: 'transactions.index'}"
       />
     </template>
 
     <v-spacer></v-spacer>
-    <v-btn
-        icon="mdi-pencil"
-        @click="showStore.editDialog = true"
-    />
   </v-app-bar>
 </template>
 

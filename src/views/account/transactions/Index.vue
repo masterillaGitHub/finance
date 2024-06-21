@@ -82,19 +82,27 @@ const transaction = [
       {category: 'Освіта', account: 'Готівка', sum: -1500, desc: 'Онлайн курс програмування'}
     ]}
 ];
-
 </script>
 
 <template>
-<v-card elevation="0">
-  <v-card-title>Історія транзакцій</v-card-title>
-  <v-card-text>
-    <TransactionGroup
-        v-for="group in transaction"
-        :group="group"
-    />
-  </v-card-text>
-</v-card>
+<div>
+  <v-card class="mb-2" title="Історія транзакцій"/>
+  <v-card>
+    <v-card-text>
+
+      <TransactionGroup
+          v-for="group in transaction"
+          :group="group"
+      />
+      <v-fab
+          app
+          icon="mdi-plus"
+          class="mb-14"
+          :to="{name: 'transactions.create'}"
+      />
+    </v-card-text>
+  </v-card>
+</div>
 </template>
 
 <style scoped>
