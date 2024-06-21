@@ -46,25 +46,6 @@ export function numberOfText(number, suffix) {
     return suffix[suffixKey]
 }
 
-export function dateNowFormat() {
-    return dateFormat(new Date(Date.now()))
-}
-
-/**
- * @param {Date} date
- * @returns {string}
- */
-export function dateFormat(date) {
-
-    const year = date.toLocaleString('default', { year: 'numeric' })
-    const month = date.toLocaleString('default', { month: '2-digit' })
-    const day = date.toLocaleString('default', { day: '2-digit' })
-    const hour = date.toLocaleString('default', { hour: '2-digit' })
-    const minute = date.toLocaleString('default', { minute: '2-digit' })
-
-    return day + '.' + month + '.' + year + ' ' + hour + ':' + minute
-}
-
 /**
  * https://stackoverflow.com/a/4760279
  *
