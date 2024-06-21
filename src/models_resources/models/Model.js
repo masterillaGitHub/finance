@@ -169,7 +169,7 @@ export default class Model
     }
 
     find(id, params = {}) {
-        return ModelStore.make(this).setParams(params).find(id)
+        return ModelStore.make(this).setParams(params).find(id) ?? this.instance()
     }
 
     findIn(ids, params = {}) {
