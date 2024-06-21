@@ -17,6 +17,11 @@ export const ACCOUNT_CATEGORY_ICONS = [
     { id: 3, icon: 'mdi-account-cash-outline'},
     { id: 4, icon: 'mdi-cash-register'},
 ]
+export const CURRENCY_ICONS = [
+    { id: 1, icon: 'mdi-currency-uah'},
+    { id: 2, icon: 'mdi-currency-usd'},
+    { id: 3, icon: 'mdi-currency-eur'},
+]
 
 export const STORAGE_NAME_ACCOUNT_CATEGORIES = 'account_categories'
 export const STORAGE_NAME_ACCOUNT_CATEGORIES_INDEX = 'account_categories_index'
