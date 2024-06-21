@@ -68,12 +68,13 @@ function done() {
       </div>
 
       <div v-else>
-        <v-btn
-            size="small"
-            class="s-back-button"
-            text="Назад"
-            @click.stop="isChildren = false"
-        />
+        <div class="s-back-button-wrapper">
+          <v-btn
+              size="small"
+              text="Назад"
+              @click.stop="isChildren = false"
+          />
+        </div>
       <v-chip-group
           mandatory
           column
@@ -100,9 +101,11 @@ function done() {
   max-height: 200px;
   overflow: auto;
 }
-.s-back-button {
+
+.s-back-button-wrapper {
   position: absolute;
   margin-top: -25px;
   z-index: 1;
+  right: 10px;
 }
 </style>
