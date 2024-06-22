@@ -1,23 +1,19 @@
 <script setup>
 
 import {computed, ref} from "vue";
+import {TRANSACTION_TYPES} from "@/helpers/constants.js";
+import {useCreateStore} from "@/stores/transactions/create.store.js";
 
+const createStore = useCreateStore()
 const emit = defineEmits([
     'done'
 ])
 
-const types = [
-    'Витрата',
-    'Дохід',
-    'Переказ'
-]
+const type = computed(() => TRANSACTION_TYPES.find(t => t.id === chipModel.value))
 
-const type = computed(() => types[selectedType.value])
+const chipModel = ref(createStore.type?.id ?? 1)
 
-const selectedType = ref(0)
-
-function selected(idx) {
-  selectedType.value = idx
+function selected() {
   emit('done')
 }
 </script>
@@ -35,7 +31,7 @@ function selected(idx) {
           <v-col class="text--secondary text-right" cols="8">
             <v-fade-transition leave-absolute>
               <span v-if="expanded" key="0" class="text-grey">Вкажіть тип транзакції</span>
-              <span v-else key="1">{{ type }}</span>
+              <span v-else key="1">{{ type.name }}</span>
             </v-fade-transition>
           </v-col>
         </v-row>
@@ -45,18 +41,18 @@ function selected(idx) {
     <v-expansion-panel-text>
       <v-chip-group
           mandatory
-          v-model="selectedType"
+          v-model="chipModel"
 
       >
         <v-chip
-            v-for="(type, idx) in types"
-            :key="idx"
+            v-for="type in TRANSACTION_TYPES"
+            :key="type.id"
 
             label
             variant="text"
-            :text="type"
-            :value="idx"
-            @click="selected(idx)"
+            :text="type.name"
+            :value="type.id"
+            @click="selected"
         />
       </v-chip-group>
     </v-expansion-panel-text>

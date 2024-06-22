@@ -5,6 +5,7 @@ export const useCreateStore = defineStore('transactions/create', {
     state: () => ({
         amount: 0,
         currency: new Currency(),
+        type: null,
     }),
     getters: {},
     actions: {

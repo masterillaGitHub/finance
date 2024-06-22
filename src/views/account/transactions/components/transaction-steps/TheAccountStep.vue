@@ -104,7 +104,7 @@ function done() {
 
 .s-back-button-wrapper {
   position: absolute;
-  margin-top: -25px;
+  margin-top: 30px;
   z-index: 1;
   right: 10px;
 }

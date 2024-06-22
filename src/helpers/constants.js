@@ -22,6 +22,8 @@ export const CURRENCY_ICONS = [
     { id: 2, icon: 'mdi-currency-usd'},
     { id: 3, icon: 'mdi-currency-eur'},
 ]
-
-export const STORAGE_NAME_ACCOUNT_CATEGORIES = 'account_categories'
-export const STORAGE_NAME_ACCOUNT_CATEGORIES_INDEX = 'account_categories_index'
+export const TRANSACTION_TYPES = [
+    { id: 1, icon: 'mdi-currency-uah', name: 'Витрата'},
+    { id: 2, icon: 'mdi-currency-usd', name: 'Дохід'},
+    { id: 3, icon: 'mdi-currency-eur', name: 'Переказ'},
+]

@@ -30,6 +30,7 @@ const done = amount => {
 
     <BottomCalculator
         v-model="isCalcShow"
+        :start-sum="calcValue ?? createStore.amount"
         @done="done($event)"
     />
     <TheTransactionSteps/>
