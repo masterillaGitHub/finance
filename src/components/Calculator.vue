@@ -115,8 +115,9 @@ defineExpose({calcValue})
 
 
 .container {
+  background: #000000;
   padding: 25px;
-  width: 350px;
+  width: 345px;
   border-radius: 10px;
   margin: 0 auto;
 }
@@ -126,6 +127,7 @@ defineExpose({calcValue})
 }
 
 .calc-text p {
+  color: #fff;
   width: 100%;
   font-size: 3.5rem;
   text-align: end;
