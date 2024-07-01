@@ -9,7 +9,7 @@ import TheDateStep from "@/views/account/transactions/components/transaction-ste
 
 const panelsModel = ref(1)
 
-function openPanel(idx) {
+function openPanel(idx = null) {
   panelsModel.value = idx
 }
 </script>
@@ -22,11 +22,11 @@ function openPanel(idx) {
         variant="accordion"
         elevation="0"
     >
-      <TheTypeStep @done="openPanel(1)"/>
+      <TheTypeStep @done="openPanel(2)"/>
       <TheAccountStep @done="openPanel(2)"/>
       <TheCategoryStep @done="openPanel(3)"/>
       <TheTagStep/>
-      <TheDateStep @done="openPanel(null)"/>
+      <TheDateStep @done="openPanel()"/>
     </v-expansion-panels>
 
     <v-btn

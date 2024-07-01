@@ -1,58 +1,72 @@
 <script setup>
 
-import {ref} from "vue";
+import {computed, ref, watchEffect} from "vue";
+import TransactionCategory from "@/models_resources/models/TransactionCategory.js";
+import {useCreateStore} from "@/stores/transactions/create.store.js";
 
 const emit = defineEmits([
   'done'
 ])
-const isChildren = ref(false)
+const createStore = useCreateStore()
+const showChildren = ref(false)
+const categoryModel = ref()
+const categoryLoading = ref(false)
 const selected = ref()
-const parentItems = [
-  'Подарунки дуже довга назва категорії',
-  'Їжа та напої',
-  'Зарплата',
-  'Здоров\'я дуже довга назва категорії',
-  'Оренда житла',
-  'Розваги',
-  'Зарплата',
-  'Транспорт',
-  'Інтернет',
-  'Комунальні послуги',
-  'Подорожі',
-  'Зарплата',
-  'Ремонт авто',
-]
+const subcategoryModel = ref()
+const categorySelected = ref(new TransactionCategory())
+const categoryFinished = ref(new TransactionCategory())
 
-const items = [
+const categories = computed(() => TransactionCategory.findLoaded())
 
-  'Спорт і фітнес',
-  'Зарплата',
-  'Їжа та напої',
-  'Освіта',
-  'Розваги',
-  'Здоров\'я',
-  'Подарунки',
-  'Транспорт',
-  'Розваги',
-  'Їжа та напої',
-  'Зарплата',
-  'Освіта',
-  'Транспорт',
-  'Інтернет',
-  'Комунальні послуги',
-  'Подорожі',
-  'Зарплата',
-  'Їжа та напої',
-  'Подарунки',
-  'Транспорт',
-  'Зарплата',
-  'Здоров\'я',
-  'Освіта',
-]
+watchEffect(loadCategories)
+
+async function loadCategories() {
+  resetStep()
+  categoryLoading.value = true
+
+  try {
+    await TransactionCategory.sync({
+      include: 'children',
+      'filter[type_id]': createStore.type?.id
+    })
+  }
+  finally {
+    categoryLoading.value = false
+  }
+}
+
+function selectCategory(category) {
+  if (category.isChildren()) {
+    showChildren.value = true
+    categorySelected.value = category
+
+    return
+  }
+
+  categoryFinished.value = category
+  done()
+}
+
+function selectSubcategory(subcategory) {
+  categoryFinished.value = subcategory
+  done()
+}
+
+function backToCategories() {
+  showChildren.value = false
+}
+
+function resetStep() {
+  categoryModel.value = false
+  subcategoryModel.value = false
+  categorySelected.value = new TransactionCategory()
+  categoryFinished.value = new TransactionCategory()
+  showChildren.value = false
+}
 
 function done() {
+  createStore.category = categoryFinished.value
   emit('done')
-  isChildren.value = false
 }
 </script>
 
@@ -69,57 +83,89 @@ function done() {
         <v-col class="text--secondary text-right" cols="8">
           <v-fade-transition leave-absolute>
             <div v-if="expanded" key="0" class="text-grey">Вкажіть категорію</div>
-            <div v-else key="1" class="text-truncate">{{ selected }}</div>
+            <div v-else key="1" class="text-truncate">{{ categoryFinished.name }}</div>
           </v-fade-transition>
         </v-col>
       </v-row>
     </v-expansion-panel-title>
     <v-expansion-panel-text class="s-panel-text">
       <v-fade-transition mode="out-in">
-
-        <div v-if="!isChildren">
-
+        <v-progress-linear
+            v-if="categoryLoading"
+            indeterminate
+        />
+<!-- Category block - start -->
+        <div v-else-if="!showChildren && !categoryLoading">
           <v-chip-group
               mandatory
               column
-              v-model="selected"
+              v-model="categoryModel"
           >
             <v-chip
-                v-for="(item, idx) in parentItems"
-                :key="idx"
+                v-for="category in categories"
+                :key="category.id"
                 label
                 variant="text"
-                :text="item"
-                @click="isChildren = true"
-            />
+                :text="category.name"
+                :value="category.id"
+                @click="selectCategory(category)"
+            >
+              <template v-if="category.isChildren()" v-slot:append>
+                <v-badge
+                    :content="category.childrenCount()"
+                    inline
+                    color="transparent"
+                />
+              </template>
+            </v-chip>
           </v-chip-group>
         </div>
+<!-- Category block - end -->
 
+<!--        Subcategory block - start -->
         <div v-else>
-          <div class="s-back-button-wrapper">
+          <div class="s-parent-wrapper">
+            <div>
+              <div class="text-grey text-subtitle-2">Батьківська категорія</div>
+                <v-chip-group
+                    mandatory
+                    column
+                    v-model="subcategoryModel"
+                >
+                  <v-chip
+                      label
+                      variant="text"
+                      :text="categorySelected.name"
+                      :value="categorySelected.id"
+                      @click="selectSubcategory(categorySelected)"
+                  />
+                </v-chip-group>
+            </div>
             <v-btn
-                size="small"
-                text="Назад"
-                @click.stop="isChildren = false"
+                icon="mdi-arrow-up-left"
+                variant="text"
+                @click.stop="backToCategories"
             />
           </div>
 
+          <div class="text-grey text-subtitle-2">Підкатегорії</div>
           <v-chip-group
               mandatory
               column
-              v-model="selected"
+              v-model="subcategoryModel"
           >
             <v-chip
-                v-for="(item, idx) in items"
-                :key="idx"
+                v-for="subcategory in categorySelected.children"
+                :key="subcategory.id"
                 label
                 variant="text"
-                :text="item"
-                :value="item"
-                @click="done"
+                :text="subcategory.name"
+                :value="subcategory.id"
+                @click="selectSubcategory(subcategory)"
             />
           </v-chip-group>
         </div>
+<!--        Subcategory block - end -->
       </v-fade-transition>
     </v-expansion-panel-text>
   </v-expansion-panel>
@@ -130,10 +176,10 @@ function done() {
   max-height: 200px;
   overflow: auto;
 }
-.s-back-button-wrapper {
-  position: absolute;
-  margin-top: 30px;
-  z-index: 1;
-  right: 10px;
+.s-parent-wrapper {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

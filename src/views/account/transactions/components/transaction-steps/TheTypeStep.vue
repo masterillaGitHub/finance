@@ -9,11 +9,20 @@ const emit = defineEmits([
     'done'
 ])
 
-const type = computed(() => TRANSACTION_TYPES.find(t => t.id === chipModel.value))
+const type = computed(() => TRANSACTION_TYPES.find(t => t.id === typeModel.value))
 
-const chipModel = ref(createStore.type?.id ?? 1)
+const typeModel = ref(1)
+const typeSelected = ref(TRANSACTION_TYPES[0])
 
-function selected() {
+createStore.type = typeSelected.value
+
+function selectType(type) {
+  typeSelected.value = type
+  done()
+}
+
+function done() {
+  createStore.type = typeSelected.value
   emit('done')
 }
 </script>
@@ -41,7 +50,7 @@ function selected() {
     <v-expansion-panel-text>
       <v-chip-group
           mandatory
-          v-model="chipModel"
+          v-model="typeModel"
 
       >
         <v-chip
@@ -52,7 +61,7 @@ function selected() {
             variant="text"
             :text="type.name"
             :value="type.id"
-            @click="selected"
+            @click="selectType(type)"
         />
       </v-chip-group>
     </v-expansion-panel-text>

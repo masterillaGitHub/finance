@@ -6,6 +6,8 @@ export const useCreateStore = defineStore('transactions/create', {
         amount: 0,
         currency: new Currency(),
         type: null,
+        account: null,
+        category: null,
     }),
     getters: {},
     actions: {
