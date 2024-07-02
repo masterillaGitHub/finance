@@ -22,7 +22,6 @@ onMounted(() => {
   <div class="fill-height d-flex flex-column">
     <div class="flex-grow-1">
       <ul>
-        <li>Заголовки На рахунок - З категорії, З рахунку - На категорію, З рахунку - На рахунок</li>
         <li>Налаштувати App bar, широкий щоб зменшувався коли прокручуєш вниз</li>
       </ul>
     </div>
