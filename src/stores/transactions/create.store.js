@@ -2,7 +2,7 @@ import {defineStore} from 'pinia'
 import Currency from "@/models_resources/models/Currency.js";
 import {TRANSACTION_TYPES} from "@/helpers/constants.js";
 import Account from "@/models_resources/models/Account.js";
-import {isEmpty, isNull} from "@/helpers/validators/index.js";
+import {isEmpty, isNotNull, isNull} from "@/helpers/validators/index.js";
 import TransactionCategory from "@/models_resources/models/TransactionCategory.js";
 import {useDateFormat} from "@/composables/date_format.js";
 
@@ -23,6 +23,7 @@ export const useCreateStore = defineStore('transactions/create', {
         categoryId: null,
         tagIds: [],
         date: new Date(),
+        validate: false,
     }),
     getters: {
         getCurrency: state => Currency.find(state.currencyId) ?? null,
@@ -30,7 +31,11 @@ export const useCreateStore = defineStore('transactions/create', {
             TRANSACTION_TYPES.find(t => t.id === state.typeId) ?? null,
         getAccount: state => Account.find(state.accountId) ?? null,
         getCategory: state => TransactionCategory.find(state.categoryId) ?? null,
-        getDate: state => dateFormat.text(state.date)
+        getDate: state => dateFormat.text(state.date),
+        isValid: state => checkValid(state),
+        isAmountValid: state => !state.validate || state.amount !== 0,
+        isAccountValid: state => !state.validate || isNotNull(state.accountId),
+        isCategoryValid: state => !state.validate || isNotNull(state.categoryId),
     },
     actions: {
         setStep(idx) {
@@ -77,3 +82,12 @@ export const useCreateStore = defineStore('transactions/create', {
         }
     },
 })
+
+function checkValid(state) {
+    const isValid = !!state.validate
+    const isAmount = state.amount !== 0
+    const isAccount = isNotNull(state.accountId)
+    const isCategory = isNotNull(state.categoryId)
+
+    return isValid && isAmount && isAccount && isCategory
+}

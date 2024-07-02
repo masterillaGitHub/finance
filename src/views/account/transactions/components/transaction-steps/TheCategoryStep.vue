@@ -71,20 +71,25 @@ function done() {
 <template>
 
   <v-expansion-panel>
-    <v-expansion-panel-title
-        hide-actions
-        v-slot:default="{expanded}"
-    >
-      <v-row no-gutters>
-        <v-col class="d-flex justify-start" cols="4">Категорія:</v-col>
+    <v-expansion-panel-title>
 
-        <v-col class="text--secondary text-right" cols="8">
-          <v-fade-transition leave-absolute>
-            <div v-if="expanded" key="0" class="text-grey">Вкажіть категорію</div>
-            <div v-else key="1" class="text-truncate">{{ createStore.getCategory.name }}</div>
-          </v-fade-transition>
-        </v-col>
-      </v-row>
+      <template v-slot:default="{expanded}">
+        <v-row no-gutters>
+          <v-col class="d-flex justify-start" cols="4">Категорія:</v-col>
+
+          <v-col class="text--secondary text-right" cols="8">
+            <v-fade-transition leave-absolute>
+              <div v-if="expanded" key="0" class="text-grey">Вкажіть категорію</div>
+              <div v-else key="1" class="text-truncate">{{ createStore.getCategory.name }}</div>
+            </v-fade-transition>
+          </v-col>
+        </v-row>
+      </template>
+      <template v-slot:actions>
+        <div class="ml-1">
+          <v-icon v-if="!createStore.isCategoryValid" color="error" icon="mdi-alert-circle"/>
+        </div>
+      </template>
     </v-expansion-panel-title>
     <v-expansion-panel-text class="s-panel-text">
       <v-fade-transition mode="out-in">

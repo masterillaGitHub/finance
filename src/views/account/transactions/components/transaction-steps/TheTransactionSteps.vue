@@ -13,7 +13,6 @@ const createStore = useCreateStore()
 
 <template>
   <div>
-
     <v-expansion-panels
         v-model="createStore.openStep"
         variant="accordion"
@@ -25,15 +24,6 @@ const createStore = useCreateStore()
       <TheTagStep/>
       <TheDateStep/>
     </v-expansion-panels>
-
-    <v-btn
-        color="orange-darken-1"
-        rounded="t-0 b-xl"
-        size="x-large"
-        text="Continue"
-        variant="flat"
-        block
-    ></v-btn>
   </div>
 </template>
 

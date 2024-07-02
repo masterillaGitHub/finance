@@ -27,7 +27,11 @@ async function initComponent() {
 
 <template>
   <div class="d-flex justify-end align-center pa-2">
-    <div class="text-right text-h3 mr-4" @click="emit('onClickOnAmount')">{{amount}}</div>
+    <div class="text-right mr-4 d-flex align-center" @click="emit('onClickOnAmount')">
+      <span class="text-h3 ">{{amount}}</span>
+      <v-icon v-if="!createStore.isAmountValid" color="error" icon="mdi-alert-circle"/>
+    </div>
+
     <v-menu>
       <template v-slot:activator="{ props }">
         <v-btn

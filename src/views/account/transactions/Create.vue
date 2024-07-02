@@ -6,6 +6,7 @@ import TheCreateAmount from "@/views/account/transactions/components/create/TheC
 import {useCreateStore} from "@/stores/transactions/create.store.js";
 import TheTransactionSteps from "@/views/account/transactions/components/transaction-steps/TheTransactionSteps.vue";
 import BottomCalculator from "@/components/BottomCalculator.vue";
+import TheSaveButton from "@/views/account/transactions/components/TheSaveButton.vue";
 
 const createStore = useCreateStore()
 const isCalcShow = ref(true)
@@ -19,13 +20,12 @@ onMounted(() => {
 <template>
   <TheAppBar/>
   <div class="fill-height d-flex flex-column">
-    <ul>
-      <li>Зберегти git commit</li>
-      <li>Налаштувати валідацію даних в формі перед зберіганням</li>
-      <li>Заголовки На рахунок - З категорії, З рахунку - На категорію, З рахунку - На рахунок</li>
-      <li>Налаштувати App bar, широкий щоб зменшувався коли прокручуєш вниз</li>
-    </ul>
-    <div class="flex-grow-1"></div>
+    <div class="flex-grow-1">
+      <ul>
+        <li>Заголовки На рахунок - З категорії, З рахунку - На категорію, З рахунку - На рахунок</li>
+        <li>Налаштувати App bar, широкий щоб зменшувався коли прокручуєш вниз</li>
+      </ul>
+    </div>
     <TheCreateAmount
       :amount="createStore.amount"
       @on-click-on-amount="isCalcShow = true"
@@ -37,6 +37,7 @@ onMounted(() => {
         @done="createStore.amount = $event"
     />
     <TheTransactionSteps/>
+    <TheSaveButton/>
 
   </div>
 </template>
