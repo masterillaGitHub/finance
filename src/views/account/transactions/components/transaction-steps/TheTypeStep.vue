@@ -1,30 +1,16 @@
 <script setup>
 
-import {computed, ref} from "vue";
+import {computed} from "vue";
 import {TRANSACTION_TYPES} from "@/helpers/constants.js";
 import {useCreateStore} from "@/stores/transactions/create.store.js";
 
 const createStore = useCreateStore()
-const emit = defineEmits([
-    'done'
-])
 
-const type = computed(() => TRANSACTION_TYPES.find(t => t.id === typeModel.value))
+const typeModel = computed({
+  get: () => createStore.typeId,
+  set: val => createStore.typeId = val
+})
 
-const typeModel = ref(1)
-const typeSelected = ref(TRANSACTION_TYPES[0])
-
-createStore.type = typeSelected.value
-
-function selectType(type) {
-  typeSelected.value = type
-  done()
-}
-
-function done() {
-  createStore.type = typeSelected.value
-  emit('done')
-}
 </script>
 
 <template>
@@ -40,7 +26,7 @@ function done() {
           <v-col class="text--secondary text-right" cols="8">
             <v-fade-transition leave-absolute>
               <span v-if="expanded" key="0" class="text-grey">Вкажіть тип транзакції</span>
-              <span v-else key="1">{{ type.name }}</span>
+              <span v-else key="1">{{ createStore.getType.name }}</span>
             </v-fade-transition>
           </v-col>
         </v-row>
@@ -51,7 +37,6 @@ function done() {
       <v-chip-group
           mandatory
           v-model="typeModel"
-
       >
         <v-chip
             v-for="type in TRANSACTION_TYPES"
@@ -61,7 +46,7 @@ function done() {
             variant="text"
             :text="type.name"
             :value="type.id"
-            @click="selectType(type)"
+            @click="createStore.nextStep()"
         />
       </v-chip-group>
     </v-expansion-panel-text>

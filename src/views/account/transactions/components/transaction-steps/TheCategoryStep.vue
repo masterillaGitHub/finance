@@ -4,17 +4,12 @@ import {computed, ref, watchEffect} from "vue";
 import TransactionCategory from "@/models_resources/models/TransactionCategory.js";
 import {useCreateStore} from "@/stores/transactions/create.store.js";
 
-const emit = defineEmits([
-  'done'
-])
 const createStore = useCreateStore()
 const showChildren = ref(false)
-const categoryModel = ref()
 const categoryLoading = ref(false)
-const selected = ref()
-const subcategoryModel = ref()
-const categorySelected = ref(new TransactionCategory())
-const categoryFinished = ref(new TransactionCategory())
+const parentCategoryModel = ref()
+const categoryModel = ref()
+const parentCategorySelected = ref(new TransactionCategory())
 
 const categories = computed(() => TransactionCategory.findLoaded())
 
@@ -27,7 +22,7 @@ async function loadCategories() {
   try {
     await TransactionCategory.sync({
       include: 'children',
-      'filter[type_id]': createStore.type?.id
+      'filter[type_id]': createStore.typeId
     })
   }
   finally {
@@ -35,20 +30,20 @@ async function loadCategories() {
   }
 }
 
-function selectCategory(category) {
+function selectParentCategory(category) {
   if (category.isChildren()) {
     showChildren.value = true
-    categorySelected.value = category
+    parentCategorySelected.value = category
 
     return
   }
 
-  categoryFinished.value = category
+  setCategory(category.id)
   done()
 }
 
-function selectSubcategory(subcategory) {
-  categoryFinished.value = subcategory
+function selectCategory(category) {
+  setCategory(category.id)
   done()
 }
 
@@ -57,16 +52,19 @@ function backToCategories() {
 }
 
 function resetStep() {
+  parentCategoryModel.value = false
   categoryModel.value = false
-  subcategoryModel.value = false
-  categorySelected.value = new TransactionCategory()
-  categoryFinished.value = new TransactionCategory()
+  parentCategorySelected.value = new TransactionCategory()
+  setCategory()
   showChildren.value = false
 }
 
+function setCategory(id = null) {
+  createStore.categoryId = id
+}
+
 function done() {
-  createStore.category = categoryFinished.value
-  emit('done')
+  createStore.nextStep()
 }
 </script>
 
@@ -83,7 +81,7 @@ function done() {
         <v-col class="text--secondary text-right" cols="8">
           <v-fade-transition leave-absolute>
             <div v-if="expanded" key="0" class="text-grey">Вкажіть категорію</div>
-            <div v-else key="1" class="text-truncate">{{ categoryFinished.name }}</div>
+            <div v-else key="1" class="text-truncate">{{ createStore.getCategory.name }}</div>
           </v-fade-transition>
         </v-col>
       </v-row>
@@ -99,7 +97,7 @@ function done() {
           <v-chip-group
               mandatory
               column
-              v-model="categoryModel"
+              v-model="parentCategoryModel"
           >
             <v-chip
                 v-for="category in categories"
@@ -108,7 +106,7 @@ function done() {
                 variant="text"
                 :text="category.name"
                 :value="category.id"
-                @click="selectCategory(category)"
+                @click="selectParentCategory(category)"
             >
               <template v-if="category.isChildren()" v-slot:append>
                 <v-badge
@@ -130,14 +128,14 @@ function done() {
                 <v-chip-group
                     mandatory
                     column
-                    v-model="subcategoryModel"
+                    v-model="categoryModel"
                 >
                   <v-chip
                       label
                       variant="text"
-                      :text="categorySelected.name"
-                      :value="categorySelected.id"
-                      @click="selectSubcategory(categorySelected)"
+                      :text="parentCategorySelected.name"
+                      :value="parentCategorySelected.id"
+                      @click="selectCategory(parentCategorySelected)"
                   />
                 </v-chip-group>
             </div>
@@ -152,16 +150,16 @@ function done() {
           <v-chip-group
               mandatory
               column
-              v-model="subcategoryModel"
+              v-model="categoryModel"
           >
             <v-chip
-                v-for="subcategory in categorySelected.children"
+                v-for="subcategory in parentCategorySelected.children"
                 :key="subcategory.id"
                 label
                 variant="text"
                 :text="subcategory.name"
                 :value="subcategory.id"
-                @click="selectSubcategory(subcategory)"
+                @click="selectCategory(subcategory)"
             />
           </v-chip-group>
         </div>

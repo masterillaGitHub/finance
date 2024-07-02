@@ -4,29 +4,26 @@ import TheTypeStep from "@/views/account/transactions/components/transaction-ste
 import TheAccountStep from "@/views/account/transactions/components/transaction-steps/TheAccountStep.vue";
 import TheCategoryStep from "@/views/account/transactions/components/transaction-steps/TheCategoryStep.vue";
 import TheTagStep from "@/views/account/transactions/components/transaction-steps/TheTagStep.vue";
-import {ref} from "vue";
 import TheDateStep from "@/views/account/transactions/components/transaction-steps/TheDateStep.vue";
+import {useCreateStore} from "@/stores/transactions/create.store.js";
 
-const panelsModel = ref(1)
+const createStore = useCreateStore()
 
-function openPanel(idx = null) {
-  panelsModel.value = idx
-}
 </script>
 
 <template>
   <div>
 
     <v-expansion-panels
-        v-model="panelsModel"
+        v-model="createStore.openStep"
         variant="accordion"
         elevation="0"
     >
-      <TheTypeStep @done="openPanel(2)"/>
-      <TheAccountStep @done="openPanel(2)"/>
-      <TheCategoryStep @done="openPanel(3)"/>
+      <TheTypeStep/>
+      <TheAccountStep/>
+      <TheCategoryStep/>
       <TheTagStep/>
-      <TheDateStep @done="openPanel()"/>
+      <TheDateStep/>
     </v-expansion-panels>
 
     <v-btn

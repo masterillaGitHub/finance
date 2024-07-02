@@ -21,7 +21,6 @@ onMounted(initComponent)
 
 async function initComponent() {
   await currencyStore.loadCurrencies()
-  createStore.currency = Currency.find(1)
 }
 
 </script>
@@ -38,12 +37,12 @@ async function initComponent() {
             append-icon="mdi-chevron-down"
             :loading="currencyStore.loading"
         >
-          <v-icon :icon="createStore.currency.icon"/>
+          <v-icon :icon="createStore.getCurrency.icon"/>
         </v-btn>
       </template>
       <CurrenciesList
           :currencies="currencyStore.currencies"
-          @selected="createStore.currency = $event"
+          @selected="createStore.currencyId = $event.id"
       />
     </v-menu>
   </div>

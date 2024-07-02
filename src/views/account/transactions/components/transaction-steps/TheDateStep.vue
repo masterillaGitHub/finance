@@ -1,26 +1,48 @@
 <script setup>
 
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {useDate} from 'vuetify'
+import {useCreateStore} from "@/stores/transactions/create.store.js";
+import { isToday, isYesterday, isTomorrow, subDays } from 'date-fns';
 
+const createStore = useCreateStore()
 const emit = defineEmits([
   'done'
 ])
-const date = useDate()
+const dateHandler = useDate()
 
-const selectedModel = ref('Сьогодні')
-const titleDate = ref('Сьогодні')
+const selectedModel = ref()
 const dialog = ref(false)
-const dateModel = ref()
+const dateModel = ref(createStore.date)
+const titleDate = computed(() => dayHandler(createStore.date))
+
+function dayHandler(date) {
+  if (isToday(date)) {
+    selectedModel.value = 'today'
+    return 'Сьогодні'
+  }
+  else if (isYesterday(date)) {
+    selectedModel.value = 'yesterday'
+    return 'Вчора'
+  }
+  else if (isTomorrow(date)) {
+    selectedModel.value = 'custom'
+    return 'Завтра'
+  }
+
+  selectedModel.value = 'custom'
+
+  return dateHandler.format(date, 'fullDateWithWeekday')
+}
 
 function setYesterday() {
-  titleDate.value = 'Вчора'
-  emit('done')
+  createStore.date = subDays(new Date(), 1)
+  done()
 }
 
 function setToday() {
-  titleDate.value = 'Сьогодні'
-  emit('done')
+  createStore.date = new Date()
+  done()
 }
 
 function setCustom() {
@@ -28,10 +50,13 @@ function setCustom() {
 }
 
 function saveDate() {
-  titleDate.value = date.format(new Date(dateModel.value), 'fullDate')
-  selectedModel.value = 'Вибрати'
+  createStore.date = dateModel.value
   dialog.value = false
-  emit('done')
+  done()
+}
+
+function done() {
+  createStore.nextStep()
 }
 
 </script>
@@ -48,7 +73,7 @@ function saveDate() {
 
           <v-col class="text--secondary text-right" cols="8">
             <v-fade-transition leave-absolute>
-              <span v-show="titleDate">{{ titleDate }}</span>
+              <span>{{ titleDate }}</span>
             </v-fade-transition>
           </v-col>
         </v-row>
@@ -93,9 +118,9 @@ function saveDate() {
           mandatory
           v-model="selectedModel"
       >
-        <v-chip label variant="text" text="Вчора" value="Вчора" @click="setYesterday"/>
-        <v-chip label variant="text" text="Сьогодні" value="Сьогодні" @click="setToday"/>
-        <v-chip label variant="text" text="Вибрати" value="Вибрати" @click="setCustom"/>
+        <v-chip label variant="text" text="Вчора" value="yesterday" @click="setYesterday"/>
+        <v-chip label variant="text" text="Сьогодні" value="today" @click="setToday"/>
+        <v-chip label variant="text" text="Вибрати" value="custom" @click="setCustom"/>
 
       </v-chip-group>
     </v-expansion-panel-text>
