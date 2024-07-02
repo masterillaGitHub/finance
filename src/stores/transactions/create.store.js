@@ -4,7 +4,9 @@ import {TRANSACTION_TYPES} from "@/helpers/constants.js";
 import Account from "@/models_resources/models/Account.js";
 import {isEmpty, isNull} from "@/helpers/validators/index.js";
 import TransactionCategory from "@/models_resources/models/TransactionCategory.js";
+import {useDateFormat} from "@/composables/date_format.js";
 
+const dateFormat = useDateFormat()
 export const STEP_CLOSED = null
 export const STEP_TYPE = 0
 export const STEP_ACCOUNT = 1
@@ -28,7 +30,7 @@ export const useCreateStore = defineStore('transactions/create', {
             TRANSACTION_TYPES.find(t => t.id === state.typeId) ?? null,
         getAccount: state => Account.find(state.accountId) ?? null,
         getCategory: state => TransactionCategory.find(state.categoryId) ?? null,
-        getDate: state => state.date
+        getDate: state => dateFormat.text(state.date)
     },
     actions: {
         setStep(idx) {

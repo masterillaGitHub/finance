@@ -1,39 +1,36 @@
 <script setup>
 
-import {computed, ref} from "vue";
-import {useDate} from 'vuetify'
+import {ref, watchEffect} from "vue";
 import {useCreateStore} from "@/stores/transactions/create.store.js";
-import { isToday, isYesterday, isTomorrow, subDays } from 'date-fns';
+import {subDays} from 'date-fns';
 
 const createStore = useCreateStore()
 const emit = defineEmits([
   'done'
 ])
-const dateHandler = useDate()
 
 const selectedModel = ref()
 const dialog = ref(false)
 const dateModel = ref(createStore.date)
-const titleDate = computed(() => dayHandler(createStore.date))
+const titleDate = ref()
 
-function dayHandler(date) {
-  if (isToday(date)) {
-    selectedModel.value = 'today'
-    return 'Сьогодні'
+watchEffect(() => {
+  selectedModel.value = createStore.getDate
+
+  if (createStore.getDate === 'today') {
+    titleDate.value = 'Сьогодні'
   }
-  else if (isYesterday(date)) {
-    selectedModel.value = 'yesterday'
-    return 'Вчора'
+  else if (createStore.getDate === 'yesterday') {
+    titleDate.value =  'Вчора'
   }
-  else if (isTomorrow(date)) {
+  else if (createStore.getDate === 'tomorrow') {
+    titleDate.value = 'Завтра'
+  }
+  else {
     selectedModel.value = 'custom'
-    return 'Завтра'
+    titleDate.value = createStore.getDate
   }
-
-  selectedModel.value = 'custom'
-
-  return dateHandler.format(date, 'fullDateWithWeekday')
-}
+})
 
 function setYesterday() {
   createStore.date = subDays(new Date(), 1)

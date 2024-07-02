@@ -19,6 +19,12 @@ onMounted(() => {
 <template>
   <TheAppBar/>
   <div class="fill-height d-flex flex-column">
+    <ul>
+      <li>Зберегти git commit</li>
+      <li>Налаштувати валідацію даних в формі перед зберіганням</li>
+      <li>Заголовки На рахунок - З категорії, З рахунку - На категорію, З рахунку - На рахунок</li>
+      <li>Налаштувати App bar, широкий щоб зменшувався коли прокручуєш вниз</li>
+    </ul>
     <div class="flex-grow-1"></div>
     <TheCreateAmount
       :amount="createStore.amount"
