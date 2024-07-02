@@ -2,22 +2,40 @@
 import {computed, onMounted, ref} from "vue";
 import AccountCategory from "@/models_resources/models/AccountCategory.js";
 import {useCreateStore} from "@/stores/transactions/create.store.js";
+import Account from "@/models_resources/models/Account.js";
+import {TYPE_ID_INCOME} from "@/helpers/constants.js";
+
+const props = defineProps({
+  account: {
+    type: Object,
+    default: new Account(),
+    validator: i => i instanceof Account
+  },
+  isValid: {
+    type: Boolean,
+    required: true,
+  },
+  isTransfer: {
+    type: Boolean,
+    default: false
+  }
+})
 
 const createStore = useCreateStore()
+const accountModel = defineModel()
+const transactionTypeId = computed(() => createStore.typeId)
+
+onMounted( () => {
+  if (props.isTransfer) {
+    accountModel.value = null
+  }
+})
+
 const isChildren = ref(false)
 const categories = computed(() => AccountCategory.findLoaded())
 const categoryModel = ref(null)
-const accountModel = computed({
-  get: () => createStore.accountId,
-  set: val => createStore.accountId = val
-})
-const categorySelected = ref(new AccountCategory())
 
-onMounted(async () => {
-  await AccountCategory.sync({
-    include: 'accounts'
-  })
-})
+const categorySelected = ref(new AccountCategory())
 
 function selectCategory(category) {
   categorySelected.value = category
@@ -27,6 +45,7 @@ function selectCategory(category) {
 function backToCategories() {
   isChildren.value = false
 }
+
 </script>
 
 <template>
@@ -35,19 +54,24 @@ function backToCategories() {
     <v-expansion-panel-title disable-icon-rotate>
       <template v-slot:default="{expanded}">
         <v-row no-gutters>
-          <v-col class="d-flex" cols="4">Рахунок:</v-col>
+          <v-col cols="4">
+            <v-fade-transition leave-absolute>
+              <span v-if="createStore.typeId === TYPE_ID_INCOME || !!isTransfer">На рахунок:</span>
+              <span v-else>З рахунку:</span>
+            </v-fade-transition>
+          </v-col>
 
           <v-col class="text--secondary text-right" cols="8">
             <v-fade-transition leave-absolute>
               <div v-if="expanded" key="0" class="text-grey">Вкажіть рахунок</div>
-              <div v-else key="1">{{ createStore.getAccount.name }}</div>
+              <div v-else key="1">{{ account.name }}</div>
             </v-fade-transition>
           </v-col>
         </v-row>
       </template>
       <template v-slot:actions>
         <div class="ml-1">
-          <v-icon v-if="!createStore.isAccountValid" color="error" icon="mdi-alert-circle"/>
+          <v-icon v-if="!isValid" color="error" icon="mdi-alert-circle"/>
         </div>
       </template>
     </v-expansion-panel-title>

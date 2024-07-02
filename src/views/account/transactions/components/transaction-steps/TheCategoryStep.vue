@@ -75,7 +75,12 @@ function done() {
 
       <template v-slot:default="{expanded}">
         <v-row no-gutters>
-          <v-col class="d-flex justify-start" cols="4">Категорія:</v-col>
+          <v-col cols="4">
+            <v-fade-transition leave-absolute>
+              <span v-if="createStore.typeId === 1">На категорію:</span>
+              <span v-else>З категорії:</span>
+            </v-fade-transition>
+          </v-col>
 
           <v-col class="text--secondary text-right" cols="8">
             <v-fade-transition leave-absolute>

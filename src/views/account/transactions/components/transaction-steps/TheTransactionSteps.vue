@@ -1,11 +1,13 @@
 <script setup>
 
 import TheTypeStep from "@/views/account/transactions/components/transaction-steps/TheTypeStep.vue";
-import TheAccountStep from "@/views/account/transactions/components/transaction-steps/TheAccountStep.vue";
 import TheCategoryStep from "@/views/account/transactions/components/transaction-steps/TheCategoryStep.vue";
 import TheTagStep from "@/views/account/transactions/components/transaction-steps/TheTagStep.vue";
 import TheDateStep from "@/views/account/transactions/components/transaction-steps/TheDateStep.vue";
 import {useCreateStore} from "@/stores/transactions/create.store.js";
+import TheAccountsStepsChoice
+  from "@/views/account/transactions/components/transaction-steps/TheAccountsStepsChoice.vue";
+import {TYPE_ID_TRANSFER} from "@/helpers/constants.js";
 
 const createStore = useCreateStore()
 
@@ -19,8 +21,8 @@ const createStore = useCreateStore()
         elevation="0"
     >
       <TheTypeStep/>
-      <TheAccountStep/>
-      <TheCategoryStep/>
+      <TheAccountsStepsChoice/>
+      <TheCategoryStep v-if="createStore.typeId !== TYPE_ID_TRANSFER"/>
       <TheTagStep/>
       <TheDateStep/>
     </v-expansion-panels>

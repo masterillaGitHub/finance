@@ -22,8 +22,13 @@ export const CURRENCY_ICONS = [
     { id: 2, icon: 'mdi-currency-usd'},
     { id: 3, icon: 'mdi-currency-eur'},
 ]
+
+export const TYPE_ID_EXPENSE = 1
+export const TYPE_ID_INCOME = 2
+export const TYPE_ID_TRANSFER = 3
+
 export const TRANSACTION_TYPES = [
-    { id: 1, icon: 'mdi-currency-uah', name: 'Витрата'},
-    { id: 2, icon: 'mdi-currency-usd', name: 'Дохід'},
-    { id: 3, icon: 'mdi-currency-eur', name: 'Переказ'},
+    { id: TYPE_ID_EXPENSE, icon: CURRENCY_ICONS[0], name: 'Витрата'},
+    { id: TYPE_ID_INCOME, icon: CURRENCY_ICONS[1], name: 'Дохід'},
+    { id: TYPE_ID_TRANSFER, icon: CURRENCY_ICONS[2], name: 'Переказ'},
 ]
