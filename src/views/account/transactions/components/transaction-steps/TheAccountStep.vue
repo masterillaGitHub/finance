@@ -1,9 +1,10 @@
 <script setup>
-import {computed, onMounted, ref} from "vue";
+import {computed, onUnmounted, ref} from "vue";
 import AccountCategory from "@/models_resources/models/AccountCategory.js";
 import {useCreateStore} from "@/stores/transactions/create.store.js";
 import Account from "@/models_resources/models/Account.js";
 import {TYPE_ID_INCOME} from "@/helpers/constants.js";
+import {STEP_ACCOUNT} from "@/services/transaction/step_transition_service.js";
 
 const props = defineProps({
   account: {
@@ -18,6 +19,10 @@ const props = defineProps({
   isTransfer: {
     type: Boolean,
     default: false
+  },
+  stepName: {
+    type: String,
+    default: STEP_ACCOUNT,
   }
 })
 
@@ -25,7 +30,7 @@ const createStore = useCreateStore()
 const accountModel = defineModel()
 const transactionTypeId = computed(() => createStore.typeId)
 
-onMounted( () => {
+onUnmounted(() => {
   if (props.isTransfer) {
     accountModel.value = null
   }
@@ -50,7 +55,7 @@ function backToCategories() {
 
 <template>
 
-  <v-expansion-panel>
+  <v-expansion-panel :value="stepName">
     <v-expansion-panel-title disable-icon-rotate>
       <template v-slot:default="{expanded}">
         <v-row no-gutters>

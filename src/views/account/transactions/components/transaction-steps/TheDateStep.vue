@@ -3,6 +3,7 @@
 import {ref, watchEffect} from "vue";
 import {useCreateStore} from "@/stores/transactions/create.store.js";
 import {subDays} from 'date-fns';
+import {STEP_DATE} from "@/services/transaction/step_transition_service.js";
 
 const createStore = useCreateStore()
 const emit = defineEmits([
@@ -60,7 +61,7 @@ function done() {
 
 <template>
 
-  <v-expansion-panel >
+  <v-expansion-panel :value="STEP_DATE">
     <v-expansion-panel-title
         hide-actions
     >

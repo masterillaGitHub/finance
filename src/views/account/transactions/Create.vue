@@ -20,11 +20,7 @@ onMounted(() => {
 <template>
   <TheAppBar/>
   <div class="fill-height d-flex flex-column">
-    <div class="flex-grow-1">
-      <ul>
-        <li>Налаштувати App bar, широкий щоб зменшувався коли прокручуєш вниз</li>
-      </ul>
-    </div>
+    <div class="flex-grow-1"></div>
     <TheCreateAmount
       :amount="createStore.amount"
       @on-click-on-amount="isCalcShow = true"

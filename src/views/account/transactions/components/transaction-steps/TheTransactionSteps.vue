@@ -8,6 +8,7 @@ import {useCreateStore} from "@/stores/transactions/create.store.js";
 import TheAccountsStepsChoice
   from "@/views/account/transactions/components/transaction-steps/TheAccountsStepsChoice.vue";
 import {TYPE_ID_TRANSFER} from "@/helpers/constants.js";
+import TheEnrollmentAmount from "@/views/account/transactions/components/transaction-steps/TheEnrollmentAmount.vue";
 
 const createStore = useCreateStore()
 
@@ -23,6 +24,7 @@ const createStore = useCreateStore()
       <TheTypeStep/>
       <TheAccountsStepsChoice/>
       <TheCategoryStep v-if="createStore.typeId !== TYPE_ID_TRANSFER"/>
+      <TheEnrollmentAmount v-if="createStore.typeId === TYPE_ID_TRANSFER"/>
       <TheTagStep/>
       <TheDateStep/>
     </v-expansion-panels>

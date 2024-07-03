@@ -3,6 +3,7 @@
 import {computed, ref, watchEffect} from "vue";
 import TransactionCategory from "@/models_resources/models/TransactionCategory.js";
 import {useCreateStore} from "@/stores/transactions/create.store.js";
+import {STEP_CATEGORY} from "@/services/transaction/step_transition_service.js";
 
 const createStore = useCreateStore()
 const showChildren = ref(false)
@@ -52,10 +53,10 @@ function backToCategories() {
 }
 
 function resetStep() {
+  setCategory()
   parentCategoryModel.value = false
   categoryModel.value = false
   parentCategorySelected.value = new TransactionCategory()
-  setCategory()
   showChildren.value = false
 }
 
@@ -70,7 +71,7 @@ function done() {
 
 <template>
 
-  <v-expansion-panel>
+  <v-expansion-panel :value="STEP_CATEGORY">
     <v-expansion-panel-title>
 
       <template v-slot:default="{expanded}">

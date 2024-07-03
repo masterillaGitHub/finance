@@ -2,7 +2,6 @@
 import CurrenciesList from "@/components/CurrenciesList.vue";
 import {onMounted} from "vue";
 import {useCurrenciesStore} from "@/stores/currencies.store.js";
-import Currency from "@/models_resources/models/Currency.js";
 import {useCreateStore} from "@/stores/transactions/create.store.js";
 
 defineProps({

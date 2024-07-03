@@ -20,10 +20,6 @@ export function isTimelineItemValid({ hour }) {
     return isHourValid(hour)
 }
 
-export function validateActivities(activities) {
-    return activities.every(isActivityValid)
-}
-
 export function isActivityValid({ id, name, secondsToComplete }) {
     if (isNull(id)) {
         return true
@@ -34,10 +30,6 @@ export function isActivityValid({ id, name, secondsToComplete }) {
 
 export function isHourValid(hour) {
     return isNumber(hour) && isBetween(hour, MIDNIGHT_HOUR, HOURS_IN_DAY - 1)
-}
-
-export function validateSelectOptions(options) {
-    return options.every(isSelectOptionValid)
 }
 
 export function isSelectValueValid(value) {

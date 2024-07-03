@@ -4,6 +4,8 @@ import TheAccountStep from "@/views/account/transactions/components/transaction-
 import {onMounted} from "vue";
 import AccountCategory from "@/models_resources/models/AccountCategory.js";
 import {useCreateStore} from "@/stores/transactions/create.store.js";
+import {TYPE_ID_TRANSFER} from "@/helpers/constants.js";
+import {STEP_ENROLLMENT_ACCOUNT} from "@/services/transaction/step_transition_service.js";
 
 const createStore = useCreateStore()
 
@@ -22,11 +24,12 @@ onMounted(async () => {
       :is-valid="createStore.isAccountValid"
   />
   <TheAccountStep
-      v-if="createStore.typeId === 3"
+      v-if="createStore.typeId === TYPE_ID_TRANSFER"
       v-model="createStore.accountTransferId"
       :account="createStore.getAccountTransfer"
       :is-valid="createStore.isAccountTransferValid"
       :is-transfer="true"
+      :step-name="STEP_ENROLLMENT_ACCOUNT"
   />
 </template>
 

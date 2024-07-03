@@ -1,8 +1,9 @@
 <script setup>
 
-import {computed} from "vue";
+import {computed, nextTick} from "vue";
 import {TRANSACTION_TYPES} from "@/helpers/constants.js";
 import {useCreateStore} from "@/stores/transactions/create.store.js";
+import {STEP_TYPE} from "@/services/transaction/step_transition_service.js";
 
 const createStore = useCreateStore()
 
@@ -11,11 +12,22 @@ const typeModel = computed({
   set: val => createStore.typeId = val
 })
 
+async function done() {
+  createStore.categoryId = null
+  createStore.accountTransferId = null
+
+  /**
+   * nextTick() need for set first typeModel in createStore and nextStep runs after
+   */
+  await nextTick()
+  createStore.nextStep()
+}
+
 </script>
 
 <template>
 
-  <v-expansion-panel >
+  <v-expansion-panel :value="STEP_TYPE">
     <v-expansion-panel-title
         hide-actions
     >
@@ -46,7 +58,7 @@ const typeModel = computed({
             variant="text"
             :text="type.name"
             :value="type.id"
-            @click="createStore.nextStep()"
+            @click="done"
         />
       </v-chip-group>
     </v-expansion-panel-text>

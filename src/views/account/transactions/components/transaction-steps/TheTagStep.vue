@@ -1,6 +1,7 @@
 <script setup>
 
 import {computed, ref} from "vue";
+import {STEP_TAG} from "@/services/transaction/step_transition_service.js";
 
 const emit = defineEmits([
   'done'
@@ -35,7 +36,7 @@ const items = [
 
 <template>
 
-  <v-expansion-panel >
+  <v-expansion-panel :value="STEP_TAG">
     <v-expansion-panel-title
         hide-actions
     >
