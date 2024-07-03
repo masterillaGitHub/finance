@@ -17,7 +17,7 @@ const routes = [
 
   {path: '/dashboard', name:'dashboard', component: Dashboard},
 
-  {path: '/budgets', name:'budgets.index', component: Budgets},
+  {path: '/budgets', name:'budgets.index', component: Budgets, meta: {title: 'Бюджет'}},
 ]
 .concat(
     accounts,

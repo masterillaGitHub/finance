@@ -28,12 +28,16 @@ const layout = computed(() => {
   return layouts[layoutName]
 })
 
+function onScroll() {
+  appStore.offsetTop = document.documentElement.scrollTop || document.body.scrollTop || 0;
+}
 
 </script>
 
 <template>
   <v-app
       :theme="appStore.theme"
+      v-scroll="onScroll"
   >
     <Snackbar/>
 

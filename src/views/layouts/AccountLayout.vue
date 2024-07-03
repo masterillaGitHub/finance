@@ -8,7 +8,7 @@ import TheAppBar from "@/views/account/components/TheAppBar.vue";
 
   <TheAppBar/>
   <v-main class="bg-grey-lighten-3 fill-height">
-    <div class="pa-2" >
+    <div class="pa-2">
 
       <RouterView v-slot="{Component}">
         <v-slide-x-transition mode="out-in">

@@ -83,7 +83,6 @@ const transaction = [
     ]}
 ];
 </script>
-
 <template>
 <div>
   <v-card class="mb-2" title="Історія транзакцій"/>

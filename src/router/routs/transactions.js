@@ -4,11 +4,14 @@ const Create = () => import('@/views/account/transactions/Create.vue')
 
 export default [
 
-    {path: '/transactions', name:'transactions.index', component: Index},
+    {path: '/transactions', name:'transactions.index', component: Index, meta: {title: 'Історія транзакцій'}},
     {
         path: '/transactions/create',
         name:'transactions.create',
         component: Create,
-        meta: {layout: LAYOUT_ACCOUNT_FULLSCREEN}
+        meta: {
+            layout: LAYOUT_ACCOUNT_FULLSCREEN,
+            title: 'Додати транзакцію'
+        }
     },
 ]

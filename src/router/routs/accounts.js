@@ -4,7 +4,7 @@ const AccountsShow = () => import('@/views/account/accounts/Show.vue')
 
 export default [
 
-    {path: '/accounts', name:'accounts.index', component: Accounts},
+    {path: '/accounts', name:'accounts.index', component: Accounts, meta: {title: 'Рахунки'}},
     {
         path: '/accounts/:id/show',
         name:'accounts.show',
