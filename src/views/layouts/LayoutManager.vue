@@ -29,6 +29,8 @@ const layout = computed(() => {
 })
 
 function onScroll() {
+  appStore.documentHeight = document.documentElement.scrollHeight
+  appStore.windowHeight = window.innerHeight
   appStore.offsetTop = document.documentElement.scrollTop || document.body.scrollTop || 0;
 }
 
@@ -49,7 +51,7 @@ function onScroll() {
 
     <template v-else>
       <v-slide-x-transition mode="out-in">
-        <component :is="layout"/>
+        <component :is="layout" />
       </v-slide-x-transition>
     </template>
   </v-app>

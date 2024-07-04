@@ -1,12 +1,28 @@
-import { defineStore } from 'pinia'
-import AuthResource from "@/models_resources/resources/AuthResource.js";
+import {defineStore} from 'pinia'
+import {isEmpty} from "@/helpers/validators/index.js";
 
 export const useAppStore = defineStore('app', {
     state: () => ({
         theme: 'light',
-        offsetTop: 0,
+        offsetTop: 0, // Поточне положення прокрутки по вертикалі
+        windowHeight: 0, // Висота видимого вікна
+        documentHeight: 0, // Висота всього документа
     }),
-    getters: {},
+    getters: {
+        windowsHeightTop: state => state.documentHeight - state.windowHeight,
+        offsetBottom(state) {
+            return this.windowsHeightTop - state.offsetTop
+        },
+        offsetTopPercent(state) {
+            let res = state.offsetTop / this.windowsHeightTop * 100
+
+            if (isEmpty(res)) {
+                return 0
+            }
+
+            return parseFloat((res).toFixed(2))
+        },
+    },
     actions: {
         themeToggle() {
             this.theme = this.theme === 'light' ? 'dark' : 'light'
