@@ -1,7 +1,6 @@
 
 import {isEmpty, isNull} from "@/helpers/validators/index.js";
 import {TYPE_ID_TRANSFER} from "@/helpers/constants.js";
-import empty from "@/helpers/validators/empty.js";
 
 export const STEP_CLOSED = null
 export const STEP_TYPE = 'type'
@@ -38,10 +37,10 @@ function doneTypeHandle(store) {
     else if (store.typeId !== TYPE_ID_TRANSFER && isNull(store.categoryId)) {
         store.openStep = STEP_CATEGORY
     }
-    else if (store.typeId === TYPE_ID_TRANSFER && empty(store.accountTransferId)) {
+    else if (store.typeId === TYPE_ID_TRANSFER && isEmpty(store.accountTransferId)) {
         store.openStep = STEP_ENROLLMENT_ACCOUNT
     }
-    else if (store.typeId === TYPE_ID_TRANSFER && empty(store.enrollmentAmount)) {
+    else if (store.typeId === TYPE_ID_TRANSFER && isEmpty(store.enrollmentAmount)) {
         store.openStep = STEP_ENROLLMENT_AMOUNT
     }
     else {
@@ -57,7 +56,7 @@ function doneAccountHandle(store) {
     else if (store.typeId === TYPE_ID_TRANSFER && isNull(store.accountTransferId)) {
         store.openStep = STEP_ENROLLMENT_ACCOUNT
     }
-    else if (store.typeId === TYPE_ID_TRANSFER && empty(store.enrollmentAmount)) {
+    else if (store.typeId === TYPE_ID_TRANSFER && isEmpty(store.enrollmentAmount)) {
         store.openStep = STEP_ENROLLMENT_AMOUNT
     }
     else {
@@ -67,7 +66,7 @@ function doneAccountHandle(store) {
 
 function doneEnrollmentAccountHandle(store) {
 
-    if (store.typeId === TYPE_ID_TRANSFER && empty(store.enrollmentAmount)) {
+    if (store.typeId === TYPE_ID_TRANSFER && isEmpty(store.enrollmentAmount)) {
         store.openStep = STEP_ENROLLMENT_AMOUNT
     }
     else if (isEmpty(store.tags)){
