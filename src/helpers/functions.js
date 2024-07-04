@@ -55,16 +55,14 @@ export function numberOfText(number, suffix) {
 export function dynamicSort(property) {
     let sortOrder = 1
 
-    if(property[0] === "-") {
+    if (property[0] === "-") {
         sortOrder = -1
         property = property.slice(1)
     }
 
-    return function (a,b) {
-        /* next line works with strings and numbers,
-         * and you may want to customize it to your needs
-         */
+    return (a,b) => {
         let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0
+
         return result * sortOrder
     }
 }
@@ -74,14 +72,9 @@ export function dynamicSort(property) {
  * @returns {function(*, *): number}
  */
 export function dynamicSortMultiple() {
-    /*
-     * save the arguments object as it will be overwritten
-     * note that arguments object is an array-like object
-     * consisting of the names of the properties to sort by
-     */
     let props = arguments
 
-    return function (obj1, obj2) {
+    return (obj1, obj2) => {
         let i = 0, result = 0, numberOfProperties = props.length;
         /* try getting a different result from 0 (equal)
          * as long as we have extra properties to compare
@@ -254,6 +247,14 @@ export function arrayObjectsSum(array, field) {
     return array.reduce((a, b) => {
         return parseInt(a,10) + parseInt(b[field], 10)
     }, 0)
+}
+
+export function groupBy(xs, key) {
+    return xs.reduce(function(acc, item) {
+        (acc[item[key]] = acc[item[key]] || []).push(item)
+
+        return acc
+    }, {})
 }
 
 
