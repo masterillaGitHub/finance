@@ -23,9 +23,15 @@ export const useModelsStore = defineStore('models', {
             checkActiveIds(this, modelName)
             this.activeIds[modelName] = ids
         },
+        addActiveIds(modelName, ids) {
+            ids.forEach(id => this.addActiveId(modelName, id))
+        },
         addActiveId(modelName, id) {
             checkActiveIds(this, modelName)
             this.activeIds[modelName].push(id)
+        },
+        removeActiveIds(modelName, ids) {
+            ids.forEach(id => this.removeLoadedId(modelName, id))
         },
         removeLoadedId(modelName, id) {
             checkActiveIds(this, modelName)
