@@ -7,10 +7,11 @@ defineProps({
 </script>
 
 <template>
-  <div>
-    <div class="text-grey">{{group.date}}</div>
+  <div class="s-group">
+    <div class="text-grey my-3">{{group.date}}</div>
     <TransactionItem
-        v-for="transaction in group.items"
+        v-for="transaction in group.transactions"
+        class="s-transaction my-3"
         :t="transaction"
     />
   </div>

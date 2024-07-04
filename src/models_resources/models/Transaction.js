@@ -1,9 +1,19 @@
 import Model from "@/models_resources/models/Model";
+import TransactionCategory from "@/models_resources/models/TransactionCategory.js";
+import Account from "@/models_resources/models/Account.js";
 
 
 export default class Transaction extends Model
 {
     _resourceName = 'transactions';
+
+    get account() {
+        return this.hasOne('account', Account)
+    }
+
+    get category() {
+        return this.hasOne('category', TransactionCategory)
+    }
 
     set currency(id) {
         this.belongsTo('currency', id)
