@@ -17,13 +17,22 @@ export function fillModels(included, updateMode, storageNames = {}, updateModes 
     }
 }
 
-export function fillIds(storageName, ids) {
+export function fillIds(storageName, ids, updateMode) {
     if (isEmpty(ids)) {
         return
     }
 
     const models = useModelsStore()
-    models.setActiveIds(storageName, ids)
+
+    switch (updateMode) {
+        case MODEL_UPDATE_ALL:
+            models.setActiveIds(storageName, ids)
+            break
+        case MODEL_UPDATE_ENTITY:
+        case MODEL_UPDATE_FIELD:
+            models.addActiveIds(storageName, ids)
+            break
+    }
 }
 
 function updateStorage(updateMode, modelName, collection) {

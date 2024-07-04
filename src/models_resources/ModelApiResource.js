@@ -129,7 +129,7 @@ export default class ModelApiResource {
     }
 
     #fillResponseData(data, updateMode) {
-        fillIds(this.#model.storageName(), data.data)
+        fillIds(this.#model.storageName(), data.data, updateMode)
 
         fillModels(
             this.#addServerMarkerInCollections(data.included),
