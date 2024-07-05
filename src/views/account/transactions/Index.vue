@@ -20,7 +20,8 @@ function initComponent() {
     isAddButton.value = true
   },1000)
 
-  indexStore.loadTransactions()
+  indexStore.reset()
+  indexStore.firstLoadTransactions()
 }
 
 router.beforeEach((to, from) => {
