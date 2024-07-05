@@ -9,7 +9,7 @@ const snackbarStore = useSnackbarStore()
 const router = useRouter()
 
 const loading = ref(false)
-const email = ref('user@test.com')
+const email = ref('user1@test.com')
 const password = ref('123123123')
 const imgUrl = new URL('/assets/images/login.jpg', import.meta.url).href
 const title = 'Login'
