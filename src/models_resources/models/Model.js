@@ -63,6 +63,9 @@ export default class Model
     static findLoaded(params = {}) {
         return (new this()).findLoaded(params)
     }
+    static reset() {
+        (new this()).reset()
+    }
 
     // Getters
 
@@ -178,6 +181,10 @@ export default class Model
 
     findLoaded(params = {}) {
         return ModelStore.make(this).setParams(params).findLoaded()
+    }
+
+    reset() {
+        ModelStore.make(this).reset()
     }
 
     createLocal() {

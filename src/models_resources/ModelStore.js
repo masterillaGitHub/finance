@@ -64,6 +64,11 @@ export default class ModelApiResource
         return res
     }
 
+    reset() {
+        const models = useModelsStore()
+        models.reset(this._storageName())
+    }
+
     copyToStorage(storageName) {
         const models = useModelsStore()
         const entity = models.getById(this._storageName(), this.model.id)

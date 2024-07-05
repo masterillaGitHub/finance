@@ -76,8 +76,18 @@ export const useModelsStore = defineStore('models', {
 
             delete this.models[modelName][id]
         },
-        reset() {
+        reset(modelName) {
+            if (typeof this.models[modelName] !== 'undefined') {
+                this.models[modelName] = {}
+            }
+
+            if (typeof this.activeIds[modelName] !== 'undefined') {
+                this.activeIds[modelName] = []
+            }
+        },
+        resetAll() {
             this.models = {}
+            this.activeIds = {}
         },
     },
 })
