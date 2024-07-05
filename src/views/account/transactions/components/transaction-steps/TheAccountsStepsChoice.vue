@@ -10,9 +10,7 @@ import {STEP_ENROLLMENT_ACCOUNT} from "@/services/transaction/step_transition_se
 const createStore = useCreateStore()
 
 onMounted(async () => {
-  await AccountCategory.sync({
-    include: 'accounts'
-  })
+  await AccountCategory.loadTransactionPage()
 })
 </script>
 

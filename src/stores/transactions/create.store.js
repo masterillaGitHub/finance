@@ -22,7 +22,7 @@ export const useCreateStore = defineStore('transactions/create', {
         categoryId: null,
         tagIds: [],
         date: new Date(),
-        validate: false,
+        isEnabledValidate: false,
     }),
     getters: {
         getCurrency: state => Currency.find(state.currencyId) ?? null,
@@ -45,14 +45,18 @@ export const useCreateStore = defineStore('transactions/create', {
             nextStep(this)
         },
         reset() {
+            this.openStep = STEP_ACCOUNT
             this.amount = 0
+            this.enrollmentAmount = 0
             this.currencyId = 1
+            this.enrollmentCurrencyId = 0
             this.typeId = 1
             this.accountId = null
             this.accountTransferId = null
             this.categoryId = null
             this.tagIds = []
             this.date = new Date()
+            this.isEnabledValidate = false
         }
     },
 })

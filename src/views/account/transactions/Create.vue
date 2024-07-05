@@ -11,10 +11,7 @@ import TheSaveButton from "@/views/account/transactions/components/TheSaveButton
 const createStore = useCreateStore()
 const isCalcShow = ref(true)
 
-onMounted(() => {
-  createStore.reset()
-})
-
+createStore.reset()
 </script>
 
 <template>

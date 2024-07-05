@@ -24,6 +24,10 @@ export default class AccountCategory extends Model
         return await this.query().get('/main-page')
     }
 
+    static async loadTransactionPage() {
+        return await this.query().get('/transaction-page')
+    }
+
     async loadMainPage() {
         return await this.query().get('/main-page')
     }

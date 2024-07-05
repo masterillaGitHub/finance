@@ -1,21 +1,32 @@
 <script setup>
 import {useCreateStore} from "@/stores/transactions/create.store.js";
 import Transaction from "@/models_resources/models/Transaction.js";
+import {useRouter} from "vue-router";
+import {ref} from "vue";
 
 const createStore = useCreateStore()
+const router = useRouter()
+const saveLoading = ref(false)
 
-function push() {
-  createStore.validate = true
+async function add() {
+  createStore.isEnabledValidate = true
 
-  console.log('valid', createStore.isValid)
   if (!createStore.isValid) {
     return
   }
 
-  saveTransaction()
+  saveLoading.value = true
+
+  try {
+    await saveTransaction()
+    await router.push({name: 'transactions.index'})
+  }
+  finally {
+    saveLoading.value = false
+  }
 }
 
-function saveTransaction() {
+async function saveTransaction() {
   const t = new Transaction()
   t.currency = createStore.currencyId
   t.type = createStore.typeId
@@ -25,20 +36,21 @@ function saveTransaction() {
   t.amount = createStore.amount
   t.note = null
   t.transaction_at = createStore.date
-  t.save()
+  await t.save()
 }
 </script>
 
 <template>
   <div>
     <v-btn
+        :loading="saveLoading"
         color="primary"
         rounded="t-0 b-xl"
         size="x-large"
         text="Continue"
         variant="flat"
         block
-        @click="push"
+        @click="add"
     />
   </div>
 </template>
