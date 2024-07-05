@@ -3,7 +3,7 @@
 </script>
 
 <template>
-<div>Budgets</div>
+<div class="pa-2">Budgets</div>
 </template>
 
 <style scoped>

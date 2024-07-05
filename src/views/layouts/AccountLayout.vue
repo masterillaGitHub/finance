@@ -8,14 +8,11 @@ import TheAppBar from "@/views/account/components/TheAppBar.vue";
 
   <TheAppBar/>
   <v-main class="bg-grey-lighten-3 fill-height">
-    <div class="pa-2">
-
-      <RouterView v-slot="{Component}">
-        <v-slide-x-transition mode="out-in">
-          <component :is="Component"/>
-        </v-slide-x-transition>
-      </RouterView>
-    </div>
+    <RouterView v-slot="{Component}">
+      <v-slide-y-transition mode="out-in">
+        <component :is="Component"/>
+      </v-slide-y-transition>
+    </RouterView>
   </v-main>
 
   <TheButtonNavigation />

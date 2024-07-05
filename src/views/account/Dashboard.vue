@@ -13,7 +13,7 @@ function getAuth() {
 </script>
 
 <template>
-<div>
+<div class="pa-2">
 
   <div class="mb-2">
     <v-btn

@@ -6,7 +6,7 @@ import TheAddAccount from "@/views/account/accounts/components/create/TheAddAcco
 </script>
 
 <template>
-  <div>
+  <div class="pa-2">
     <TheWealthChart class="mb-5"/>
     <TheAccounts class="mb-5"/>
     <TheAddAccount/>
