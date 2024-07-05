@@ -7,9 +7,16 @@ import {useAppStore} from "@/stores/app.store.js";
 
 const appStore = useAppStore()
 const indexStore = useIndexStore()
-const isShowLazyLoading = computed(() => appStore.offsetBottom < 200 && indexStore.isAccessLazyLoad)
+const isShowLazyLoading = computed(() =>
+    appStore.offsetBottom < 200
+    && appStore.offsetTop > 0
+    && indexStore.isAccessLazyLoad
+)
 const isLoadTransactions = computed(() =>
-    isShowLazyLoading.value && appStore.offsetBottom < 180 && !indexStore.isEmptyData
+    isShowLazyLoading.value
+    && appStore.offsetTop > 0
+    && appStore.offsetBottom < 180
+    && !indexStore.isEmptyData
 )
 
 watch(isLoadTransactions, value => {

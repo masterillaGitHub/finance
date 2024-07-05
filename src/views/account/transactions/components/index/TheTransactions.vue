@@ -16,6 +16,7 @@ const transactionsLoading = ref(true)
 onMounted(initComponent)
 onUnmounted(() => {
   indexStore.reset()
+  Transaction.reset()
 })
 
 async function initComponent() {
