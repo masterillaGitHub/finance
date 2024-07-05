@@ -26,6 +26,13 @@ export const useAppStore = defineStore('app', {
     actions: {
         themeToggle() {
             this.theme = this.theme === 'light' ? 'dark' : 'light'
-        }
+        },
+        updateScrollHeight() {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop || 0
+
+            this.documentHeight = document.documentElement.scrollHeight
+            this.windowHeight = window.innerHeight
+            this.offsetTop = parseInt(scrollTop.toFixed(0), 10)
+        },
     },
 })

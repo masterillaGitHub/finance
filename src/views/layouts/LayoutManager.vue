@@ -29,9 +29,7 @@ const layout = computed(() => {
 })
 
 function onScroll() {
-  appStore.documentHeight = document.documentElement.scrollHeight
-  appStore.windowHeight = window.innerHeight
-  appStore.offsetTop = document.documentElement.scrollTop || document.body.scrollTop || 0;
+  appStore.updateScrollHeight()
 }
 
 </script>
