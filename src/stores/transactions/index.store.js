@@ -6,7 +6,7 @@ import {isEmpty, isNotEmpty} from "@/helpers/validators/index.js";
 export const useIndexStore = defineStore('transaction/index', {
     state: () => ({
         meta: {},
-        transactionsLoading: false,
+        transactionsLoading: true,
         isEmptyData: false,
         isLoadLock: false,
         isAccessLazyLoad: false,
@@ -19,17 +19,10 @@ export const useIndexStore = defineStore('transaction/index', {
     },
     actions: {
         async firstLoadTransactions() {
-            this.transactionsLoading = true
+            const response = await loadTransactions(1, MODEL_UPDATE_ALL)
 
-            try {
-                const response = await loadTransactions(1, MODEL_UPDATE_ALL)
-
-                this.isAccessLazyLoad = isNotEmpty(response.data.data)
-                responseHandle(this, response)
-            }
-            finally {
-                this.transactionsLoading = false
-            }
+            this.isAccessLazyLoad = isNotEmpty(response.data.data)
+            responseHandle(this, response)
         },
         async lazyLoadTransactions() {
             if (this.isLoadLock) {
