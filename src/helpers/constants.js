@@ -10,6 +10,10 @@ export const LAYOUT_ACCOUNT_FULLSCREEN = 'AccountFullscreen'
 export const LAYOUT_MAIN = 'Main'
 export const LAYOUT_AUTH = 'Auth'
 
+export const TRANSACTION_CATEGORY_ID_CORRECTION = 1
+export const TRANSACTION_CATEGORY_ID_EXPENSIVE = 2
+export const TRANSACTION_CATEGORY_ID_INCOME = 3
+export const TRANSACTION_CATEGORY_ID_TRANSFER = 4
 
 export const ACCOUNT_CATEGORY_ICONS = [
     { id: 1, icon: 'mdi-cash'},
@@ -17,6 +21,7 @@ export const ACCOUNT_CATEGORY_ICONS = [
     { id: 3, icon: 'mdi-account-cash-outline'},
     { id: 4, icon: 'mdi-cash-register'},
 ]
+
 export const CURRENCY_ICONS = [
     { id: 1, icon: 'mdi-currency-uah'},
     { id: 2, icon: 'mdi-currency-usd'},

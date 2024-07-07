@@ -3,6 +3,7 @@ import {useCreateStore} from "@/stores/transactions/create.store.js";
 import Transaction from "@/models_resources/models/Transaction.js";
 import {useRouter} from "vue-router";
 import {ref} from "vue";
+import {TRANSACTION_CATEGORY_ID_TRANSFER, TYPE_ID_TRANSFER} from "@/helpers/constants.js";
 
 const createStore = useCreateStore()
 const router = useRouter()
@@ -31,11 +32,18 @@ async function saveTransaction() {
   t.currency = createStore.currencyId
   t.type = createStore.typeId
   t.account = createStore.accountId
-  // t.account_transfer_id = createStore.accountId
   t.category = createStore.categoryId
   t.amount = createStore.amount
   t.note = null
   t.transaction_at = createStore.date
+
+  if (createStore.typeId === TYPE_ID_TRANSFER) {
+    t.category = TRANSACTION_CATEGORY_ID_TRANSFER
+    t.to_account = createStore.toAccountId
+    t.to_currency = createStore.toCurrencyId
+    t.to_amount = createStore.toAmount
+  }
+
   await t.save()
 }
 </script>

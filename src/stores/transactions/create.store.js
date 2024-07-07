@@ -13,31 +13,31 @@ export const useCreateStore = defineStore('transactions/create', {
     state: () => ({
         openStep: STEP_ACCOUNT,
         amount: 0,
-        enrollmentAmount: 0,
         currencyId: 1,
-        enrollmentCurrencyId: 0,
         typeId: 1,
         accountId: null,
-        accountTransferId: null,
         categoryId: null,
         tagIds: [],
         date: new Date(),
+        toAccountId: null,
+        toCurrencyId: null,
+        toAmount: 0,
         isEnabledValidate: false,
     }),
     getters: {
         getCurrency: state => Currency.find(state.currencyId) ?? null,
-        getEnrollmentCurrency: state => Currency.find(state.enrollmentCurrencyId) ?? null,
+        getToCurrency: state => Currency.find(state.toCurrencyId) ?? null,
         getType: state =>
             TRANSACTION_TYPES.find(t => t.id === state.typeId) ?? null,
         getAccount: state => Account.find(state.accountId) ?? null,
-        getAccountTransfer: state => Account.find(state.accountTransferId) ?? null,
+        getToAccount: state => Account.find(state.toAccountId) ?? null,
         getCategory: state => TransactionCategory.find(state.categoryId) ?? null,
         getDate: state => dateFormat.text(state.date),
 
         isValid: state => valid.check(state),
         isAmountValid: state => valid.amount(state),
         isAccountValid: state => valid.account(state),
-        isAccountTransferValid: state => valid.accountTransfer(state),
+        isToAccountValid: state => valid.toAccount(state),
         isCategoryValid: state => valid.category(state),
     },
     actions: {
@@ -47,15 +47,15 @@ export const useCreateStore = defineStore('transactions/create', {
         reset() {
             this.openStep = STEP_ACCOUNT
             this.amount = 0
-            this.enrollmentAmount = 0
             this.currencyId = 1
-            this.enrollmentCurrencyId = 0
             this.typeId = 1
             this.accountId = null
-            this.accountTransferId = null
             this.categoryId = null
             this.tagIds = []
             this.date = new Date()
+            this.toCurrencyId = null
+            this.toAccountId = null
+            this.toAmount = 0
             this.isEnabledValidate = false
         }
     },

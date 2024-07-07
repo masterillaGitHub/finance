@@ -8,8 +8,8 @@ export const STEP_ACCOUNT = 'account'
 export const STEP_CATEGORY = 'category'
 export const STEP_DATE = 'date'
 export const STEP_TAG = 'tag'
-export const STEP_ENROLLMENT_ACCOUNT = 'enrollment_account'
-export const STEP_ENROLLMENT_AMOUNT = 'enrollment_amount'
+export const STEP_TO_ACCOUNT = 'to_account'
+export const STEP_TO_AMOUNT = 'to_amount'
 
 export function nextStep(store) {
     switch (store.openStep) {
@@ -22,7 +22,7 @@ export function nextStep(store) {
         case STEP_CATEGORY:
             doneCategoryHandle(store)
             break
-        case STEP_ENROLLMENT_ACCOUNT:
+        case STEP_TO_ACCOUNT:
             doneEnrollmentAccountHandle(store)
             break
         default:
@@ -38,10 +38,10 @@ function doneTypeHandle(store) {
         store.openStep = STEP_CATEGORY
     }
     else if (store.typeId === TYPE_ID_TRANSFER && isEmpty(store.accountTransferId)) {
-        store.openStep = STEP_ENROLLMENT_ACCOUNT
+        store.openStep = STEP_TO_ACCOUNT
     }
-    else if (store.typeId === TYPE_ID_TRANSFER && isEmpty(store.enrollmentAmount)) {
-        store.openStep = STEP_ENROLLMENT_AMOUNT
+    else if (store.typeId === TYPE_ID_TRANSFER && isEmpty(store.toAmount)) {
+        store.openStep = STEP_TO_AMOUNT
     }
     else {
         store.openStep = STEP_CLOSED
@@ -54,10 +54,10 @@ function doneAccountHandle(store) {
         store.openStep = STEP_CATEGORY
     }
     else if (store.typeId === TYPE_ID_TRANSFER && isNull(store.accountTransferId)) {
-        store.openStep = STEP_ENROLLMENT_ACCOUNT
+        store.openStep = STEP_TO_ACCOUNT
     }
-    else if (store.typeId === TYPE_ID_TRANSFER && isEmpty(store.enrollmentAmount)) {
-        store.openStep = STEP_ENROLLMENT_AMOUNT
+    else if (store.typeId === TYPE_ID_TRANSFER && isEmpty(store.toAmount)) {
+        store.openStep = STEP_TO_AMOUNT
     }
     else {
         store.openStep = STEP_CLOSED
@@ -65,9 +65,8 @@ function doneAccountHandle(store) {
 }
 
 function doneEnrollmentAccountHandle(store) {
-
-    if (store.typeId === TYPE_ID_TRANSFER && isEmpty(store.enrollmentAmount)) {
-        store.openStep = STEP_ENROLLMENT_AMOUNT
+    if (store.typeId === TYPE_ID_TRANSFER && isEmpty(store.toAmount)) {
+        store.openStep = STEP_TO_AMOUNT
     }
     else if (isEmpty(store.tags)){
         store.openStep = STEP_TAG
