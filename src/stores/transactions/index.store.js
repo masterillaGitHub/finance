@@ -51,7 +51,7 @@ async function loadTransactions(page, updateMode) {
     return await Transaction.query()
         .setUpdateMode(updateMode)
         .setParams({
-            include: 'category,account',
+            include: 'category,account,currency,type,to_account,to_currency',
             page,
         })
         .get()
