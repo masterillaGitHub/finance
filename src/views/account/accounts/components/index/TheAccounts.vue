@@ -4,6 +4,8 @@ import AccountGroupItem from "@/views/account/accounts/components/index/AccountC
 import {computed, onMounted, ref} from "vue";
 import AccountCategory from "@/models_resources/models/AccountCategory.js";
 import {useIndexStore} from "@/stores/accounts/index.store.js";
+import Account from "@/models_resources/models/Account.js";
+import AccountSum from "@/models_resources/models/AccountSum.js";
 
 const indexStore = useIndexStore()
 const categoriesIds = ref([])
@@ -11,6 +13,9 @@ const categories = computed(() => AccountCategory.findIn(indexStore.categoriesId
 const accountsLoading = ref(false)
 
 onMounted(async () => {
+  AccountCategory.reset()
+  Account.reset()
+  AccountSum.reset()
   await load()
 })
 
