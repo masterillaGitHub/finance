@@ -1,0 +1,1 @@
+import{_ as e}from"./FullscreenAppBar-CR0BomO1.js";import{o as t,c as a,k as s,f as o}from"./index-BCfnNAGH.js";const r={class:"pa-2"},p={__name:"Categories",setup(c){return(_,n)=>(t(),a("div",r,[s(e,{"path-name":"settings.index",title:"Категорії"}),o(" Categories ")]))}};export{p as default};
