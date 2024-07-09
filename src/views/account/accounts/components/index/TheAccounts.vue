@@ -45,7 +45,6 @@ function resetAccountCategories() {
 
 <template>
   <div>
-    <v-btn text="load" @click="load" class="mb-4"/>
     <div style="height: 4px">
       <v-fade-transition>
         <v-progress-linear
