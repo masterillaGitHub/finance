@@ -25,8 +25,11 @@ const number = value => {
   if (calcValue.value === 'NaN') {
     calcValue.value = '';
   }
-  if (calcValue.value === '0') {
+  else if (calcValue.value === '0') {
     calcValue.value = '';
+  }
+  else if (calcValue.value === '-0') {
+    calcValue.value = removeLastSymbol(calcValue.value)
   }
 
   calcValue.value += value.trim();
@@ -50,10 +53,9 @@ const operation = value => {
   }
   else if (value === '+-') {
     const addMinus = '-' + calcValue.value
-    const removeMinus = calcValue.value.substring(1)
-    const containsMinus = calcValue.value.startsWith('-')
+    const removeMinus = removeFirstSymbol(calcValue.value)
 
-    calcValue.value = containsMinus ? removeMinus : addMinus
+    calcValue.value = containsMinus(calcValue.value) ? removeMinus : addMinus
   }
   else {
 
@@ -84,6 +86,8 @@ const enabled = () => {
 
 const getLastValue = value => value.substring(value.length, value.length - 1)
 const removeLastSymbol = value => value.substring(0, value.length - 1)
+const removeFirstSymbol = value => value.substring(1)
+const containsMinus = value => value.startsWith('-')
 
 defineExpose({calcValue})
 </script>
