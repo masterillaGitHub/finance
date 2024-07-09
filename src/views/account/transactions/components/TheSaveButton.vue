@@ -4,6 +4,7 @@ import Transaction from "@/models_resources/models/Transaction.js";
 import {useRouter} from "vue-router";
 import {ref} from "vue";
 import {TRANSACTION_CATEGORY_ID_TRANSFER, TYPE_ID_TRANSFER} from "@/helpers/constants.js";
+import {formatISO9075} from "date-fns";
 
 const createStore = useCreateStore()
 const router = useRouter()
@@ -35,7 +36,7 @@ async function saveTransaction() {
   t.category = createStore.categoryId
   t.amount = createStore.amount
   t.note = null
-  t.transaction_at = createStore.date
+  t.transaction_at = formatISO9075(createStore.date)
 
   if (createStore.typeId === TYPE_ID_TRANSFER) {
     t.category = TRANSACTION_CATEGORY_ID_TRANSFER
