@@ -48,6 +48,13 @@ const operation = value => {
       calcValue.value = '0'
     }
   }
+  else if (value === '+-') {
+    const addMinus = '-' + calcValue.value
+    const removeMinus = calcValue.value.substring(1)
+    const containsMinus = calcValue.value.startsWith('-')
+
+    calcValue.value = containsMinus ? removeMinus : addMinus
+  }
   else {
 
     if (['+', '-', '*', '/'].includes(lastValue)) {
@@ -89,7 +96,7 @@ defineExpose({calcValue})
     <div class="keyboard">
         <button type="button" @click="operation('AC')" class="key-others">AC</button>
         <button type="button" @click="operation('DEL')" class="key-others">DEL</button>
-        <button type="button" @click="operation('%')" class="key-others">%</button>
+        <button type="button" @click="operation('+-')" class="key-others">+/-</button>
         <button type="button" @click="[operation('/'), enabled()]" class="key-operate">/</button>
         <button type="button" @click="number('7')" class="">7</button>
         <button type="button" @click="number('8')" class="">8</button>
