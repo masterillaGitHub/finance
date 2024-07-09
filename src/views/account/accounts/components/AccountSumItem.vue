@@ -1,10 +1,11 @@
 <script setup>
 import AccountSum from "@/models_resources/models/AccountSum.js";
-import {computed} from "vue";
+import {computed, ref} from "vue";
 import Currency from "@/models_resources/models/Currency.js";
 import {integer, requiredZeroPossible} from "@/helpers/form_rules.js";
 import {updateObject} from "@/helpers/functions.js";
 import {isAccountSumValid} from "@/helpers/validators/entities.js";
+import BottomCalculator from "@/components/BottomCalculator.vue";
 
 
 const props = defineProps({
@@ -21,35 +22,37 @@ const props = defineProps({
 const emit = defineEmits({
   removeAccountSum: isAccountSumValid
 })
-const balanceModel = computed({
-  get:() => props.accountSum.balance ?? 0,
-  set: val => updateObject(props.accountSum, {balance: val})
-})
+
+const isCalcShow = ref()
+const balance = computed(() => props.accountSum.balance ?? 0)
 const currency = computed(() => Currency.find(props.accountSum.getRelation('currency')))
 const balanceRules = [
     integer,
     requiredZeroPossible
 ]
 
+function updateAccountSum(val) {
+  updateObject(props.accountSum, {balance: val})
+}
+
 </script>
 
 <template>
   <div class="d-flex align-center s-item">
-    <div class="flex-grow-1">Баланс ({{currency.alphabetic_code}})</div>
-    <div>
-      <v-text-field
-          v-model="balanceModel"
-          :rules="balanceRules"
-          density="compact"
-          width="100"
-          variant="underlined"
-          class="s-text-field"
-          type="number"
-      >
-        <template v-slot:append-inner>
-          <span>{{ currency.symbol}}</span>
-        </template>
-      </v-text-field>
+    <div class="d-flex align-center">Баланс ({{currency.alphabetic_code}})</div>
+    <div
+        class="flex-grow-1 d-flex justify-end align-center text-h6"
+        @click="isCalcShow = true"
+    >
+
+      <span class="mr-2">{{balance}}</span>
+      <span>{{ currency.symbol}}</span>
+
+      <BottomCalculator
+          v-model="isCalcShow"
+          :start-sum="balance"
+          @done="updateAccountSum($event)"
+      />
     </div>
     <div
         class="align-self-center"
@@ -76,9 +79,6 @@ const balanceRules = [
 
   > div {
     height: 70px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   }
 }
 </style>
