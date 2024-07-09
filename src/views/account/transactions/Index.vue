@@ -31,7 +31,8 @@ router.beforeEach((to, from) => {
       icon="mdi-plus"
       :to="{name: 'transactions.create'}"
       app
-      class="mb-14"
+      size="x-large"
+      class="mb-15"
   />
 </div>
 </template>
