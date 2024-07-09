@@ -23,7 +23,7 @@ const emit = defineEmits({
   removeAccountSum: isAccountSumValid
 })
 
-const isCalcShow = ref()
+const isCalcShow = ref(false)
 const balance = computed(() => props.accountSum.balance ?? 0)
 const currency = computed(() => Currency.find(props.accountSum.getRelation('currency')))
 const balanceRules = [
