@@ -2,6 +2,9 @@
 import {onMounted, ref} from "vue";
 import AccountResource from "@/models_resources/resources/AccountResource.js";
 import AnimateCounter from "@/components/AnimateCounter.vue";
+import {useIndexStore} from "@/stores/accounts/index.store.js";
+
+const indexStore = useIndexStore()
 
 const labels = ref([
   'січ',
@@ -25,7 +28,6 @@ const value = ref([
 ])
 
 const loading = ref(false)
-const balanceTotal = ref(0)
 
 onMounted( loadBalanceTotal)
 
@@ -34,7 +36,7 @@ async function loadBalanceTotal() {
 
   try {
     const response = await AccountResource.balanceTotal()
-    balanceTotal.value = response.data.data
+    indexStore.amountTotal = response.data.data
   }
   finally {
     loading.value = false
@@ -75,7 +77,10 @@ async function loadBalanceTotal() {
         Статок
       </div>
       <div class="text-h6 font-weight-light">
-        <AnimateCounter :counter="balanceTotal" suffix=" ₴" />
+        <AnimateCounter
+            :counter="indexStore.amountTotal"
+            suffix=" ₴"
+        />
 
         <v-fade-transition>
           <v-progress-circular

@@ -1,6 +1,6 @@
 <script setup>
 import AutoCounter from 'vue3-autocounter';
-import {computed, ref, watch} from "vue";
+import {computed, nextTick, ref, watch} from "vue";
 
 const props = defineProps({
   counter: {
@@ -26,12 +26,13 @@ const emit = defineEmits([
 ])
 
 const counter = ref()
-const beforeValue = ref()
+const beforeValue = ref(props.counter)
 const currentValue = computed(() => props.counter)
 
-watch(currentValue, (value, oldValue) => {
-  counter.value.reset()
+watch(currentValue, async (value, oldValue) => {
   beforeValue.value = oldValue
+
+  await nextTick()
   counter.value.start()
 })
 </script>
@@ -48,7 +49,7 @@ watch(currentValue, (value, oldValue) => {
       separator=' '
       decimalSeparator=','
       :decimals=decimals
-      :autoinit='true'
+      :autoinit="false"
       @finished="emit('finished')"
   />
 </template>
