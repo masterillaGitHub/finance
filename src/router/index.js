@@ -1,8 +1,9 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import beforeEach from './router_before_each.js'
 import {LAYOUT_AUTH, LAYOUT_MAIN} from "@/helpers/constants.js";
-import accounts from './routs/accounts.js'
-import transactions from './routs/transactions.js'
+import accounts from '@/router/routes/accounts.js'
+import transactions from '@/router/routes/transactions.js'
+import settings from '@/router/routes/settings.js'
 
 const Main = () => import('@/views/Main.vue')
 const Login = () => import('@/views/Login.vue')
@@ -22,6 +23,7 @@ const routes = [
 .concat(
     accounts,
     transactions,
+    settings,
 )
 
 const router = createRouter({

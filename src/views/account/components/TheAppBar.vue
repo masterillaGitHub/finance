@@ -2,27 +2,13 @@
 
 import {ref, watchEffect} from "vue";
 import {useAppStore} from "@/stores/app.store.js";
-import {useAuthStore} from "@/stores/auth.store.js";
-import {useRoute, useRouter} from "vue-router";
+import {useRoute} from "vue-router";
 
 const route = useRoute()
-const router = useRouter()
 const appStore = useAppStore()
-const authStore = useAuthStore()
-const logoutLoading = ref(false)
 const density = ref('prominent')
 const imgUrl = new URL('/assets/images/login.jpg', import.meta.url).href
 
-async function logout() {
-  logoutLoading.value = true
-  try {
-    await authStore.logout()
-    await router.push({name: 'main'})
-  }
-  finally {
-    logoutLoading.value = false
-  }
-}
 
 watchEffect(() => {
   density.value = appStore.offsetTop <= 0 ? 'prominent' : 'comfortable'
@@ -55,10 +41,9 @@ watchEffect(() => {
           @click="appStore.themeToggle()"
       />
       <v-btn
-          icon="mdi-exit-run"
+          icon="mdi-cog"
           size="small"
-          :loading="logoutLoading"
-          @click="logout()"
+          :to="{name: 'settings.index'}"
       />
     </template>
   </v-app-bar>
