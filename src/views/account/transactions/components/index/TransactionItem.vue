@@ -48,13 +48,13 @@ function getAmount(amount, alphabeticCode) {
       </div>
       <div class="d-flex  text-grey-darken-1" >
           <div
-              class="d-flex"
-              :class="[isTypeTransfer ? 'w-50' : 'w-100']"
+              class="d-flex s-min-width-0 "
+              :class="[isTypeTransfer ? 's-max-width-70' : 'w-100']"
           >
               <v-icon icon="mdi-cash" class="mr-2"/>
               <span class="text-truncate">{{ t.account.name }}</span>
           </div>
-          <div v-if="isTypeTransfer" class="d-flex w-50">
+          <div v-if="isTypeTransfer" class="d-flex s-min-width-0 s-max-width-70">
             <v-icon icon="mdi-arrow-right-thin" class="mx-1"/>
             <v-icon icon="mdi-cash" class="mr-2"/>
             <span class="text-truncate">{{ t.to_account?.name}}</span>
@@ -70,6 +70,14 @@ function getAmount(amount, alphabeticCode) {
 .s-text-truncate-wrapper {
   flex: 1;
   min-width: 0;
+}
+
+.s-min-width-0 {
+  min-width: 0;
+}
+
+.s-max-width-70 {
+  max-width: 70%;
 }
 
 </style>
