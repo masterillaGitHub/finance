@@ -23,7 +23,8 @@ async function loadCategories() {
   try {
     await TransactionCategory.sync({
       include: 'children',
-      'filter[type_id]': createStore.typeId
+      'filter[type_id]': createStore.typeId,
+      'filter[user_id]': 'auth',
     })
   }
   finally {
