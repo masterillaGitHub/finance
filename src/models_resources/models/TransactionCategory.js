@@ -14,6 +14,18 @@ export default class TransactionCategory extends Model
         return this.hasMany('transactions', Transaction)
     }
 
+    get parent() {
+        return this.hasOne('parent', TransactionCategory)
+    }
+
+    set parent(id) {
+        return this.belongsTo('parent', id)
+    }
+
+    set type(id) {
+        this.belongsTo('type', id)
+    }
+
     childrenCount() {
         return this.children.length
     }

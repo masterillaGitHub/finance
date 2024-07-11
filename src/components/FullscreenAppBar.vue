@@ -25,7 +25,9 @@ defineProps({
     </template>
     <v-app-bar-title v-if="title">{{ title }}</v-app-bar-title>
 
-    <v-spacer></v-spacer>
+    <template v-slot:append>
+      <slot></slot>
+    </template>
   </v-app-bar>
 </template>
 

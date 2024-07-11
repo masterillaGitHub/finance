@@ -2,7 +2,7 @@ import {LAYOUT_ACCOUNT_FULLSCREEN} from "@/helpers/constants.js";
 
 const Settings = () => import('@/views/account/settings/Index.vue')
 const Profile = () => import('@/views/account/settings/Profile.vue')
-const Categories = () => import('@/views/account/settings/Categories.vue')
+const Categories = () => import('@/views/account/settings/categories/Index.vue')
 
 export default [
     {path: '/settings', name:'settings.index', component: Settings, meta: {title: 'Налаштування'}},
