@@ -31,15 +31,15 @@ function cancel() {
     >
       <v-card-actions>
         <v-btn
-            class="text-red"
             text="Відміна"
             variant="plain"
             size="x-large"
             @click="cancel"
+            color="primary"
         />
         <v-spacer/>
         <v-btn
-            color="primary"
+            class="text-red"
             text="Ок"
             variant="tonal"
             size="x-large"
