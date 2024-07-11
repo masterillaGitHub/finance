@@ -4,6 +4,7 @@ import {required} from "@/helpers/form_rules.js";
 import {useFormValidate} from "@/composables/form_validate.js";
 import BottomConfirm from "@/components/BottomConfirm.vue";
 import {useSettingsCategories} from "@/stores/settings/categories.store.js";
+import TheCategoryIcon from "@/views/account/settings/categories/components/TheCategoryIcon.vue";
 
 defineProps({
   title: {
@@ -61,11 +62,6 @@ function removeCategory() {
   category.value.destroy()
 }
 
-function change(val) {
-  console.log('change' ,val)
-  category.value.parent = val
-}
-
 </script>
 
 <template>
@@ -76,7 +72,7 @@ function change(val) {
     <v-card-text
     >
       <div class="text-center mb-4">
-        <v-avatar size="x-large" icon="mdi-cash" color="green"/>
+        <TheCategoryIcon v-model="category.icon"/>
       </div>
       <v-form @submit.prevent="saveCategory" ref="form">
 
