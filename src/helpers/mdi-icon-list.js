@@ -5,5 +5,8 @@ export default [
     {title: 'Одяг', icons: [
         'mdi-bow-tie', 'mdi-chef-hat', 'mdi-coat-rack', 'mdi-diaper-outline', 'mdi-face-mask', 'mdi-face-mask-outline', 'mdi-glasses', 'mdi-hanger', 'mdi-hard-hat', 'mdi-hat-fedora', 'mdi-iron', 'mdi-iron-board', 'mdi-iron-outline', 'mdi-lingerie', 'mdi-necklace', 'mdi-shoe-ballet', 'mdi-shoe-cleat', 'mdi-shoe-formal', 'mdi-shoe-heel', 'mdi-shoe-sneaker', 'mdi-sunglasses', 'mdi-tie', 'mdi-tshirt-crew', 'mdi-tshirt-crew-outline', 'mdi-tshirt-v', 'mdi-tshirt-v-outline', 'mdi-underwear-outline', 'mdi-wizard-hat',
     ]},
+    {title: 'Тварини', icons: [
+        'mdi-bat', 'mdi-bee', 'mdi-bird', 'mdi-bone', 'mdi-bone-off', 'mdi-bug', 'mdi-bug-check', 'mdi-bug-check-outline', 'mdi-bug-outline', 'mdi-butterfly', 'mdi-butterfly-outline', 'mdi-cat', 'mdi-cow', 'mdi-cow-off', 'mdi-dog', 'mdi-dog-service', 'mdi-dog-side', 'mdi-dog-side-off', 'mdi-dolphin', 'mdi-donkey', 'mdi-duck', 'mdi-elephant', 'mdi-fish', 'mdi-fishbowl', 'mdi-fishbowl-outline', 'mdi-google-downasaur', 'mdi-horse', 'mdi-horse-variant', 'mdi-horse-variant-fast', 'mdi-jellyfish', 'mdi-jellyfish-outline', 'mdi-kangaroo', 'mdi-koala', 'mdi-linux', 'mdi-owl', 'mdi-panda', 'mdi-paw', 'mdi-paw-off', 'mdi-paw-off-outline', 'mdi-paw-outline', 'mdi-penguin', 'mdi-pig', 'mdi-pig-variant', 'mdi-pig-variant-outline', 'mdi-rabbit', 'mdi-rabbit-variant', 'mdi-rabbit-variant-outline', 'mdi-rodent', 'mdi-shark', 'mdi-shark-fin', 'mdi-shark-fin-outline', 'mdi-shark-off', 'mdi-sheep', 'mdi-snail', 'mdi-snake', 'mdi-spider', 'mdi-spider-outline', 'mdi-spider-thread', 'mdi-tortoise', 'mdi-turkey', 'mdi-turtle', 'mdi-unicorn', 'mdi-unicorn-variant',
+    ]}
 ]
 
