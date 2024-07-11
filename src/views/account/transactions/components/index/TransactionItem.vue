@@ -26,7 +26,9 @@ function getAmount(amount, alphabeticCode) {
 <template>
   <div class="d-flex justify-space-between">
     <div class="pa-2">
-      <v-avatar size="" icon="mdi-cart"/>
+      <v-avatar size="small">
+        <v-icon size="large" :icon="t.category.icon"/>
+      </v-avatar>
     </div>
     <div class="d-flex flex-column flex-grow-1" style="min-width: 0;">
       <div class="d-flex flex-wrap flex-grow-1">
