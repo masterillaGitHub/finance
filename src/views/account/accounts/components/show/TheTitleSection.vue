@@ -35,7 +35,7 @@ const value = ref([
 ])
 
 async function initComponent() {
-  if (!account.value) {
+  if (!account.value.exists) {
     accountLoading.value = true
 
     try {
@@ -89,7 +89,7 @@ async function initComponent() {
         <div class="subheading font-weight-light text-grey text-center">
           Поточний баланс<span v-if="sumsCount > 1">, в {{sumsCount}} валютах</span>
         </div>
-        <div class="font-weight-bold text-center">{{ toCurrencyUAH(account.getSum()) }}</div>
+        <div class="font-weight-bold text-center">{{ toCurrencyUAH(account.getSumInMineCurrency()) }}</div>
 
         <v-list v-if="sumsCount > 1">
           <v-list-item

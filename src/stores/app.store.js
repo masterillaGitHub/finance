@@ -6,7 +6,14 @@ export const useAppStore = defineStore('app', {
         theme: 'light',
         offsetTop: 0, // Поточне положення прокрутки по вертикалі
         windowHeight: 0, // Висота видимого вікна
-        documentHeight: 0, // Висота всього документа
+        documentHeight: 0, // Висота всього документа,
+        currency: {
+            main: 'uah',
+            exchangeRates: {
+                usd: 40.8823,
+                eur: 44.3818,
+            }
+        },
     }),
     getters: {
         windowsHeightTop: state => state.documentHeight - state.windowHeight,

@@ -12,7 +12,7 @@ const props = defineProps({
   icon: String,
 })
 
-const sum = computed(() => toCurrencyUAH(props.account.getSum(), {minimumFractionDigits: 0}))
+const sum = computed(() => toCurrencyUAH(props.account.getSumInMineCurrency(), {minimumFractionDigits: 0}))
 
 </script>
 

@@ -29,7 +29,8 @@ const value = ref([
 
 const loading = ref(false)
 
-onMounted( loadBalanceTotal)
+// TODO: поки що оновлення загальної суми відбувається через перерахунок всіх рахунків
+// onMounted( loadBalanceTotal)
 
 async function loadBalanceTotal() {
   loading.value = true

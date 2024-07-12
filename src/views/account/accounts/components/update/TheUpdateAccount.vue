@@ -120,6 +120,7 @@ function createdAccountSum(accountSum) {
       <v-btn
           class="text-red"
           icon="mdi-delete-outline"
+          size="large"
           variant="plain"
           @click="confirmModel = true"
       />
@@ -128,12 +129,14 @@ function createdAccountSum(accountSum) {
 
       <v-btn
           text="Відміна"
+          size="large"
           variant="plain"
           @click="$emit('dialogClose')"
       />
 
       <v-btn
           color="primary"
+          size="large"
           text="Зберегти"
           variant="tonal"
           @click="createAccount"

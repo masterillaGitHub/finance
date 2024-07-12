@@ -20,6 +20,10 @@ export default class AccountCategory extends Model
         return this.accounts.reduce((acc, account) => account.getSum() + acc, 0)
     }
 
+    getSumInMineCurrency() {
+        return this.accounts.reduce((acc, account) => account.getSumInMineCurrency() + acc, 0)
+    }
+
     static async loadMainPage() {
         return await this.query().get('/main-page')
     }

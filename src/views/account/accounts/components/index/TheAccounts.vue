@@ -29,11 +29,12 @@ async function load() {
 
     // TODO: потрібно було зняти реактивність тому що дублювались дані із викликом нового об'єкту з іншого компоненту
     indexStore.categoriesIds = [...response.data.data]
+
+    indexStore.updateAmountTotal()
   }
   finally {
     accountsLoading.value = false
   }
-
 }
 
 function resetAccountCategories() {
