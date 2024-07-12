@@ -2,14 +2,14 @@
 
 import AccountItem from "@/views/account/accounts/components/index/AccountItem.vue";
 import {toCurrencyUAH} from "@/helpers/functions.js";
-import AccountCategory from "@/models_resources/models/AccountCategory.js";
 import {computed} from "vue";
+import {isAccountCategoryValid} from "@/helpers/validators/entities.js";
 
 const props = defineProps({
   category: {
     type: Object,
     required: true,
-    validator: category => category instanceof AccountCategory
+    validator: isAccountCategoryValid
   }
 })
 
@@ -49,7 +49,6 @@ const sum = computed(() => toCurrencyUAH(props.category.getSumInMineCurrency(), 
             v-for="element in category.accounts"
             :key="element.id"
             :account="element"
-            :icon="category.icon"
         />
       </v-list>
     </v-expansion-panel-text>

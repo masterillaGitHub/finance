@@ -9,7 +9,6 @@ const props = defineProps({
     required: true,
     validator: account => account instanceof Account
   },
-  icon: String,
 })
 
 const sum = computed(() => toCurrencyUAH(props.account.getSumInMineCurrency(), {minimumFractionDigits: 0}))
@@ -24,7 +23,7 @@ const sum = computed(() => toCurrencyUAH(props.account.getSumInMineCurrency(), {
   <template v-slot:prepend>
     <v-avatar
         class="s-handle-sorting-account-item"
-        :icon="icon"
+        :icon="account.getIcon()"
         color="green"
     />
   </template>

@@ -6,6 +6,7 @@ import {useModelsStore} from "@/models_resources/store_models/models.store.js";
 import TheCurrenciesChoiceList from "@/views/account/accounts/components/TheAccountSums.vue";
 import {useCreateStore} from "@/stores/accounts/create.store.js";
 import {useIndexStore} from "@/stores/accounts/index.store.js";
+import TheCategoryIcon from "@/views/account/settings/categories/components/TheCategoryIcon.vue";
 
 const emit = defineEmits([
     'accountSave',
@@ -53,7 +54,7 @@ function createdAccountSum(accountSum) {
   >
     <v-card-text>
       <div class="text-center mb-4">
-        <v-avatar size="x-large" icon="mdi-cash" color="green"/>
+        <TheCategoryIcon v-model="createStore.account.icon"/>
       </div>
       <v-form
           ref="form"

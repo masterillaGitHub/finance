@@ -2,6 +2,15 @@ import AccountSum from "@/models_resources/models/AccountSum.js";
 import Currency from "@/models_resources/models/Currency.js";
 import Transaction from "@/models_resources/models/Transaction.js";
 import TransactionCategory from "@/models_resources/models/TransactionCategory.js";
+import AccountCategory from "@/models_resources/models/AccountCategory.js";
+
+export function isAccountCategoryValid(value) {
+    return value instanceof AccountCategory
+}
+
+export function validateAccountCategoryItems(items) {
+    return items.every(isAccountCategoryValid)
+}
 
 export function isAccountSumValid(value) {
     return value instanceof AccountSum

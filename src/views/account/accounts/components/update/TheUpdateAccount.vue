@@ -8,6 +8,7 @@ import {useIndexStore} from "@/stores/accounts/index.store.js";
 import Account from "@/models_resources/models/Account.js";
 import {useRoute, useRouter} from "vue-router";
 import BottomConfirm from "@/components/BottomConfirm.vue";
+import TheCategoryIcon from "@/views/account/settings/categories/components/TheCategoryIcon.vue";
 
 const emit = defineEmits([
   'accountUpdate',
@@ -84,7 +85,7 @@ function createdAccountSum(accountSum) {
         v-if="account"
     >
       <div class="text-center mb-4">
-        <v-avatar size="x-large" icon="mdi-cash" color="green"/>
+        <TheCategoryIcon v-model="account.icon"/>
       </div>
       <v-form ref="form">
 

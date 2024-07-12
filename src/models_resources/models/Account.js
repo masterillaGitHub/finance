@@ -33,6 +33,10 @@ export default class Account extends Model
         this.belongsTo('currency', id)
     }
 
+    getIcon() {
+        return this.icon ?? 'mdi-help'
+    }
+
     getSum() {
         return arrayObjectsSum(this.sums, 'balance')
     }
