@@ -9,6 +9,6 @@ export default [
         path: '/accounts/:id/show',
         name:'accounts.show',
         component: AccountsShow,
-        meta: {layout: LAYOUT_ACCOUNT_FULLSCREEN}
+        meta: {layout: LAYOUT_ACCOUNT_FULLSCREEN},
     },
 ]

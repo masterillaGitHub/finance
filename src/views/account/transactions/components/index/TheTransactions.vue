@@ -57,9 +57,9 @@ function createGroup(acc, transaction) {
 <template>
 
   <v-fade-transition mode="out-in">
-    <v-progress-linear v-if="transactionsLoading && !transactions.length" indeterminate />
+    <v-progress-linear v-if="transactionsLoading" indeterminate />
     <v-card v-else>
-      <template v-if="!transactionsLoading && !transactions.length">
+      <template v-if="!transactions.length">
         <v-card-text>
           Покищо транзакцій немає
         </v-card-text>
