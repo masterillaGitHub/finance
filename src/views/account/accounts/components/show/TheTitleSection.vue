@@ -7,7 +7,7 @@ import {toCurrency, toCurrencyUAH} from "@/helpers/functions.js";
 const route = useRoute()
 
 const account = computed(() => Account.find(route.params.id))
-const sums = computed(() => account.value.sums.filter(s => s.balance > 0))
+const sums = computed(() => account.value.sums.filter(s => s.balance !== 0))
 const sumsCount = computed(() => sums.value.length)
 const accountLoading = ref(false)
 
