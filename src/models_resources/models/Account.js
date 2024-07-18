@@ -42,8 +42,6 @@ export default class Account extends Model
     }
 
     getSumInMineCurrency() {
-        return this.sums.reduce((a, b) => {
-            return parseInt(a,10) + parseInt(b.getBalanceInMainCurrency(), 10)
-        }, 0)
+        return this.sums.reduce((acc, sum) => acc + sum.getBalanceInMainCurrency(), 0)
     }
 }
