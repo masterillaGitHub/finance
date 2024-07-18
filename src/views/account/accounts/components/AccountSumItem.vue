@@ -3,7 +3,7 @@ import AccountSum from "@/models_resources/models/AccountSum.js";
 import {computed, ref} from "vue";
 import Currency from "@/models_resources/models/Currency.js";
 import {integer, requiredZeroPossible} from "@/helpers/form_rules.js";
-import {updateObject} from "@/helpers/functions.js";
+import {toCurrency, updateObject} from "@/helpers/functions.js";
 import {isAccountSumValid} from "@/helpers/validators/entities.js";
 import BottomCalculator from "@/components/BottomCalculator.vue";
 
@@ -45,8 +45,7 @@ function updateAccountSum(val) {
         @click="isCalcShow = true"
     >
 
-      <span class="mr-2">{{balance}}</span>
-      <span>{{ currency.symbol}}</span>
+      <span class="mr-2">{{toCurrency(balance, currency.alphabetic_code)}}</span>
 
       <BottomCalculator
           v-model="isCalcShow"

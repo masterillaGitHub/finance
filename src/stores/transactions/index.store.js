@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import Transaction from "@/models_resources/models/Transaction.js";
-import {MODEL_UPDATE_ALL, MODEL_UPDATE_ENTITY} from "@/helpers/constants.js";
+import {MODEL_UPDATE_FIELD} from "@/helpers/constants.js";
 import {isEmpty, isNotEmpty} from "@/helpers/validators/index.js";
 
 export const useIndexStore = defineStore('transaction/index', {
@@ -10,9 +10,6 @@ export const useIndexStore = defineStore('transaction/index', {
         isEmptyData: false,
         isLoadLock: false,
         isAccessLazyLoad: false,
-        syncParams: {
-            include: 'category,account,currency,type,to_account,to_currency',
-        },
     }),
     getters: {
         currentNumberPage: state => state.meta?.current_page ?? 1,
@@ -21,19 +18,17 @@ export const useIndexStore = defineStore('transaction/index', {
         },
     },
     actions: {
-        addSyncParams(newParams) {
-            this.syncParams = Object.assign(this.syncParams, newParams)
-        },
-        async firstLoadTransactions() {
-            const params = Object.assign(this.syncParams, {
+        async firstLoadTransactions(newParams) {
+            const params = Object.assign({
+                include: 'category,account,currency,type,to_account,to_currency',
                 page: 1,
-            })
-            const response = await loadTransactions(params, MODEL_UPDATE_ALL)
+            }, newParams)
+            const response = await loadTransactions(params)
 
             this.isAccessLazyLoad = isNotEmpty(response.data.data)
             responseHandle(this, response)
         },
-        async lazyLoadTransactions() {
+        async lazyLoadTransactions(newParams = {}) {
             if (this.isLoadLock) {
                 return
             }
@@ -41,11 +36,12 @@ export const useIndexStore = defineStore('transaction/index', {
             this.transactionsLoading = true
             this.isLoadLock = true
             try {
-                const params = Object.assign(this.syncParams, {
+                const params = Object.assign({
+                    include: 'category,account,currency,type,to_account,to_currency',
                     page: this.nextNumberPage,
-                })
+                }, newParams)
 
-                const response = await loadTransactions(params, MODEL_UPDATE_ENTITY)
+                const response = await loadTransactions(params)
                 responseHandle(this, response)
             }
             finally {
@@ -60,9 +56,9 @@ export const useIndexStore = defineStore('transaction/index', {
     }
 })
 
-async function loadTransactions(params, updateMode) {
+async function loadTransactions(params) {
     return await Transaction.query()
-        .setUpdateMode(updateMode)
+        .setUpdateMode(MODEL_UPDATE_FIELD)
         .setParams(params)
         .get()
 }

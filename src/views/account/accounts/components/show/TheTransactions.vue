@@ -24,12 +24,11 @@ onUnmounted(() => {
 
 async function initComponent() {
   indexStore.reset()
-  indexStore.addSyncParams({
-    'filter[account_id]': route.params.id
-  })
 
   try {
-    await indexStore.firstLoadTransactions()
+    await indexStore.firstLoadTransactions({
+      'filter[account_id]': route.params.id
+    })
   }
   finally {
     transactionsLoading.value = false
@@ -37,7 +36,9 @@ async function initComponent() {
 }
 
 const load = () => {
-  indexStore.lazyLoadTransactions()
+  indexStore.lazyLoadTransactions({
+    'filter[account_id]': route.params.id
+  })
 }
 </script>
 
