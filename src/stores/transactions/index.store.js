@@ -10,6 +10,9 @@ export const useIndexStore = defineStore('transaction/index', {
         isEmptyData: false,
         isLoadLock: false,
         isAccessLazyLoad: false,
+        syncParams: {
+            include: 'category,account,currency,type,to_account,to_currency',
+        },
     }),
     getters: {
         currentNumberPage: state => state.meta?.current_page ?? 1,
@@ -18,8 +21,14 @@ export const useIndexStore = defineStore('transaction/index', {
         },
     },
     actions: {
+        addSyncParams(newParams) {
+            this.syncParams = Object.assign(this.syncParams, newParams)
+        },
         async firstLoadTransactions() {
-            const response = await loadTransactions(1, MODEL_UPDATE_ALL)
+            const params = Object.assign(this.syncParams, {
+                page: 1,
+            })
+            const response = await loadTransactions(params, MODEL_UPDATE_ALL)
 
             this.isAccessLazyLoad = isNotEmpty(response.data.data)
             responseHandle(this, response)
@@ -32,7 +41,11 @@ export const useIndexStore = defineStore('transaction/index', {
             this.transactionsLoading = true
             this.isLoadLock = true
             try {
-                const response = await loadTransactions(this.nextNumberPage, MODEL_UPDATE_ENTITY)
+                const params = Object.assign(this.syncParams, {
+                    page: this.nextNumberPage,
+                })
+
+                const response = await loadTransactions(params, MODEL_UPDATE_ENTITY)
                 responseHandle(this, response)
             }
             finally {
@@ -47,13 +60,10 @@ export const useIndexStore = defineStore('transaction/index', {
     }
 })
 
-async function loadTransactions(page, updateMode) {
+async function loadTransactions(params, updateMode) {
     return await Transaction.query()
         .setUpdateMode(updateMode)
-        .setParams({
-            include: 'category,account,currency,type,to_account,to_currency',
-            page,
-        })
+        .setParams(params)
         .get()
 }
 

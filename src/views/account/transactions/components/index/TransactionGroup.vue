@@ -9,7 +9,6 @@ const router = useRouter()
 
 
 const select = transaction => {
-
   router.push({name: 'transactions.edit', params: {id: transaction.id}})
 }
 </script>
