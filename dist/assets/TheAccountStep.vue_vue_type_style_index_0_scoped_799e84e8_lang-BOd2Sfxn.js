@@ -1,0 +1,1 @@
+import{G as r}from"./index-CsBXRI5z.js";import{C as e}from"./Transaction-CMZ7FxtM.js";const t=r("currencies",{state:()=>({loading:!1}),getters:{currencies:()=>e.findLoaded()},actions:{async loadCurrencies(){if(this.currencies.length!==3){this.loading=!0;try{await e.sync()}finally{this.loading=!1}}}}});export{t as u};
