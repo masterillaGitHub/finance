@@ -30,7 +30,7 @@ const sum = computed(() => toCurrencyUAH(props.account.getSumInMineCurrency(), {
   <template v-slot:title>
     <div class="d-flex justify-space-between">
       <div class="text-truncate">{{account.name}}</div>
-      <div>
+      <div class="ml-2">
         <span>{{ sum }}</span>
       </div>
     </div>

@@ -1,41 +1,50 @@
 <script setup>
 
 import {computed, watch} from "vue";
-import {useIndexStore} from "@/stores/transactions/index.store.js";
 import {useAppStore} from "@/stores/app.store.js";
 
+const props = defineProps({
+  show: {
+    type: Number,
+    default: 100
+  },
+  load: {
+    type: Number,
+    default: 100
+  },
+  enable: {
+    type: Boolean,
+    default: false
+  }
+})
+
+const emit = defineEmits([
+    'load'
+])
 
 const appStore = useAppStore()
-const indexStore = useIndexStore()
+
 const isShowLazyLoading = computed(() =>
-    appStore.offsetBottom < 200
+    appStore.offsetTopPercent >= props.show
     && appStore.offsetTop > 0
-    && indexStore.isAccessLazyLoad
 )
 const isLoadTransactions = computed(() =>
-    isShowLazyLoading.value
-    && appStore.offsetTop > 0
-    && appStore.offsetBottom < 180
-    && !indexStore.isEmptyData
+    isShowLazyLoading.value || (
+    appStore.offsetTop > 0
+    && appStore.offsetTopPercent >= props.load)
 )
 
 watch(isLoadTransactions, value => {
-  if (value === true) {
-    indexStore.lazyLoadTransactions()
+  if (value === true && props.enable) {
+    emit('load')
   }
 })
 </script>
 
 <template>
-
-  <v-fade-transition>
-    <div v-if="isShowLazyLoading" class="mt-8 h-3 text-center">
-      <v-progress-circular v-if="indexStore.transactionsLoading" indeterminate/>
-      <div v-else-if="indexStore.isEmptyData">
-        Більше транзакцій немає
-      </div>
-    </div>
-  </v-fade-transition>
+<div v-if="isShowLazyLoading && enable" class="mt-8 h-3 text-center">
+  <v-progress-circular indeterminate/>
+</div>
 </template>
 
 <style scoped>

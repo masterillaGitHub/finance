@@ -1,7 +1,7 @@
 <script setup>
 
 import TheAppBar from "@/views/account/transactions/components/TheAppBar.vue";
-import {onMounted, ref} from "vue";
+import {onUnmounted, ref} from "vue";
 import TheCreateAmount from "@/views/account/transactions/components/create/TheCreateAmount.vue";
 import {useCreateStore} from "@/stores/transactions/create.store.js";
 import TheTransactionSteps from "@/views/account/transactions/components/transaction-steps/TheTransactionSteps.vue";
@@ -11,7 +11,10 @@ import TheSaveButton from "@/views/account/transactions/components/TheSaveButton
 const createStore = useCreateStore()
 const isCalcShow = ref(true)
 
-createStore.reset()
+onUnmounted(() => {
+  createStore.reset()
+})
+
 </script>
 
 <template>

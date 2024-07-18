@@ -1,100 +1,78 @@
 <script setup>
 
 import TransactionGroup from "@/views/account/transactions/components/index/TransactionGroup.vue";
+import TheBottomLazyLoading from "@/views/account/transactions/components/index/TheBottomLazyLoading.vue";
+import {computed, onMounted, onUnmounted, ref} from "vue";
+import Transaction from "@/models_resources/models/Transaction.js";
+import {useIndexStore} from "@/stores/transactions/index.store.js";
+import {toGroupTransactions} from "@/services/transaction/collection_service.js";
+import {useRoute} from "vue-router";
 
-const transaction = [
-  {date: '20.06.2024', items: [
-      {category: 'Подарунки дуже довга назва категорії', account: 'Готівка', sum: -45000000000000, desc: 'Також довгий опис транзакції'},
-      {category: 'Їжа та напої', account: 'Готівка', sum: -1200, desc: 'Купили суші'}
-    ]},
-  {date: '18.06.2024', items: [
-      {category: 'Зарплата', account: 'Готівка', sum: 3000, desc: null},
-      {category: 'Здоров\'я дуже довга назва категорії', account: 'Готівка', sum: -1200, desc: 'Консультація лікаря'}
-    ]},
-  {date: '17.06.2024', items: [
-      {category: 'Оренда житла', account: 'Карта', sum: -8000, desc: null}
-    ]},
-  {date: '15.06.2024', items: [
-      {category: 'Розваги', account: 'Карта', sum: -500, desc: 'Кінотеатр'},
-      {category: 'Зарплата', account: 'Банк', sum: 5000, desc: null},
-      {category: 'Транспорт', account: 'Готівка', sum: -200, desc: 'Таксі'}
-    ]},
-  {date: '13.06.2024', items: [
-      {category: 'Інтернет', account: 'Карта', sum: -400, desc: 'Щомісячна оплата'}
-    ]},
-  {date: '12.06.2024', items: [
-      {category: 'Комунальні послуги', account: 'Карта', sum: -1500, desc: 'Оплата за газ'}
-    ]},
-  {date: '10.06.2024', items: [
-      {category: 'Подорожі', account: 'Карта', sum: -2500, desc: 'Бронювання готелю'},
-      {category: 'Зарплата', account: 'Карта', sum: 4000, desc: null}
-    ]},
-  {date: '08.06.2024', items: [
-      {category: 'Ремонт авто', account: 'Готівка', sum: -3000, desc: 'Заміна масла'}
-    ]},
-  {date: '07.06.2024', items: [
-      {category: 'Спорт і фітнес', account: 'Карта', sum: -600, desc: 'Абонемент у спортзал'},
-      {category: 'Зарплата', account: 'Карта', sum: 3500, desc: null},
-      {category: 'Їжа та напої', account: 'Готівка', sum: -900, desc: 'Покупка в супермаркеті'}
-    ]},
-  {date: '05.06.2024', items: [
-      {category: 'Освіта', account: 'Готівка', sum: -2000, desc: 'Курси англійської мови'}
-    ]},
-  {date: '04.06.2024', items: [
-      {category: 'Розваги', account: 'Карта', sum: -700, desc: 'Квест-кімната'}
-    ]},
-  {date: '02.06.2024', items: [
-      {category: 'Здоров\'я', account: 'Готівка', sum: -500, desc: 'Ліки'}
-    ]},
-  {date: '01.06.2024', items: [
-      {category: 'Подарунки', account: 'Готівка', sum: -300, desc: null},
-      {category: 'Транспорт', account: 'Готівка', sum: -150, desc: 'Квиток на автобус'}
-    ]},
-  {date: '30.05.2024', items: [
-      {category: 'Розваги', account: 'Карта', sum: -1200, desc: 'Вечірка'}
-    ]},
-  {date: '28.05.2024', items: [
-      {category: 'Їжа та напої', account: 'Готівка', sum: -1000, desc: 'Вечеря в ресторані'},
-      {category: 'Зарплата', account: 'Банк', sum: 4500, desc: null},
-      {category: 'Освіта', account: 'Готівка', sum: -1200, desc: 'Книги'}
-    ]},
-  {date: '25.05.2024', items: [
-      {category: 'Транспорт', account: 'Готівка', sum: -100, desc: 'Проїзд в метро'}
-    ]},
-  {date: '23.05.2024', items: [
-      {category: 'Інтернет', account: 'Карта', sum: -350, desc: 'Щомісячна оплата'},
-      {category: 'Комунальні послуги', account: 'Карта', sum: -2000, desc: 'Оплата за електрику'}
-    ]},
-  {date: '20.05.2024', items: [
-      {category: 'Подорожі', account: 'Карта', sum: -4000, desc: 'Квитки на літак'}
-    ]},
-  {date: '18.05.2024', items: [
-      {category: 'Зарплата', account: 'Готівка', sum: 3000, desc: null},
-      {category: 'Їжа та напої', account: 'Готівка', sum: -700, desc: 'Сніданок в кафе'}
-    ]},
-  {date: '15.05.2024', items: [
-      {category: 'Подарунки', account: 'Готівка', sum: -450, desc: null},
-      {category: 'Транспорт', account: 'Готівка', sum: -300, desc: 'Проїзд в таксі'},
-      {category: 'Зарплата', account: 'Карта', sum: 3200, desc: null},
-      {category: 'Здоров\'я', account: 'Готівка', sum: -900, desc: 'Консультація стоматолога'}
-    ]},
-  {date: '13.05.2024', items: [
-      {category: 'Освіта', account: 'Готівка', sum: -1500, desc: 'Онлайн курс програмування'}
-    ]}
-];
+const route = useRoute()
+const indexStore = useIndexStore()
 
+const isLazyLoadEnable = computed(() => indexStore.isAccessLazyLoad && !indexStore.isEmptyData)
+const transactions = computed(() => toGroupTransactions(Transaction.findLoaded()))
+const transactionCount = computed(() => transactions.value.length)
+const transactionsLoading = ref(true)
+
+onMounted(initComponent)
+onUnmounted(() => {
+  indexStore.reset()
+  Transaction.reset()
+})
+
+async function initComponent() {
+  indexStore.reset()
+  indexStore.addSyncParams({
+    'filter[account_id]': route.params.id
+  })
+
+  try {
+    await indexStore.firstLoadTransactions()
+  }
+  finally {
+    transactionsLoading.value = false
+  }
+}
+
+const load = () => {
+  indexStore.lazyLoadTransactions()
+}
 </script>
 
 <template>
-<v-card elevation="0">
-  <v-card-title>Історія транзакцій</v-card-title>
-  <v-card-text>
-    <TransactionGroup
-        v-for="group in transaction"
-        :group="group"
-    />
-  </v-card-text>
-</v-card>
+  <v-fade-transition mode="out-in">
+    <v-progress-linear v-if="transactionsLoading" indeterminate />
+    <v-card v-else>
+      <template v-if="!transactions.length">
+        <v-card-text>
+          Покищо транзакцій немає
+        </v-card-text>
+        <v-card-actions>
+          <v-btn
+              prepend-icon="mdi-plus"
+              text="Додати транзакцію"
+              :to="{name: 'transactions.create'}"
+          />
+        </v-card-actions>
+      </template>
+
+      <v-card-text v-else>
+        <TransactionGroup
+            v-for="transactionGroup in transactions" :key="transactionGroup.timestamp"
+            :group="transactionGroup"
+        />
+
+        <TheBottomLazyLoading
+            :show="90"
+            :enable="isLazyLoadEnable"
+            @load="load"
+        />
+      </v-card-text>
+
+    </v-card>
+  </v-fade-transition>
 </template>
 
 <style scoped>
