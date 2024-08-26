@@ -6,9 +6,7 @@ export default class TransactionCategory extends Model
 {
     _resourceName = 'transaction-categories';
 
-    getIcon() {
-        return this.icon ?? 'mdi-help'
-    }
+    icon = 'mdi-help'
 
     get children() {
         return this.hasMany('children', TransactionCategory)

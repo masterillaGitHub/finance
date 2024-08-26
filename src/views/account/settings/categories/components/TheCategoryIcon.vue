@@ -5,7 +5,7 @@ import {ref} from "vue";
 
 const icon = defineModel({
   type: String,
-  default: 'mdi-help'
+  required:true
 })
 
 const iconDialog = ref(false)

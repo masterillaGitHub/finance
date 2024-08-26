@@ -9,6 +9,8 @@ export default class Account extends Model
 {
     _resourceName = 'accounts';
 
+    icon = 'mdi-help'
+
     get sums() {
         return this.hasMany('sums', AccountSum)
     }
@@ -31,10 +33,6 @@ export default class Account extends Model
 
     set currency(id) {
         this.belongsTo('currency', id)
-    }
-
-    getIcon() {
-        return this.icon ?? 'mdi-help'
     }
 
     getSum() {

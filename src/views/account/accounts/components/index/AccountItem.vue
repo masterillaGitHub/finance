@@ -23,7 +23,7 @@ const sum = computed(() => toCurrencyUAH(props.account.getSumInMineCurrency(), {
   <template v-slot:prepend>
     <v-avatar
         class="s-handle-sorting-account-item"
-        :icon="account.getIcon()"
+        :icon="account.icon"
         color="green"
     />
   </template>
