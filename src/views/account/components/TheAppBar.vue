@@ -1,6 +1,6 @@
 <script setup>
 
-import {ref, watchEffect} from "vue";
+import {ref} from "vue";
 import {useAppStore} from "@/stores/app.store.js";
 import {useRoute} from "vue-router";
 
@@ -9,17 +9,12 @@ const appStore = useAppStore()
 const density = ref('prominent')
 const imgUrl = new URL('/assets/images/login.jpg', import.meta.url).href
 
-
-watchEffect(() => {
-  density.value = appStore.offsetTop <= 0 ? 'prominent' : 'comfortable'
-})
 </script>
 
 <template>
 
   <v-app-bar
       :elevation="2"
-      :density="density"
   >
     <template v-slot:prepend>
       <v-btn
