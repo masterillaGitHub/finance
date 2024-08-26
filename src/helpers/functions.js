@@ -148,6 +148,10 @@ export function convertCommaToSpace (value) {
     return value.replace(',', ' ');
 }
 
+export function convertMinusToPlus(val) {
+    return Math.abs(val)
+}
+
 /**
  * Update or add some fields into base object
  * @param {Object} obj
