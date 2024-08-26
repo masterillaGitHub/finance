@@ -22,6 +22,7 @@ onUnmounted(() => {
 
 async function initComponent() {
   indexStore.reset()
+  Transaction.reset()
 
   try {
     await indexStore.firstLoadTransactions()
