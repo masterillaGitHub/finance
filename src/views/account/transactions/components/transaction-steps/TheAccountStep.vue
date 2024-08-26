@@ -69,7 +69,7 @@ function backToCategories() {
           <v-col class="text--secondary text-right" cols="8">
             <v-fade-transition leave-absolute>
               <div v-if="expanded" key="0" class="text-grey">Вкажіть рахунок</div>
-              <div v-else key="1"><v-icon :icon="account.icon"/> {{ account.name }}</div>
+              <div v-else key="1" class="text-truncate"><v-icon :icon="account.icon"/> {{ account.name }}</div>
             </v-fade-transition>
           </v-col>
         </v-row>

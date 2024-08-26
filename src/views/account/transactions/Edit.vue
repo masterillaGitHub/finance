@@ -2,7 +2,6 @@
 
 import TheAppBar from "@/views/account/transactions/components/edit/TheAppBar.vue";
 import {computed, onMounted, ref} from "vue";
-import TheCreateAmount from "@/views/account/transactions/components/create/TheCreateAmount.vue";
 import {useFormStore} from "@/stores/transactions/form.store.js";
 import TheTransactionSteps from "@/views/account/transactions/components/transaction-steps/TheTransactionSteps.vue";
 import BottomCalculator from "@/components/BottomCalculator.vue";
@@ -12,6 +11,7 @@ import TheAmount from "@/views/account/transactions/components/TheAmount.vue";
 import {useCurrenciesStore} from "@/stores/currencies.store.js";
 import {MODEL_UPDATE_ENTITY} from "@/helpers/constants.js";
 import {STEP_CLOSED} from "@/services/transaction/step_transition_service.js";
+import {convertMinusToPlus} from "@/helpers/functions.js";
 
 const props = defineProps({
   id: {
@@ -27,7 +27,6 @@ const transactionLoading = ref(false)
 
 const transaction = computed(() => Transaction.find(transactionId.value))
 
-// TODO: Редагування транзакції. Потрібно переробити зберігання даних із створення на універсальне form.state
 onMounted(initComponent)
 
 async function initComponent() {
@@ -35,7 +34,7 @@ async function initComponent() {
 
   form.reset()
 
-  // formFill()
+  formFill()
 }
 
 async function loadTransaction() {
@@ -64,19 +63,22 @@ async function loadCurrencies() {
 }
 
 function formFill() {
-  console.log('transaction', transaction.value)
+  const categoryId = transaction.value.getRelation('category')
+
   form.$patch({
     openStep: STEP_CLOSED,
-    amount: transaction.value.amount,
-    currencyId: transaction.value.currency.id,
-    typeId: transaction.value.type.id,
-    accountId: transaction.value.account.id,
-    categoryId: transaction.value.category.id,
+    amount: convertMinusToPlus(transaction.value.amount),
+    currencyId: transaction.value.getRelation('currency'),
+    typeId: transaction.value.getRelation('type'),
+    accountId: transaction.value.getRelation('account'),
+    categoryId,
     tagIds: [],
-    date: new Date(transaction.value.transaction_at),
-    toAccountId: transaction.value.to_account?.id ?? null,
-    toCurrencyId: transaction.value.to_currency?.id ?? null,
-    toAmount: transaction.value.to_amount,
+    date: new Date(transaction.value.transaction_at_timestamp * 1000),
+    toAccountId: transaction.value.getRelation('to_account'),
+    toCurrencyId: transaction.value.getRelation('to_currency'),
+    toAmount: convertMinusToPlus(transaction.value.to_amount),
+
+    transactionId: transaction.value.id,
   })
 }
 
@@ -89,22 +91,22 @@ const removeTransaction = () => {
   <TheAppBar
     @remove-transaction="removeTransaction"
   />
-<!--  <div class="fill-height d-flex flex-column">-->
-<!--    <div class="flex-grow-1"></div>-->
-<!--    <TheAmount-->
-<!--      :amount="form.amount"-->
-<!--      @on-click-on-amount="isCalcShow = true"-->
-<!--    />-->
+  <div class="fill-height d-flex flex-column">
+    <div class="flex-grow-1"></div>
+    <TheAmount
+      :amount="form.amount"
+      @on-click-on-amount="isCalcShow = true"
+    />
 
-<!--    <BottomCalculator-->
-<!--        v-model="isCalcShow"-->
-<!--        :start-sum="form.amount"-->
-<!--        @done="form.amount = $event"-->
-<!--    />-->
-<!--    <TheTransactionSteps/>-->
-<!--    <TheSaveButton/>-->
+    <BottomCalculator
+        v-model="isCalcShow"
+        :start-sum="form.amount"
+        @done="form.amount = $event"
+    />
+    <TheTransactionSteps/>
+    <TheSaveButton/>
 
-<!--  </div>-->
+  </div>
 </template>
 
 <style scoped>

@@ -6,6 +6,7 @@ import TransactionCategory from "@/models_resources/models/TransactionCategory.j
 import {useDateFormat} from "@/composables/date_format.js";
 import {nextStep, STEP_ACCOUNT} from "@/services/transaction/step_transition_service.js";
 import valid from "@/services/transaction/step_validate_service.js";
+import Transaction from "@/models_resources/models/Transaction.js";
 
 const dateFormat = useDateFormat()
 
@@ -23,8 +24,13 @@ export const useFormStore = defineStore('transactions/form', {
         toCurrencyId: null,
         toAmount: 0,
         isEnabledValidate: false,
+
+        transactionId: null,
     }),
     getters: {
+        getTransaction: state => state.transactionId
+            ? Transaction.find(state.transactionId)
+            : new Transaction(),
         getCurrency: state => Currency.find(state.currencyId) ?? null,
         getToCurrency: state => Currency.find(state.toCurrencyId) ?? null,
         getType: state =>

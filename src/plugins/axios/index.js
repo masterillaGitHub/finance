@@ -3,8 +3,8 @@ import axios from 'axios';
 import success from './response_success.js'
 import error from './response_error.js'
 
-axios.defaults.withCredentials = true;
-axios.defaults.withXSRFToken = true;
+axios.defaults.withCredentials = true
+axios.defaults.withXSRFToken = true
 
 const instance = axios.create({
     baseURL: import.meta.env.VITE_APP_API_URL,
@@ -15,4 +15,4 @@ const instance = axios.create({
 
 instance.interceptors.response.use(success, error)
 
-export default instance;
+export default instance

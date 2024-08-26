@@ -1,10 +1,10 @@
 <script setup>
 import {useFormStore} from "@/stores/transactions/form.store.js";
-import Transaction from "@/models_resources/models/Transaction.js";
 import {useRouter} from "vue-router";
 import {ref} from "vue";
 import {TRANSACTION_CATEGORY_ID_TRANSFER, TYPE_ID_TRANSFER} from "@/helpers/constants.js";
 import {formatISO9075} from "date-fns";
+
 
 const formStore = useFormStore()
 const router = useRouter()
@@ -29,7 +29,7 @@ async function add() {
 }
 
 async function saveTransaction() {
-  const t = new Transaction()
+  const t = formStore.getTransaction
   t.currency = formStore.currencyId
   t.type = formStore.typeId
   t.account = formStore.accountId
