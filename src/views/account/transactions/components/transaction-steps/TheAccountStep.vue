@@ -69,7 +69,7 @@ function backToCategories() {
           <v-col class="text--secondary text-right" cols="8">
             <v-fade-transition leave-absolute>
               <div v-if="expanded" key="0" class="text-grey">Вкажіть рахунок</div>
-              <div v-else key="1">{{ account.name }}</div>
+              <div v-else key="1"><v-icon :icon="account.icon"/> {{ account.name }}</div>
             </v-fade-transition>
           </v-col>
         </v-row>
@@ -95,6 +95,7 @@ function backToCategories() {
               v-for="category in categories"
               :key="category.id"
               label
+              :prepend-icon="category.icon"
               variant="text"
               :text="category.name"
               :value="category.id"
@@ -121,6 +122,7 @@ function backToCategories() {
             :key="account.id"
             label
             variant="text"
+            :prepend-icon="account.icon"
             :text="account.name"
             :value="account.id"
             @click="createStore.nextStep()"

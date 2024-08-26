@@ -87,7 +87,7 @@ function done() {
           <v-col class="text--secondary text-right" cols="8">
             <v-fade-transition leave-absolute>
               <div v-if="expanded" key="0" class="text-grey">Вкажіть категорію</div>
-              <div v-else key="1" class="text-truncate">{{ createStore.getCategory.name }}</div>
+              <div v-else key="1" class="text-truncate"><v-icon :icon="createStore.getCategory.icon"/> {{ createStore.getCategory.name }}</div>
             </v-fade-transition>
           </v-col>
         </v-row>
@@ -116,6 +116,7 @@ function done() {
                 :key="category.id"
                 label
                 variant="text"
+                :prepend-icon="category.icon"
                 :text="category.name"
                 :value="category.id"
                 @click="selectParentCategory(category)"
