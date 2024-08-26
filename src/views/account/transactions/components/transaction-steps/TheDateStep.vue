@@ -1,45 +1,45 @@
 <script setup>
 
 import {ref, watchEffect} from "vue";
-import {useCreateStore} from "@/stores/transactions/create.store.js";
+import {useFormStore} from "@/stores/transactions/form.store.js";
 import {subDays} from 'date-fns';
 import {STEP_DATE} from "@/services/transaction/step_transition_service.js";
 
-const createStore = useCreateStore()
+const formStore = useFormStore()
 const emit = defineEmits([
   'done'
 ])
 
 const selectedModel = ref()
 const dialog = ref(false)
-const dateModel = ref(createStore.date)
+const dateModel = ref(formStore.date)
 const titleDate = ref()
 
 watchEffect(() => {
-  selectedModel.value = createStore.getDate
+  selectedModel.value = formStore.getDate
 
-  if (createStore.getDate === 'today') {
+  if (formStore.getDate === 'today') {
     titleDate.value = 'Сьогодні'
   }
-  else if (createStore.getDate === 'yesterday') {
+  else if (formStore.getDate === 'yesterday') {
     titleDate.value =  'Вчора'
   }
-  else if (createStore.getDate === 'tomorrow') {
+  else if (formStore.getDate === 'tomorrow') {
     titleDate.value = 'Завтра'
   }
   else {
     selectedModel.value = 'custom'
-    titleDate.value = createStore.getDate
+    titleDate.value = formStore.getDate
   }
 })
 
 function setYesterday() {
-  createStore.date = subDays(new Date(), 1)
+  formStore.date = subDays(new Date(), 1)
   done()
 }
 
 function setToday() {
-  createStore.date = new Date()
+  formStore.date = new Date()
   done()
 }
 
@@ -48,13 +48,13 @@ function setCustom() {
 }
 
 function saveDate() {
-  createStore.date = dateModel.value
+  formStore.date = dateModel.value
   dialog.value = false
   done()
 }
 
 function done() {
-  createStore.nextStep()
+  formStore.nextStep()
 }
 
 </script>

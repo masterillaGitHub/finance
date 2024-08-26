@@ -1,24 +1,24 @@
 <script setup>
 
 import {computed, onMounted, ref} from "vue";
-import {useCreateStore} from "@/stores/transactions/create.store.js";
+import {useFormStore} from "@/stores/transactions/form.store.js";
 import CurrenciesList from "@/components/CurrenciesList.vue";
 import {useCurrenciesStore} from "@/stores/currencies.store.js";
 import BottomCalculator from "@/components/BottomCalculator.vue";
 import {STEP_TO_AMOUNT} from "@/services/transaction/step_transition_service.js";
 
-const createStore = useCreateStore()
+const formStore = useFormStore()
 const currencyStore = useCurrenciesStore()
 
 const isCalcShow = ref(false)
 const amountModel = computed({
-  get: () => createStore.toAmount,
-  set: val => createStore.toAmount = val
+  get: () => formStore.toAmount,
+  set: val => formStore.toAmount = val
 })
 
 onMounted(() => {
-  createStore.toAmount = createStore.amount
-  createStore.toCurrencyId = createStore.currencyId
+  formStore.toAmount = formStore.amount
+  formStore.toCurrencyId = formStore.currencyId
 })
 
 </script>
@@ -36,7 +36,7 @@ onMounted(() => {
           <v-col class="text--secondary text-right" cols="8">
             <v-fade-transition leave-absolute>
               <span v-if="expanded" key="0" class="text-grey">Вкажіть суму зарахування</span>
-              <span v-else key="1">{{createStore.toAmount}} {{ createStore.getToCurrency.symbol }}</span>
+              <span v-else key="1">{{formStore.toAmount}} {{ formStore.getToCurrency.symbol }}</span>
             </v-fade-transition>
           </v-col>
         </v-row>
@@ -46,8 +46,8 @@ onMounted(() => {
     <v-expansion-panel-text>
       <div class="d-flex justify-end align-center pa-2">
         <div class="text-right d-flex align-center" @click="isCalcShow = true">
-          <span class="text-h5 ">{{createStore.toAmount}}</span>
-          <v-icon v-if="!createStore.isAmountValid" color="error" icon="mdi-alert-circle"/>
+          <span class="text-h5 ">{{formStore.toAmount}}</span>
+          <v-icon v-if="!formStore.isAmountValid" color="error" icon="mdi-alert-circle"/>
         </div>
 
         <v-menu>
@@ -58,19 +58,19 @@ onMounted(() => {
                 v-bind="props"
                 append-icon="mdi-chevron-down"
             >
-              <v-icon :icon="createStore.getToCurrency.icon"/>
+              <v-icon :icon="formStore.getToCurrency.icon"/>
             </v-btn>
           </template>
           <CurrenciesList
               :currencies="currencyStore.currencies"
-              @selected="createStore.toCurrencyId = $event.id"
+              @selected="formStore.toCurrencyId = $event.id"
           />
         </v-menu>
       </div>
       <BottomCalculator
           v-model="isCalcShow"
-          :start-sum="createStore.toAmount"
-          @done="createStore.toAmount = $event"
+          :start-sum="formStore.toAmount"
+          @done="formStore.toAmount = $event"
       />
     </v-expansion-panel-text>
 

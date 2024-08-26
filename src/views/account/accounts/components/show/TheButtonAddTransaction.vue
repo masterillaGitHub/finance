@@ -1,16 +1,16 @@
 <script setup>
 
 import {useRoute, useRouter} from "vue-router";
-import {useCreateStore} from "@/stores/transactions/create.store.js";
+import {useFormStore} from "@/stores/transactions/form.store.js";
 import {STEP_CATEGORY} from "@/services/transaction/step_transition_service.js";
 
 const router = useRouter()
 const route = useRoute()
-const transactionForm = useCreateStore()
+const formStore = useFormStore()
 
 const click = () => {
-  transactionForm.accountId = parseInt(route.params.id, 10)
-  transactionForm.openStep = STEP_CATEGORY
+  formStore.accountId = parseInt(route.params.id, 10)
+  formStore.openStep = STEP_CATEGORY
   router.push({name: 'transactions.create'})
 }
 </script>

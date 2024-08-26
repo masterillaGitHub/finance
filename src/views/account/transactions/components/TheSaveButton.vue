@@ -1,19 +1,19 @@
 <script setup>
-import {useCreateStore} from "@/stores/transactions/create.store.js";
+import {useFormStore} from "@/stores/transactions/form.store.js";
 import Transaction from "@/models_resources/models/Transaction.js";
 import {useRouter} from "vue-router";
 import {ref} from "vue";
 import {TRANSACTION_CATEGORY_ID_TRANSFER, TYPE_ID_TRANSFER} from "@/helpers/constants.js";
 import {formatISO9075} from "date-fns";
 
-const createStore = useCreateStore()
+const formStore = useFormStore()
 const router = useRouter()
 const saveLoading = ref(false)
 
 async function add() {
-  createStore.isEnabledValidate = true
+  formStore.isEnabledValidate = true
 
-  if (!createStore.isValid) {
+  if (!formStore.isValid) {
     return
   }
 
@@ -30,19 +30,19 @@ async function add() {
 
 async function saveTransaction() {
   const t = new Transaction()
-  t.currency = createStore.currencyId
-  t.type = createStore.typeId
-  t.account = createStore.accountId
-  t.category = createStore.categoryId
-  t.amount = createStore.amount
+  t.currency = formStore.currencyId
+  t.type = formStore.typeId
+  t.account = formStore.accountId
+  t.category = formStore.categoryId
+  t.amount = formStore.amount
   t.note = null
-  t.transaction_at = formatISO9075(createStore.date)
+  t.transaction_at = formatISO9075(formStore.date)
 
-  if (createStore.typeId === TYPE_ID_TRANSFER) {
+  if (formStore.typeId === TYPE_ID_TRANSFER) {
     t.category = TRANSACTION_CATEGORY_ID_TRANSFER
-    t.to_account = createStore.toAccountId
-    t.to_currency = createStore.toCurrencyId
-    t.to_amount = createStore.toAmount
+    t.to_account = formStore.toAccountId
+    t.to_currency = formStore.toCurrencyId
+    t.to_amount = formStore.toAmount
   }
 
   await t.save()

@@ -2,10 +2,10 @@
 
 import {computed, ref, watchEffect} from "vue";
 import TransactionCategory from "@/models_resources/models/TransactionCategory.js";
-import {useCreateStore} from "@/stores/transactions/create.store.js";
+import {useFormStore} from "@/stores/transactions/form.store.js";
 import {STEP_CATEGORY} from "@/services/transaction/step_transition_service.js";
 
-const createStore = useCreateStore()
+const formStore = useFormStore()
 const showChildren = ref(false)
 const categoryLoading = ref(false)
 const parentCategoryModel = ref()
@@ -23,7 +23,7 @@ async function loadCategories() {
   try {
     await TransactionCategory.sync({
       include: 'children',
-      'filter[type_id]': createStore.typeId,
+      'filter[type_id]': formStore.typeId,
       'filter[user_id]': 'auth',
     })
   }
@@ -62,11 +62,11 @@ function resetStep() {
 }
 
 function setCategory(id = null) {
-  createStore.categoryId = id
+  formStore.categoryId = id
 }
 
 function done() {
-  createStore.nextStep()
+  formStore.nextStep()
 }
 </script>
 
@@ -79,7 +79,7 @@ function done() {
         <v-row no-gutters>
           <v-col cols="4">
             <v-fade-transition leave-absolute>
-              <span v-if="createStore.typeId === 1">На категорію:</span>
+              <span v-if="formStore.typeId === 1">На категорію:</span>
               <span v-else>З категорії:</span>
             </v-fade-transition>
           </v-col>
@@ -87,14 +87,14 @@ function done() {
           <v-col class="text--secondary text-right" cols="8">
             <v-fade-transition leave-absolute>
               <div v-if="expanded" key="0" class="text-grey">Вкажіть категорію</div>
-              <div v-else key="1" class="text-truncate"><v-icon :icon="createStore.getCategory.icon"/> {{ createStore.getCategory.name }}</div>
+              <div v-else key="1" class="text-truncate"><v-icon :icon="formStore.getCategory.icon"/> {{ formStore.getCategory.name }}</div>
             </v-fade-transition>
           </v-col>
         </v-row>
       </template>
       <template v-slot:actions>
         <div class="ml-1">
-          <v-icon v-if="!createStore.isCategoryValid" color="error" icon="mdi-alert-circle"/>
+          <v-icon v-if="!formStore.isCategoryValid" color="error" icon="mdi-alert-circle"/>
         </div>
       </template>
     </v-expansion-panel-title>

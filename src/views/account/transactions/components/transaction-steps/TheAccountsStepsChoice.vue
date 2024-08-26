@@ -3,11 +3,11 @@
 import TheAccountStep from "@/views/account/transactions/components/transaction-steps/TheAccountStep.vue";
 import {onMounted} from "vue";
 import AccountCategory from "@/models_resources/models/AccountCategory.js";
-import {useCreateStore} from "@/stores/transactions/create.store.js";
+import {useFormStore} from "@/stores/transactions/form.store.js";
 import {TYPE_ID_TRANSFER} from "@/helpers/constants.js";
 import {STEP_TO_ACCOUNT} from "@/services/transaction/step_transition_service.js";
 
-const createStore = useCreateStore()
+const formStore = useFormStore()
 
 onMounted(async () => {
   await AccountCategory.loadTransactionPage()
@@ -17,15 +17,15 @@ onMounted(async () => {
 <template>
 
   <TheAccountStep
-      v-model="createStore.accountId"
-      :account="createStore.getAccount"
-      :is-valid="createStore.isAccountValid"
+      v-model="formStore.accountId"
+      :account="formStore.getAccount"
+      :is-valid="formStore.isAccountValid"
   />
   <TheAccountStep
-      v-if="createStore.typeId === TYPE_ID_TRANSFER"
-      v-model="createStore.toAccountId"
-      :account="createStore.getToAccount"
-      :is-valid="createStore.isToAccountValid"
+      v-if="formStore.typeId === TYPE_ID_TRANSFER"
+      v-model="formStore.toAccountId"
+      :account="formStore.getToAccount"
+      :is-valid="formStore.isToAccountValid"
       :is-transfer="true"
       :step-name="STEP_TO_ACCOUNT"
   />

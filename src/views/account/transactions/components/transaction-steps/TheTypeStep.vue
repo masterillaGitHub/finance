@@ -2,25 +2,25 @@
 
 import {computed, nextTick} from "vue";
 import {TRANSACTION_TYPES} from "@/helpers/constants.js";
-import {useCreateStore} from "@/stores/transactions/create.store.js";
+import {useFormStore} from "@/stores/transactions/form.store.js";
 import {STEP_TYPE} from "@/services/transaction/step_transition_service.js";
 
-const createStore = useCreateStore()
+const formStore = useFormStore()
 
 const typeModel = computed({
-  get: () => createStore.typeId,
-  set: val => createStore.typeId = val
+  get: () => formStore.typeId,
+  set: val => formStore.typeId = val
 })
 
 async function done() {
-  createStore.categoryId = null
-  createStore.accountTransferId = null
+  formStore.categoryId = null
+  formStore.accountTransferId = null
 
   /**
-   * nextTick() need for set first typeModel in createStore and nextStep runs after
+   * nextTick() need for set first typeModel in formStore and nextStep runs after
    */
   await nextTick()
-  createStore.nextStep()
+  formStore.nextStep()
 }
 
 </script>
@@ -38,7 +38,7 @@ async function done() {
           <v-col class="text--secondary text-right" cols="8">
             <v-fade-transition leave-absolute>
               <span v-if="expanded" key="0" class="text-grey">Вкажіть тип транзакції</span>
-              <span v-else key="1">{{ createStore.getType.name }}</span>
+              <span v-else key="1">{{ formStore.getType.name }}</span>
             </v-fade-transition>
           </v-col>
         </v-row>

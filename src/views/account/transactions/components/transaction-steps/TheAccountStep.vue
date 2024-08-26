@@ -1,7 +1,7 @@
 <script setup>
 import {computed, onUnmounted, ref} from "vue";
 import AccountCategory from "@/models_resources/models/AccountCategory.js";
-import {useCreateStore} from "@/stores/transactions/create.store.js";
+import {useFormStore} from "@/stores/transactions/form.store.js";
 import Account from "@/models_resources/models/Account.js";
 import {TYPE_ID_INCOME} from "@/helpers/constants.js";
 import {STEP_ACCOUNT} from "@/services/transaction/step_transition_service.js";
@@ -26,9 +26,9 @@ const props = defineProps({
   }
 })
 
-const createStore = useCreateStore()
+const formStore = useFormStore()
 const accountModel = defineModel()
-const transactionTypeId = computed(() => createStore.typeId)
+const transactionTypeId = computed(() => formStore.typeId)
 
 onUnmounted(() => {
   if (props.isTransfer) {
@@ -61,7 +61,7 @@ function backToCategories() {
         <v-row no-gutters>
           <v-col cols="4">
             <v-fade-transition leave-absolute>
-              <span v-if="createStore.typeId === TYPE_ID_INCOME || !!isTransfer">На рахунок:</span>
+              <span v-if="formStore.typeId === TYPE_ID_INCOME || !!isTransfer">На рахунок:</span>
               <span v-else>З рахунку:</span>
             </v-fade-transition>
           </v-col>
@@ -125,7 +125,7 @@ function backToCategories() {
             :prepend-icon="account.icon"
             :text="account.name"
             :value="account.id"
-            @click="createStore.nextStep()"
+            @click="formStore.nextStep()"
         />
       </v-chip-group>
       </div>

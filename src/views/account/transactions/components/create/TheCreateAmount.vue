@@ -2,7 +2,7 @@
 import CurrenciesList from "@/components/CurrenciesList.vue";
 import {onMounted} from "vue";
 import {useCurrenciesStore} from "@/stores/currencies.store.js";
-import {useCreateStore} from "@/stores/transactions/create.store.js";
+import {useFormStore} from "@/stores/transactions/form.store.js";
 
 defineProps({
   amount: {
@@ -13,7 +13,7 @@ defineProps({
 const emit = defineEmits([
   'onClickOnAmount'
 ])
-const createStore = useCreateStore()
+const formStore = useFormStore()
 const currencyStore = useCurrenciesStore()
 
 onMounted(initComponent)
@@ -28,7 +28,7 @@ async function initComponent() {
   <div class="d-flex justify-end align-center pa-2">
     <div class="text-right mr-4 d-flex align-center" @click="emit('onClickOnAmount')">
       <span class="text-h3 ">{{amount}}</span>
-      <v-icon v-if="!createStore.isAmountValid" color="error" icon="mdi-alert-circle"/>
+      <v-icon v-if="!formStore.isAmountValid" color="error" icon="mdi-alert-circle"/>
     </div>
 
     <v-menu>
@@ -40,12 +40,12 @@ async function initComponent() {
             append-icon="mdi-chevron-down"
             :loading="currencyStore.loading"
         >
-          <v-icon :icon="createStore.getCurrency.icon"/>
+          <v-icon :icon="formStore.getCurrency.icon"/>
         </v-btn>
       </template>
       <CurrenciesList
           :currencies="currencyStore.currencies"
-          @selected="createStore.currencyId = $event.id"
+          @selected="formStore.currencyId = $event.id"
       />
     </v-menu>
   </div>
