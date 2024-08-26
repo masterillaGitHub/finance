@@ -12,11 +12,11 @@ const Dashboard = () => import('@/views/account/Dashboard.vue')
 const Budgets = () => import('@/views/account/Budgets.vue')
 
 const routes = [
-  {path: '/', name:'main', component: Main, meta: {isPublic: true, layout: LAYOUT_MAIN}},
+  {path: '/main', name:'main', component: Main, meta: {isPublic: true, layout: LAYOUT_MAIN}},
   {path: '/login', name:'login', component: Login, meta: {isPublic: true, layout: LAYOUT_AUTH}},
   {path: '/register', name:'register', component: Register, meta: {isPublic: true, layout: LAYOUT_AUTH}},
 
-  {path: '/dashboard', name:'dashboard', component: Dashboard},
+  {path: '/', name:'dashboard', component: Dashboard},
 
   {path: '/budgets', name:'budgets.index', component: Budgets, meta: {title: 'Бюджет'}},
 ]
