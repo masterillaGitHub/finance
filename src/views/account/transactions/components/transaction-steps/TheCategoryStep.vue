@@ -87,7 +87,11 @@ function done() {
           <v-col class="text--secondary text-right" cols="8">
             <v-fade-transition leave-absolute>
               <div v-if="expanded" key="0" class="text-grey">Вкажіть категорію</div>
-              <div v-else key="1" class="text-truncate"><v-icon :icon="formStore.getCategory.icon"/> {{ formStore.getCategory.name }}</div>
+              <div v-else key="1">
+                <span v-if="formStore.getCategory.id" class="text-truncate">
+                  <v-icon :icon="formStore.getCategory.icon"/> {{ formStore.getCategory.name }}
+                </span>
+              </div>
             </v-fade-transition>
           </v-col>
         </v-row>
