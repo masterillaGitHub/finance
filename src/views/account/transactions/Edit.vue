@@ -1,7 +1,7 @@
 <script setup>
 
 import TheAppBar from "@/views/account/transactions/components/edit/TheAppBar.vue";
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, onUnmounted, ref} from "vue";
 import {useFormStore} from "@/stores/transactions/form.store.js";
 import TheTransactionSteps from "@/views/account/transactions/components/transaction-steps/TheTransactionSteps.vue";
 import BottomCalculator from "@/components/BottomCalculator.vue";
@@ -20,7 +20,7 @@ const props = defineProps({
   }
 })
 const currencyStore = useCurrenciesStore()
-const form = useFormStore()
+const formStore = useFormStore()
 const isCalcShow = ref(false)
 const transactionId = ref()
 const transactionLoading = ref(false)
@@ -29,10 +29,12 @@ const transaction = computed(() => Transaction.find(transactionId.value))
 
 onMounted(initComponent)
 
+onUnmounted(() => {
+  formStore.reset()
+})
+
 async function initComponent() {
   await loadTransaction()
-
-  form.reset()
 
   formFill()
 }
@@ -63,15 +65,15 @@ async function loadCurrencies() {
 }
 
 function formFill() {
-  const categoryId = transaction.value.getRelation('category')
+  const categoryId =
 
-  form.$patch({
+  formStore.$patch({
     openStep: STEP_CLOSED,
     amount: convertMinusToPlus(transaction.value.amount),
     currencyId: transaction.value.getRelation('currency'),
     typeId: transaction.value.getRelation('type'),
     accountId: transaction.value.getRelation('account'),
-    categoryId,
+    categoryId: transaction.value.getRelation('category'),
     tagIds: [],
     date: new Date(transaction.value.transaction_at_timestamp * 1000),
     toAccountId: transaction.value.getRelation('to_account'),
@@ -94,14 +96,14 @@ const removeTransaction = () => {
   <div class="fill-height d-flex flex-column">
     <div class="flex-grow-1"></div>
     <TheAmount
-      :amount="form.amount"
+      :amount="formStore.amount"
       @on-click-on-amount="isCalcShow = true"
     />
 
     <BottomCalculator
         v-model="isCalcShow"
-        :start-sum="form.amount"
-        @done="form.amount = $event"
+        :start-sum="formStore.amount"
+        @done="formStore.amount = $event"
     />
     <TheTransactionSteps/>
     <TheSaveButton/>

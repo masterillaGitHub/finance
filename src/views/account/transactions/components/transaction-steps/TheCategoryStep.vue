@@ -4,6 +4,7 @@ import {computed, ref, watchEffect} from "vue";
 import TransactionCategory from "@/models_resources/models/TransactionCategory.js";
 import {useFormStore} from "@/stores/transactions/form.store.js";
 import {STEP_CATEGORY} from "@/services/transaction/step_transition_service.js";
+import {isNull} from "@/helpers/validators/index.js";
 
 const formStore = useFormStore()
 const showChildren = ref(false)
@@ -54,7 +55,10 @@ function backToCategories() {
 }
 
 function resetStep() {
-  setCategory()
+  if (isNull(formStore.transactionId)) {
+    setCategory()
+  }
+
   parentCategoryModel.value = false
   categoryModel.value = false
   parentCategorySelected.value = new TransactionCategory()
