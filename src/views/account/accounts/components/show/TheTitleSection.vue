@@ -9,6 +9,7 @@ const route = useRoute()
 const account = computed(() => Account.find(route.params.id))
 const sums = computed(() => account.value.sums.filter(s => s.balance !== 0))
 const sumsCount = computed(() => sums.value.length)
+const isShowOtherSums = computed(() => !(sumsCount.value === 1 && sums.value[0].currency.id === 1))
 const accountLoading = ref(false)
 
 onMounted(initComponent)
@@ -91,7 +92,7 @@ async function initComponent() {
         </div>
         <div class="font-weight-bold text-center">{{ toCurrencyUAH(account.getSumInMineCurrency()) }}</div>
 
-        <v-list v-if="sumsCount > 1">
+        <v-list v-if="isShowOtherSums">
           <v-list-item
             v-for="sum in sums"
             :key="sum.id"
