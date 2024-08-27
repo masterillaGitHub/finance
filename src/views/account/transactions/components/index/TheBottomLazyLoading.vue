@@ -25,13 +25,10 @@ const emit = defineEmits([
 const appStore = useAppStore()
 
 const isShowLazyLoading = computed(() =>
-    appStore.offsetTopPercent >= props.show
-    && appStore.offsetTop > 0
+    appStore.offsetTopPercent >= props.show && appStore.offsetTop > 0
 )
 const isLoadTransactions = computed(() =>
-    isShowLazyLoading.value || (
-    appStore.offsetTop > 0
-    && appStore.offsetTopPercent >= props.load)
+    isShowLazyLoading.value || (appStore.offsetTop > 0 && appStore.offsetTopPercent >= props.load)
 )
 
 watch(isLoadTransactions, value => {
