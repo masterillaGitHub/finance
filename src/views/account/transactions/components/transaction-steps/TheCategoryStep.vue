@@ -13,7 +13,9 @@ const parentCategoryModel = ref()
 const categoryModel = ref()
 const parentCategorySelected = ref(new TransactionCategory())
 
-const categories = computed(() => TransactionCategory.findLoaded())
+const categories = computed(() =>
+    TransactionCategory.findLoaded().filter(category => !!category.user_id)
+)
 
 watchEffect(loadCategories)
 
@@ -22,11 +24,7 @@ async function loadCategories() {
   categoryLoading.value = true
 
   try {
-    await TransactionCategory.sync({
-      include: 'children',
-      'filter[type_id]': formStore.typeId,
-      'filter[user_id]': 'auth',
-    })
+    await TransactionCategory.loadCategoryStep(formStore.typeId)
   }
   finally {
     categoryLoading.value = false

@@ -35,4 +35,8 @@ export default class TransactionCategory extends Model
     isChildren() {
         return this.childrenCount() > 0
     }
+
+    static async loadCategoryStep(typeId) {
+        return await this.query().get('/category-step?type_id=' + typeId )
+    }
 }
