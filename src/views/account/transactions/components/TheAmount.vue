@@ -1,59 +1,60 @@
 <script setup>
-import CurrenciesList from "@/components/CurrenciesList.vue";
-import {onMounted} from "vue";
-import {useCurrenciesStore} from "@/stores/currencies.store.js";
-import {useFormStore} from "@/stores/transactions/form.store.js";
 
-defineProps({
-  amount: {
-    type: [String, Number],
-    default: '0',
+import TheCreateAmount from "@/views/account/transactions/components/TheCreateAmount.vue";
+import BottomCalculator from "@/components/BottomCalculator.vue";
+import {useFormStore} from "@/stores/transactions/form.store.js";
+import {useCurrencyDecimalConvert} from "@/composables/currency_decimal_convert.js";
+import {computed, ref, watch} from "vue";
+import {TYPE_ID_EXPENSE, TYPE_ID_INCOME, TYPE_ID_TRANSFER} from "@/helpers/constants.js";
+
+const props = defineProps({
+  isCalcShow: {
+    type: Boolean,
+    default: false
   }
 })
-const emit = defineEmits([
-  'onClickOnAmount'
-])
-const form = useFormStore()
-const currencyStore = useCurrenciesStore()
 
-onMounted(initComponent)
+const formStore = useFormStore()
+const {toInteger, toMinus, toPlus, toDecimal} = useCurrencyDecimalConvert()
+const isCalcShow = ref(props.isCalcShow)
+const amount = computed(() =>
+    toPlus(toDecimal(formStore.amount))
+)
+const typeId = computed(() => formStore.typeId)
 
-async function initComponent() {
-  await currencyStore.loadCurrencies()
+watch(typeId, () => {
+    formStore.amount = handleAmount(formStore.amount)
+})
+
+const handleAmount = val => {
+  switch (formStore.typeId) {
+    case TYPE_ID_EXPENSE:
+    case TYPE_ID_TRANSFER:
+      return toMinus(val)
+    case TYPE_ID_INCOME:
+      return toPlus(val)
+  }
 }
 
-
+const setAmount = val => {
+  formStore.amount = handleAmount(toInteger(val))
+}
 </script>
 
 <template>
-  <div class="d-flex justify-end align-center pa-2">
-    <div class="text-right mr-4 d-flex align-center" @click="emit('onClickOnAmount')">
-      <span class="text-h3 ">{{amount}}</span>
-      <v-icon v-if="!form.isAmountValid" color="error" icon="mdi-alert-circle"/>
-    </div>
 
-    <v-menu>
-      <template v-slot:activator="{ props }">
-        <v-btn
-            variant="outlined"
-            class="s-btn"
-            v-bind="props"
-            append-icon="mdi-chevron-down"
-            :loading="currencyStore.loading"
-        >
-          <v-icon :icon="form.getCurrency.icon"/>
-        </v-btn>
-      </template>
-      <CurrenciesList
-          :currencies="currencyStore.currencies"
-          @selected="form.currencyId = $event.id"
-      />
-    </v-menu>
-  </div>
+  <TheCreateAmount
+      :amount="amount"
+      @on-click-on-amount="isCalcShow = true"
+  />
+
+  <BottomCalculator
+      v-model="isCalcShow"
+      :start-sum="amount"
+      @done="setAmount($event)"
+  />
 </template>
 
 <style scoped>
-.s-btn :deep(.v-btn__content) {
-  font-size: 16px;
-}
+
 </style>

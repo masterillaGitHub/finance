@@ -4,14 +4,12 @@ import TheAppBar from "@/views/account/transactions/components/edit/TheAppBar.vu
 import {computed, onMounted, onUnmounted, ref} from "vue";
 import {useFormStore} from "@/stores/transactions/form.store.js";
 import TheTransactionSteps from "@/views/account/transactions/components/transaction-steps/TheTransactionSteps.vue";
-import BottomCalculator from "@/components/BottomCalculator.vue";
 import TheSaveButton from "@/views/account/transactions/components/TheSaveButton.vue";
 import Transaction from "@/models_resources/models/Transaction.js";
-import TheAmount from "@/views/account/transactions/components/TheAmount.vue";
-import {useCurrenciesStore} from "@/stores/currencies.store.js";
-import {MODEL_UPDATE_ENTITY} from "@/helpers/constants.js";
+import {MODEL_UPDATE_ENTITY, TYPE_ID_EXPENSE, TYPE_ID_INCOME, TYPE_ID_TRANSFER} from "@/helpers/constants.js";
 import {STEP_CLOSED} from "@/services/transaction/step_transition_service.js";
-import {convertMinusToPlus} from "@/helpers/functions.js";
+import {useCurrencyDecimalConvert} from "@/composables/currency_decimal_convert.js";
+import TheAmount from "@/views/account/transactions/components/TheAmount.vue";
 
 const props = defineProps({
   id: {
@@ -19,9 +17,8 @@ const props = defineProps({
     required: true,
   }
 })
-const currencyStore = useCurrenciesStore()
+const {toMinus, toPlus} = useCurrencyDecimalConvert()
 const formStore = useFormStore()
-const isCalcShow = ref(false)
 const transactionId = ref()
 const transactionLoading = ref(false)
 
@@ -69,7 +66,7 @@ function formFill() {
 
   formStore.$patch({
     openStep: STEP_CLOSED,
-    amount: convertMinusToPlus(transaction.value.amount),
+    amount: handleAmount(transaction.value.amount),
     currencyId: transaction.value.getRelation('currency'),
     typeId: transaction.value.getRelation('type'),
     accountId: transaction.value.getRelation('account'),
@@ -78,10 +75,20 @@ function formFill() {
     date: new Date(transaction.value.transaction_at_timestamp * 1000),
     toAccountId: transaction.value.getRelation('to_account'),
     toCurrencyId: transaction.value.getRelation('to_currency'),
-    toAmount: convertMinusToPlus(transaction.value.to_amount),
+    toAmount: transaction.value.to_amount,
 
     transactionId: transaction.value.id,
   })
+}
+
+const handleAmount = val => {
+  switch (transaction.value.getRelation('type')) {
+    case TYPE_ID_EXPENSE:
+    case TYPE_ID_TRANSFER:
+      return toMinus(val)
+    case TYPE_ID_INCOME:
+      return toPlus(val)
+  }
 }
 
 const removeTransaction = () => {
@@ -95,16 +102,7 @@ const removeTransaction = () => {
   />
   <div class="fill-height d-flex flex-column">
     <div class="flex-grow-1"></div>
-    <TheAmount
-      :amount="formStore.amount"
-      @on-click-on-amount="isCalcShow = true"
-    />
-
-    <BottomCalculator
-        v-model="isCalcShow"
-        :start-sum="formStore.amount"
-        @done="formStore.amount = $event"
-    />
+    <TheAmount/>
     <TheTransactionSteps/>
     <TheSaveButton/>
 

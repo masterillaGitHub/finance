@@ -1,10 +1,12 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import {computed, ref} from "vue";
 import AccountResource from "@/models_resources/resources/AccountResource.js";
 import AnimateCounter from "@/components/AnimateCounter.vue";
 import {useIndexStore} from "@/stores/accounts/index.store.js";
+import {useCurrencyDecimalConvert} from "@/composables/currency_decimal_convert.js";
 
 const indexStore = useIndexStore()
+const {toDecimal} = useCurrencyDecimalConvert()
 
 const labels = ref([
   'січ',
@@ -28,6 +30,7 @@ const value = ref([
 ])
 
 const loading = ref(false)
+const amountTotal = computed(() => toDecimal(indexStore.amountTotal))
 
 // TODO: поки що оновлення загальної суми відбувається через перерахунок всіх рахунків
 // onMounted( loadBalanceTotal)
@@ -79,7 +82,7 @@ async function loadBalanceTotal() {
       </div>
       <div class="text-h6 font-weight-light">
         <AnimateCounter
-            :counter="indexStore.amountTotal"
+            :counter="amountTotal"
             suffix=" ₴"
         />
 

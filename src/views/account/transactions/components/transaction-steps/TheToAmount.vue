@@ -6,18 +6,19 @@ import CurrenciesList from "@/components/CurrenciesList.vue";
 import {useCurrenciesStore} from "@/stores/currencies.store.js";
 import BottomCalculator from "@/components/BottomCalculator.vue";
 import {STEP_TO_AMOUNT} from "@/services/transaction/step_transition_service.js";
+import {useCurrencyDecimalConvert} from "@/composables/currency_decimal_convert.js";
 
+const {toDecimal, toPlus, toInteger} = useCurrencyDecimalConvert()
 const formStore = useFormStore()
 const currencyStore = useCurrenciesStore()
 
 const isCalcShow = ref(false)
-const amountModel = computed({
-  get: () => formStore.toAmount,
-  set: val => formStore.toAmount = val
-})
+const toAmount = computed(() =>
+  toDecimal(formStore.toAmount)
+)
 
 onMounted(() => {
-  formStore.toAmount = formStore.amount
+  formStore.toAmount = toPlus(formStore.amount)
   formStore.toCurrencyId = formStore.currencyId
 })
 
@@ -36,7 +37,7 @@ onMounted(() => {
           <v-col class="text--secondary text-right" cols="8">
             <v-fade-transition leave-absolute>
               <span v-if="expanded" key="0" class="text-grey">Вкажіть суму зарахування</span>
-              <span v-else key="1">{{formStore.toAmount}} {{ formStore.getToCurrency.symbol }}</span>
+              <span v-else key="1">{{toAmount}} {{ formStore.getToCurrency.symbol }}</span>
             </v-fade-transition>
           </v-col>
         </v-row>
@@ -46,7 +47,7 @@ onMounted(() => {
     <v-expansion-panel-text>
       <div class="d-flex justify-end align-center pa-2">
         <div class="text-right d-flex align-center" @click="isCalcShow = true">
-          <span class="text-h5 ">{{formStore.toAmount}}</span>
+          <span class="text-h5 ">{{toAmount}}</span>
           <v-icon v-if="!formStore.isAmountValid" color="error" icon="mdi-alert-circle"/>
         </div>
 
@@ -69,8 +70,8 @@ onMounted(() => {
       </div>
       <BottomCalculator
           v-model="isCalcShow"
-          :start-sum="formStore.toAmount"
-          @done="formStore.toAmount = $event"
+          :start-sum="toAmount"
+          @done="formStore.toAmount = toInteger($event)"
       />
     </v-expansion-panel-text>
 

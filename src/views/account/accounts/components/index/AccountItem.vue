@@ -2,6 +2,7 @@
 import {toCurrencyUAH} from "@/helpers/functions.js";
 import Account from '@/models_resources/models/Account.js'
 import {computed} from "vue";
+import {useCurrencyDecimalConvert} from "@/composables/currency_decimal_convert.js";
 
 const props = defineProps({
   account: {
@@ -10,8 +11,14 @@ const props = defineProps({
     validator: account => account instanceof Account
   },
 })
+const {toDecimal} = useCurrencyDecimalConvert()
 
-const sum = computed(() => toCurrencyUAH(props.account.getSumInMineCurrency(), {maximumFractionDigits: 0}))
+const sum = computed(() =>
+    toCurrencyUAH(
+        toDecimal(props.account.getSumInMineCurrency()),
+        {maximumFractionDigits: 0}
+    )
+)
 
 </script>
 

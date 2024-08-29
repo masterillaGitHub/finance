@@ -3,8 +3,10 @@ import {computed, onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import Account from "@/models_resources/models/Account.js";
 import {toCurrency, toCurrencyUAH} from "@/helpers/functions.js";
+import {useCurrencyDecimalConvert} from "@/composables/currency_decimal_convert.js";
 
 const route = useRoute()
+const {toDecimal} = useCurrencyDecimalConvert()
 
 const account = computed(() => Account.find(route.params.id))
 const sums = computed(() => account.value.sums.filter(s => s.balance !== 0))
@@ -90,7 +92,7 @@ async function initComponent() {
         <div class="subheading font-weight-light text-grey text-center">
           Поточний баланс<span v-if="sumsCount > 1">, в {{sumsCount}} валютах</span>
         </div>
-        <div class="font-weight-bold text-center">{{ toCurrencyUAH(account.getSumInMineCurrency()) }}</div>
+        <div class="font-weight-bold text-center">{{ toCurrencyUAH(toDecimal(account.getSumInMineCurrency())) }}</div>
 
         <v-list v-if="isShowOtherSums">
           <v-list-item
@@ -102,7 +104,7 @@ async function initComponent() {
             <template v-slot:title>
               <div class="d-flex justify-space-between">
                 <div>{{ sum.currency.name}}</div>
-                <div>{{ toCurrency(sum.balance, sum.currency.alphabetic_code)}}</div>
+                <div>{{ toCurrency(toDecimal(sum.balance), sum.currency.alphabetic_code)}}</div>
               </div>
             </template>
           </v-list-item>

@@ -6,8 +6,10 @@ import {integer, requiredZeroPossible} from "@/helpers/form_rules.js";
 import {toCurrency, updateObject} from "@/helpers/functions.js";
 import {isAccountSumValid} from "@/helpers/validators/entities.js";
 import BottomCalculator from "@/components/BottomCalculator.vue";
+import {useCurrencyDecimalConvert} from "@/composables/currency_decimal_convert.js";
 
 
+const {toDecimal, toInteger} = useCurrencyDecimalConvert()
 const props = defineProps({
   accountSum: {
     type: Object,
@@ -24,7 +26,7 @@ const emit = defineEmits({
 })
 
 const isCalcShow = ref(false)
-const balance = computed(() => props.accountSum.balance ?? 0)
+const balance = computed(() => toDecimal(props.accountSum.balance) ?? 0)
 const currency = computed(() => Currency.find(props.accountSum.getRelation('currency')))
 const balanceRules = [
     integer,
@@ -32,7 +34,7 @@ const balanceRules = [
 ]
 
 function updateAccountSum(val) {
-  updateObject(props.accountSum, {balance: val})
+  updateObject(props.accountSum, {balance: toInteger(val)})
 }
 
 </script>

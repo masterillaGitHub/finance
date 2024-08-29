@@ -4,6 +4,7 @@ import AccountItem from "@/views/account/accounts/components/index/AccountItem.v
 import {toCurrencyUAH} from "@/helpers/functions.js";
 import {computed} from "vue";
 import {isAccountCategoryValid} from "@/helpers/validators/entities.js";
+import {useCurrencyDecimalConvert} from "@/composables/currency_decimal_convert.js";
 
 const props = defineProps({
   category: {
@@ -12,8 +13,14 @@ const props = defineProps({
     validator: isAccountCategoryValid
   }
 })
+const {toDecimal} = useCurrencyDecimalConvert()
 
-const sum = computed(() => toCurrencyUAH(props.category.getSumInMineCurrency(), {maximumFractionDigits: 0}))
+const sum = computed(() =>
+    toCurrencyUAH(
+        toDecimal(props.category.getSumInMineCurrency()),
+        {maximumFractionDigits: 0}
+    )
+)
 
 </script>
 

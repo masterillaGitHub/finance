@@ -3,6 +3,7 @@ import {toCurrency} from "@/helpers/functions.js";
 import {isTransactionValid} from "@/helpers/validators/entities.js";
 import {computed} from "vue";
 import {TYPE_ID_TRANSFER} from "@/helpers/constants.js";
+import {useCurrencyDecimalConvert} from "@/composables/currency_decimal_convert.js";
 
 const props = defineProps({
   t: {
@@ -11,9 +12,10 @@ const props = defineProps({
     validator: isTransactionValid
   }
 })
+const convertor = useCurrencyDecimalConvert()
 
-const amount = computed(() => getAmount(props.t.amount, props.t.currency.alphabetic_code))
-const toAmount = computed(() => getAmount(props.t.to_amount, props.t.to_currency.alphabetic_code))
+const amount = computed(() => getAmount(convertor.toDecimal(props.t.amount), props.t.currency.alphabetic_code))
+const toAmount = computed(() => getAmount(convertor.toDecimal(props.t.to_amount), props.t.to_currency.alphabetic_code))
 const isIncome = computed(() => props.t.amount > 0)
 const isTypeTransfer = computed(() => props.t.type.id === TYPE_ID_TRANSFER)
 
