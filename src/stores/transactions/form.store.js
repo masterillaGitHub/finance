@@ -19,7 +19,7 @@ export const useFormStore = defineStore('transactions/form', {
         accountId: null,
         categoryId: null,
         tagIds: [],
-        date: new Date(),
+        date: null,
         toAccountId: null,
         toCurrencyId: null,
         toAmount: 0,
