@@ -7,20 +7,31 @@ import {useCurrenciesStore} from "@/stores/currencies.store.js";
 import BottomCalculator from "@/components/BottomCalculator.vue";
 import {STEP_TO_AMOUNT} from "@/services/transaction/step_transition_service.js";
 import {useCurrencyDecimalConvert} from "@/composables/currency_decimal_convert.js";
+import {isEmpty} from "@/helpers/validators/index.js";
 
 const {toDecimal, toPlus, toInteger} = useCurrencyDecimalConvert()
 const formStore = useFormStore()
 const currencyStore = useCurrenciesStore()
 
 const isCalcShow = ref(false)
-const toAmount = computed(() =>
-  toDecimal(formStore.toAmount)
-)
+const toAmount = computed(() => toDecimal(formStore.toAmount))
 
 onMounted(() => {
-  formStore.toAmount = toPlus(formStore.amount)
-  formStore.toCurrencyId = formStore.currencyId
+  initToAmount()
+  initToCurrencyId()
 })
+
+function initToAmount() {
+  if (isEmpty(formStore.toAmount)) {
+    formStore.toAmount = toPlus(formStore.amount)
+  }
+}
+
+function initToCurrencyId() {
+  if (isEmpty(formStore.toCurrencyId)) {
+    formStore.toCurrencyId = formStore.currencyId
+  }
+}
 
 </script>
 
