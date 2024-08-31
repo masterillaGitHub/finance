@@ -1,6 +1,6 @@
 <script setup>
 
-import {computed, ref, watchEffect} from "vue";
+import {computed, nextTick, ref, watchEffect} from "vue";
 import TransactionCategory from "@/models_resources/models/TransactionCategory.js";
 import {useFormStore} from "@/stores/transactions/form.store.js";
 import {STEP_CATEGORY} from "@/services/transaction/step_transition_service.js";
@@ -24,6 +24,7 @@ async function loadCategories() {
   categoryLoading.value = true
 
   try {
+    await nextTick() // Maybe fixed query to server. Before getting error, status 419 and message: "Unauthenticated."
     await TransactionCategory.loadCategoryStep(formStore.typeId)
   }
   finally {
@@ -110,6 +111,7 @@ function done() {
         />
 <!-- Category block - start -->
         <div v-else-if="!showChildren && !categoryLoading">
+          <button @click="loadCategories">Push</button>
           <v-chip-group
               mandatory
               column
