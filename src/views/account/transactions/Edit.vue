@@ -20,7 +20,7 @@ const props = defineProps({
 const {toMinus, toPlus} = useCurrencyDecimalConvert()
 const formStore = useFormStore()
 const transactionId = ref()
-const transactionLoading = ref(false)
+const transactionLoading = ref(true)
 
 const transaction = computed(() => Transaction.find(transactionId.value))
 
@@ -31,15 +31,19 @@ onUnmounted(() => {
 })
 
 async function initComponent() {
-  await loadTransaction()
-
-  formFill()
-}
-
-async function loadTransaction() {
   transactionLoading.value = true
 
   try {
+    await loadTransaction()
+    formFill()
+  }
+  finally {
+    transactionLoading.value = false
+  }
+
+}
+
+async function loadTransaction() {
     const response = await Transaction.query()
         .setUpdateMode(MODEL_UPDATE_ENTITY)
         .setParams({
@@ -48,17 +52,7 @@ async function loadTransaction() {
         })
         .get()
 
-    console.log('response', response)
-
     transactionId.value = response.data.data[0]
-  }
-  finally {
-    transactionLoading.value = false
-  }
-}
-
-async function loadCurrencies() {
-
 }
 
 function formFill() {
@@ -97,13 +91,17 @@ const removeTransaction = () => {
   <TheAppBar
     @remove-transaction="removeTransaction"
   />
-  <div class="fill-height d-flex flex-column">
-    <div class="flex-grow-1"></div>
-    <TheAmount/>
-    <TheTransactionSteps/>
-    <TheSaveButton/>
+  <v-fade-transition mode="out-in">
+    <v-progress-linear v-if="transactionLoading" indeterminate />
 
-  </div>
+    <div v-else class="fill-height d-flex flex-column">
+      <div class="flex-grow-1"></div>
+      <TheAmount/>
+      <TheTransactionSteps/>
+      <TheSaveButton/>
+    </div>
+
+  </v-fade-transition>
 </template>
 
 <style scoped>
