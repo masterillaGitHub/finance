@@ -4,7 +4,7 @@ import {TRANSACTION_TYPES} from "@/helpers/constants.js";
 import Account from "@/models_resources/models/Account.js";
 import TransactionCategory from "@/models_resources/models/TransactionCategory.js";
 import {useDateFormat} from "@/composables/date_format.js";
-import {nextStep, STEP_ACCOUNT} from "@/services/transaction/step_transition_service.js";
+import {nextStep, STEP_CLOSED} from "@/services/transaction/step_transition_service.js";
 import valid from "@/services/transaction/step_validate_service.js";
 import Transaction from "@/models_resources/models/Transaction.js";
 
@@ -12,10 +12,10 @@ const dateFormat = useDateFormat()
 
 export const useFormStore = defineStore('transactions/form', {
     state: () => ({
-        openStep: STEP_ACCOUNT,
+        openStep: STEP_CLOSED,
         amount: 0,
-        currencyId: 1,
-        typeId: 1,
+        currencyId: null,
+        typeId: null,
         accountId: null,
         categoryId: null,
         tagIds: [],
@@ -51,10 +51,10 @@ export const useFormStore = defineStore('transactions/form', {
             nextStep(this)
         },
         reset() {
-            this.openStep = STEP_ACCOUNT
+            this.openStep = STEP_CLOSED
             this.amount = 0
-            this.currencyId = 1
-            this.typeId = 1
+            this.currencyId = null
+            this.typeId = null
             this.accountId = null
             this.categoryId = null
             this.tagIds = []

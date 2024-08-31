@@ -63,7 +63,6 @@ async function loadCurrencies() {
 
 function formFill() {
   formStore.$patch({
-    openStep: STEP_CLOSED,
     amount: handleAmount(transaction.value.amount),
     currencyId: transaction.value.getRelation('currency'),
     typeId: transaction.value.getRelation('type'),
