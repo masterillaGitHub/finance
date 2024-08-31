@@ -1,14 +1,16 @@
 <script setup>
 import {computed, onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
-import Account from "@/models_resources/models/Account.js";
 import {toCurrency, toCurrencyUAH} from "@/helpers/functions.js";
 import {useCurrencyDecimalConvert} from "@/composables/currency_decimal_convert.js";
+import {ACCOUNT_TYPE_INTERNAL} from "@/helpers/constants.js";
+import {useShowStore} from "@/stores/accounts/show.store.js";
 
 const route = useRoute()
+const showStore = useShowStore()
 const {toDecimal} = useCurrencyDecimalConvert()
 
-const account = computed(() => Account.find(route.params.id))
+const account = computed(() => showStore.getAccount)
 const sums = computed(() => account.value.sums.filter(s => s.balance !== 0))
 const sumsCount = computed(() => sums.value.length)
 const isShowOtherSums = computed(() => !(sumsCount.value === 1 && sums.value[0].currency.id === 1))
@@ -39,17 +41,7 @@ const value = ref([
 
 async function initComponent() {
   if (!account.value.exists) {
-    accountLoading.value = true
-
-    try {
-      await Account.sync({
-        include: 'category,sums.currency',
-        'filter[id]': route.params.id
-      })
-    }
-     finally {
-      accountLoading.value = false
-    }
+    await showStore.loadAccount(route.params.id)
   }
 }
 
@@ -58,7 +50,7 @@ async function initComponent() {
 <template>
   <div>
 
-    <v-progress-linear v-if="accountLoading" indeterminate/>
+    <v-progress-linear v-if="showStore.accountLoading" indeterminate/>
     <v-card
         v-if="account"
         class="mt-8 mx-auto overflow-visible"
@@ -89,26 +81,28 @@ async function initComponent() {
 
       <v-card-title class="text-center">{{ account.name }}</v-card-title>
       <v-card-text class="pt-0">
-        <div class="subheading font-weight-light text-grey text-center">
-          Поточний баланс<span v-if="sumsCount > 1">, в {{sumsCount}} валютах</span>
-        </div>
-        <div class="font-weight-bold text-center">{{ toCurrencyUAH(toDecimal(account.getSumInMineCurrency())) }}</div>
+        <template v-if="account.place_type === ACCOUNT_TYPE_INTERNAL">
+          <div class="subheading font-weight-light text-grey text-center">
+            Поточний баланс<span v-if="sumsCount > 1">, в {{sumsCount}} валютах</span>
+          </div>
+          <div class="font-weight-bold text-center">{{ toCurrencyUAH(toDecimal(account.getSumInMineCurrency())) }}</div>
 
-        <v-list v-if="isShowOtherSums">
-          <v-list-item
-            v-for="sum in sums"
-            :key="sum.id"
-            prepend-icon="mdi-flag-outline"
-            class="s-list-item"
-          >
-            <template v-slot:title>
-              <div class="d-flex justify-space-between">
-                <div>{{ sum.currency.name}}</div>
-                <div>{{ toCurrency(toDecimal(sum.balance), sum.currency.alphabetic_code)}}</div>
-              </div>
-            </template>
-          </v-list-item>
-        </v-list>
+          <v-list v-if="isShowOtherSums">
+            <v-list-item
+              v-for="sum in sums"
+              :key="sum.id"
+              prepend-icon="mdi-flag-outline"
+              class="s-list-item"
+            >
+              <template v-slot:title>
+                <div class="d-flex justify-space-between">
+                  <div>{{ sum.currency.name}}</div>
+                  <div>{{ toCurrency(toDecimal(sum.balance), sum.currency.alphabetic_code)}}</div>
+                </div>
+              </template>
+            </v-list-item>
+          </v-list>
+        </template>
       </v-card-text>
     </v-card>
   </div>

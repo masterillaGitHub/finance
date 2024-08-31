@@ -1,5 +1,6 @@
 import {defineStore} from 'pinia'
 import {isEmpty} from "@/helpers/validators/index.js";
+import {CURRENCIES} from "@/helpers/constants.js";
 
 export const useAppStore = defineStore('app', {
     state: () => ({
@@ -28,6 +29,9 @@ export const useAppStore = defineStore('app', {
             }
 
             return parseFloat((res).toFixed(2))
+        },
+        getMainCurrency() {
+            return CURRENCIES.find(c => c.alphabeticCode.toLowerCase() === this.currency.main)
         },
     },
     actions: {

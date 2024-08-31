@@ -1,6 +1,7 @@
 import {defineStore} from 'pinia'
 import Account from "@/models_resources/models/Account.js";
-import AccountSum from "@/models_resources/models/AccountSum.js";
+import {ACCOUNT_TYPE_INTERNAL} from "@/helpers/constants.js";
+import {useAppStore} from "@/stores/app.store.js";
 
 export const useCreateStore = defineStore('accounts/create', {
     state: () => ({
@@ -34,13 +35,16 @@ export const useCreateStore = defineStore('accounts/create', {
             this.sums.splice(this.sums.indexOf(accountSum), 1)
         },
         async saveAccount() {
-            this.account.currency = this.sums[0].currency.id
+            const appStore = useAppStore()
+            this.account.currency = appStore.getMainCurrency.id
 
             const accountId = await this.account.save({
                 include: 'sums,category'
             })
 
-            await this.saveAccountSums(accountId)
+            if (this.account.place_type === ACCOUNT_TYPE_INTERNAL) {
+                await this.saveAccountSums(accountId)
+            }
         },
 
         async saveAccountSums(accountId) {

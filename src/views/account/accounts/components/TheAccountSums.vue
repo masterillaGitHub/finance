@@ -42,7 +42,9 @@ async function initComponent() {
 function createFirstAccountSum() {
   const currencies = Currency.all()
 
-  createAccountSum(currencies[0])
+  if (!isExistsCurrency(currencies[0])) {
+    createAccountSum(currencies[0])
+  }
 }
 
 async function loadCurrencies() {

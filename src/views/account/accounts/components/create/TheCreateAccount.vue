@@ -7,6 +7,7 @@ import TheCurrenciesChoiceList from "@/views/account/accounts/components/TheAcco
 import {useCreateStore} from "@/stores/accounts/create.store.js";
 import {useIndexStore} from "@/stores/accounts/index.store.js";
 import TheCategoryIcon from "@/views/account/settings/categories/components/TheCategoryIcon.vue";
+import {ACCOUNT_TYPE_EXTERNAL, ACCOUNT_TYPE_INTERNAL, ACCOUNT_TYPES} from "@/helpers/constants.js";
 
 const emit = defineEmits([
     'accountSave',
@@ -45,6 +46,12 @@ function createdAccountSum(accountSum) {
   createStore.createAccountSum(accountSum)
 }
 
+function updateAccountPlaceType(val) {
+  if (val === ACCOUNT_TYPE_EXTERNAL) {
+    createStore.resetAccountSum()
+  }
+}
+
 </script>
 
 <template>
@@ -70,16 +77,35 @@ function createdAccountSum(accountSum) {
 
         <div class="s-card-text-block">
           <div>
-            <div>Тип рахунку</div>
+            <div>Категорія рахунку</div>
             <div>{{createStore.account.category.name}}</div>
           </div>
           <v-divider/>
         </div>
-        <TheCurrenciesChoiceList
-            :account-sums="createStore.sums"
-            :is-create-first="true"
-            @created-account-sum="createdAccountSum"
-        />
+
+        <div class="s-card-text-block">
+          <div>
+            <div>Тип рахунку</div>
+            <div>
+              <v-select
+                  v-model="createStore.account.place_type"
+                  item-value="value"
+                  item-title="label"
+                  :items="ACCOUNT_TYPES"
+                  variant="underlined"
+                  @update:model-value="updateAccountPlaceType"
+              ></v-select>
+            </div>
+          </div>
+          <v-divider/>
+        </div>
+        <template v-if="createStore.account.place_type === ACCOUNT_TYPE_INTERNAL">
+          <TheCurrenciesChoiceList
+              :account-sums="createStore.sums"
+              :is-create-first="true"
+              @created-account-sum="createdAccountSum"
+          />
+        </template>
       </v-form>
     </v-card-text>
 

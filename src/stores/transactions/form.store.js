@@ -38,7 +38,7 @@ export const useFormStore = defineStore('transactions/form', {
         getAccount: state => Account.find(state.accountId) ?? null,
         getToAccount: state => Account.find(state.toAccountId) ?? null,
         getCategory: state => TransactionCategory.find(state.categoryId) ?? null,
-        getDate: state => dateFormat.text(state.date),
+        getDate: state => state.date ? dateFormat.text(state.date) : null,
 
         isValid: state => valid.check(state),
         isAmountValid: state => valid.amount(state),

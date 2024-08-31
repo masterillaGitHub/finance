@@ -1,10 +1,28 @@
-import { defineStore } from 'pinia'
-import AuthResource from "@/models_resources/resources/AuthResource.js";
+import {defineStore} from 'pinia'
+import Account from "@/models_resources/models/Account.js";
 
 export const useShowStore = defineStore('accounts/show', {
     state: () => ({
         editDialog: false,
+        accountId: null,
+        accountLoading: false,
     }),
-    getters: {},
-    actions: {},
+    getters: {
+        getAccount: state => Account.find(state.accountId),
+    },
+    actions: {
+        async loadAccount(accountId) {
+            this.accountLoading = true
+
+            try {
+                this.accountId = await Account.sync({
+                    include: 'category,sums.currency',
+                    'filter[id]': accountId
+                })
+            }
+            finally {
+                this.accountLoading = false
+            }
+        }
+    },
 })

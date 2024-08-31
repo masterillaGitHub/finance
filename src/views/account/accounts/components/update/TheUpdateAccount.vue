@@ -9,6 +9,7 @@ import Account from "@/models_resources/models/Account.js";
 import {useRoute, useRouter} from "vue-router";
 import BottomConfirm from "@/components/BottomConfirm.vue";
 import TheCategoryIcon from "@/views/account/settings/categories/components/TheCategoryIcon.vue";
+import {ACCOUNT_TYPE_INTERNAL, ACCOUNT_TYPES} from "@/helpers/constants.js";
 
 const emit = defineEmits([
   'accountUpdate',
@@ -21,9 +22,12 @@ const {categoriesIds} = useIndexStore()
 
 const form = ref()
 const confirmModel = ref(false)
+const accountTypeModel = ref()
 const account = ref(Account.find(route.params.id))
+const accountType = ref(ACCOUNT_TYPES.find(type => type.value === account.value.place_type).label)
 const accountSums = ref(account.value.sums)
 const {check} = useFormValidate(form)
+
 
 const nameRules = [required]
 
@@ -97,15 +101,25 @@ function createdAccountSum(accountSum) {
 
         <div class="s-card-text-block">
           <div>
-            <div>Тип рахунку</div>
+            <div>Категорія рахунку</div>
             <div>{{account.category.name}}</div>
           </div>
           <v-divider/>
         </div>
-        <TheCurrenciesChoiceList
-            :account-sums="accountSums"
-            @created-account-sum="createdAccountSum"
-        />
+
+        <div class="s-card-text-block">
+          <div>
+            <div>Тип рахунку</div>
+            <div>{{accountType}}</div>
+          </div>
+          <v-divider/>
+        </div>
+        <template v-if="account.place_type === ACCOUNT_TYPE_INTERNAL">
+          <TheCurrenciesChoiceList
+              :account-sums="accountSums"
+              @created-account-sum="createdAccountSum"
+          />
+        </template>
       </v-form>
       <BottomConfirm
           v-model="confirmModel"

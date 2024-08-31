@@ -3,6 +3,7 @@ import {toCurrencyUAH} from "@/helpers/functions.js";
 import Account from '@/models_resources/models/Account.js'
 import {computed} from "vue";
 import {useCurrencyDecimalConvert} from "@/composables/currency_decimal_convert.js";
+import {ACCOUNT_TYPE_EXTERNAL, ACCOUNT_TYPES} from "@/helpers/constants.js";
 
 const props = defineProps({
   account: {
@@ -38,7 +39,10 @@ const sum = computed(() =>
     <div class="d-flex justify-space-between">
       <div class="text-truncate">{{account.name}}</div>
       <div class="ml-2">
-        <span>{{ sum }}</span>
+        <span v-if="account.place_type === ACCOUNT_TYPE_EXTERNAL">
+          {{ACCOUNT_TYPES[1].label}}
+        </span>
+        <span v-else>{{ sum }}</span>
       </div>
     </div>
   </template>

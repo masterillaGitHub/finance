@@ -10,6 +10,14 @@ export const LAYOUT_ACCOUNT_FULLSCREEN = 'AccountFullscreen'
 export const LAYOUT_MAIN = 'Main'
 export const LAYOUT_AUTH = 'Auth'
 
+export const ACCOUNT_TYPE_INTERNAL = 'internal'
+export const ACCOUNT_TYPE_EXTERNAL = 'external'
+
+export const ACCOUNT_TYPES = [
+    {label: 'Внутрішній', value: ACCOUNT_TYPE_INTERNAL},
+    {label: 'Зовнішній', value: ACCOUNT_TYPE_EXTERNAL},
+]
+
 export const TRANSACTION_CATEGORY_ID_INITIAL = 1
 export const TRANSACTION_CATEGORY_ID_CORRECTION = 2
 export const TRANSACTION_CATEGORY_ID_EXPENSIVE = 3
