@@ -14,7 +14,6 @@ const account = computed(() => showStore.getAccount)
 const sums = computed(() => account.value.sums.filter(s => s.balance !== 0))
 const sumsCount = computed(() => sums.value.length)
 const isShowOtherSums = computed(() => !(sumsCount.value === 1 && sums.value[0].currency.id === 1))
-const accountLoading = ref(false)
 
 onMounted(initComponent)
 
@@ -40,8 +39,12 @@ const value = ref([
 ])
 
 async function initComponent() {
-  if (!account.value.exists) {
+  if (account.value.exists) {
+    showStore.accountId = route.params.id
+  }
+  else {
     await showStore.loadAccount(route.params.id)
+
   }
 }
 
