@@ -71,7 +71,7 @@ function backToCategories() {
               <div v-if="account.id" class="text-truncate">
                 <v-icon :icon="account.icon"/> {{ account.name }}
               </div>
-              <div class="text-grey">Вкажіть рахунок</div>
+              <div v-else class="text-grey">Вкажіть рахунок</div>
             </v-fade-transition>
           </v-col>
         </v-row>
