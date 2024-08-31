@@ -1,0 +1,1 @@
+import{_ as o,r as t,o as n,c as a,k as c}from"./index-BzizgZbg.js";const r={},s={class:"pa-2"};function _(l,i){const e=t("v-alert");return n(),a("div",s,[c(e,{icon:"$vuetify",title:"Welcome to the world of finance",type:"info",variant:"tonal"})])}const d=o(r,[["render",_]]);export{d as default};
