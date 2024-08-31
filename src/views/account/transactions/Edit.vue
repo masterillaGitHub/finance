@@ -62,8 +62,6 @@ async function loadCurrencies() {
 }
 
 function formFill() {
-  const categoryId =
-
   formStore.$patch({
     openStep: STEP_CLOSED,
     amount: handleAmount(transaction.value.amount),

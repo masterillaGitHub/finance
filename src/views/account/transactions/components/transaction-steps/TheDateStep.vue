@@ -12,7 +12,7 @@ const emit = defineEmits([
 
 const selectedModel = ref()
 const dialog = ref(false)
-const dateModel = ref(formStore.date ?? new Date())
+const dateModel = ref(formStore.date)
 const titleDate = ref()
 
 watchEffect(() => {
