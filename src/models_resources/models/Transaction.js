@@ -3,12 +3,18 @@ import TransactionCategory from "@/models_resources/models/TransactionCategory.j
 import Account from "@/models_resources/models/Account.js";
 import TransactionType from "@/models_resources/models/TransactionType.js";
 import Currency from "@/models_resources/models/Currency.js";
+import {TRANSACTION_CATEGORY_ID_INITIAL} from "@/helpers/constants.js";
 
 
 export default class Transaction extends Model
 {
     _resourceName = 'transactions';
 
+    isInitial() {
+        return this.category.id === TRANSACTION_CATEGORY_ID_INITIAL;
+    }
+
+    // Relations
     get account() {
         return this.hasOne('account', Account)
     }
