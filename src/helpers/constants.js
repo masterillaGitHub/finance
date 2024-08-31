@@ -23,10 +23,10 @@ export const ACCOUNT_CATEGORY_ICONS = [
     { id: 4, icon: 'mdi-cash-register'},
 ]
 
-export const CURRENCY_ICONS = [
-    { id: 1, icon: 'mdi-currency-uah'},
-    { id: 2, icon: 'mdi-currency-usd'},
-    { id: 3, icon: 'mdi-currency-eur'},
+export const CURRENCIES = [
+    { id: 1, icon: 'mdi-currency-uah', alphabeticCode: 'UAH', numericCode: 980},
+    { id: 2, icon: 'mdi-currency-usd', alphabeticCode: 'USD', numericCode: 840},
+    { id: 3, icon: 'mdi-currency-eur', alphabeticCode: 'EUR', numericCode: 978},
 ]
 
 export const TYPE_ID_EXPENSE = 1
@@ -34,7 +34,7 @@ export const TYPE_ID_INCOME = 2
 export const TYPE_ID_TRANSFER = 3
 
 export const TRANSACTION_TYPES = [
-    { id: TYPE_ID_EXPENSE, icon: CURRENCY_ICONS[0], name: 'Витрата'},
-    { id: TYPE_ID_INCOME, icon: CURRENCY_ICONS[1], name: 'Дохід'},
-    { id: TYPE_ID_TRANSFER, icon: CURRENCY_ICONS[2], name: 'Переказ'},
+    { id: TYPE_ID_EXPENSE, icon: CURRENCIES[0].icon, name: 'Витрата'},
+    { id: TYPE_ID_INCOME, icon: CURRENCIES[1].icon, name: 'Дохід'},
+    { id: TYPE_ID_TRANSFER, icon: CURRENCIES[2].icon, name: 'Переказ'},
 ]

@@ -1,5 +1,5 @@
 import Model from "@/models_resources/models/Model";
-import {CURRENCY_ICONS} from "@/helpers/constants.js";
+import {CURRENCIES} from "@/helpers/constants.js";
 
 
 export default class Currency extends Model
@@ -8,6 +8,6 @@ export default class Currency extends Model
 
 
     get icon() {
-        return CURRENCY_ICONS.find(icon => icon.id === this.id)?.icon ?? null
+        return CURRENCIES.find(icon => icon.id === this.id)?.icon ?? null
     }
 }
