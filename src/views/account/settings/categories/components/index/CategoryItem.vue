@@ -1,9 +1,9 @@
 <script setup>
 
 import {isTransactionCategoryValid} from "@/helpers/validators/entities.js";
-import {useSettingsCategories} from "@/stores/settings/categories.store.js";
+import {useSettingsCategoriesStore} from "@/stores/settings/categories.store.js";
 
-const store = useSettingsCategories()
+const store = useSettingsCategoriesStore()
 
 defineProps({
   category: {

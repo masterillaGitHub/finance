@@ -2,9 +2,9 @@
 
 import DialogComponent from "@/components/DialogComponent.vue";
 import TheFormCategory from "@/views/account/settings/categories/components/TheFormCategory.vue";
-import {useSettingsCategories} from "@/stores/settings/categories.store.js";
+import {useSettingsCategoriesStore} from "@/stores/settings/categories.store.js";
 
-const store = useSettingsCategories()
+const store = useSettingsCategoriesStore()
 
 </script>
 

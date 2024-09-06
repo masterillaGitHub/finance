@@ -3,7 +3,7 @@ import {computed, ref} from "vue";
 import {required} from "@/helpers/form_rules.js";
 import {useFormValidate} from "@/composables/form_validate.js";
 import BottomConfirm from "@/components/BottomConfirm.vue";
-import {useSettingsCategories} from "@/stores/settings/categories.store.js";
+import {useSettingsCategoriesStore} from "@/stores/settings/categories.store.js";
 import TheCategoryIcon from "@/views/account/settings/categories/components/TheCategoryIcon.vue";
 
 defineProps({
@@ -13,7 +13,7 @@ defineProps({
   }
 })
 
-const store = useSettingsCategories()
+const store = useSettingsCategoriesStore()
 
 const form = ref()
 const withoutParentCategory = {name: 'Немає', id: null}
