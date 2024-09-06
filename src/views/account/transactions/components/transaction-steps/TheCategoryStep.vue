@@ -1,6 +1,6 @@
 <script setup>
 
-import {computed, nextTick, ref, watchEffect} from "vue";
+import {computed, nextTick, onMounted, ref, watch} from "vue";
 import TransactionCategory from "@/models_resources/models/TransactionCategory.js";
 import {useFormStore} from "@/stores/transactions/form.store.js";
 import {STEP_CATEGORY} from "@/services/transaction/step_transition_service.js";
@@ -13,11 +13,13 @@ const parentCategoryModel = ref()
 const categoryModel = ref()
 const parentCategorySelected = ref(new TransactionCategory())
 
+const transactionTypeId = computed(() => formStore.typeId)
 const categories = computed(() =>
     TransactionCategory.findLoaded().filter(category => !!category.user_id)
 )
 
-watchEffect(loadCategories)
+onMounted(loadCategories)
+watch(transactionTypeId, loadCategories)
 
 async function loadCategories() {
   resetStep()
@@ -92,7 +94,7 @@ function done() {
               <div v-if="formStore.getCategory.id" class="text-truncate">
                 <v-icon :icon="formStore.getCategory.icon"/> {{ formStore.getCategory.name }}
               </div>
-              <div class="text-grey">Вкажіть категорію</div>
+              <div v-else class="text-grey">Вкажіть категорію</div>
             </v-fade-transition>
           </v-col>
         </v-row>

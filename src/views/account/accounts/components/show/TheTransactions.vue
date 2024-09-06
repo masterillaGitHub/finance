@@ -13,7 +13,6 @@ const indexStore = useIndexStore()
 
 const isLazyLoadEnable = computed(() => indexStore.isAccessLazyLoad && !indexStore.isEmptyData)
 const transactions = computed(() => toGroupTransactions(Transaction.findLoaded()))
-const transactionCount = computed(() => transactions.value.length)
 const transactionsLoading = ref(true)
 
 onMounted(initComponent)
