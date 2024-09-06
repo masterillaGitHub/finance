@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
-import Tag from "@/models_resources/models/Tag.js";
-import TagResource from "@/models_resources/resources/TagResource.js";
+import TransactionTag from "@/models_resources/models/TransactionTag.js";
+import TagResource from "@/models_resources/resources/TransactionTagResource.js";
 
 export const useSettingsTagsStore = defineStore('settings/tags', {
     state: () => ({
@@ -11,7 +11,7 @@ export const useSettingsTagsStore = defineStore('settings/tags', {
         tagIds: [],
     }),
     getters: {
-        tags: state => Tag.findIn(state.tagIds)
+        tags: state => TransactionTag.findIn(state.tagIds)
     },
     actions: {
         async loadTags() {
@@ -19,7 +19,7 @@ export const useSettingsTagsStore = defineStore('settings/tags', {
             this.tagsLoading = true
 
             try {
-                this.tagIds = await Tag.sync({
+                this.tagIds = await TransactionTag.sync({
                     'filter[user_id]': 'auth'
                 })
             }
@@ -31,7 +31,7 @@ export const useSettingsTagsStore = defineStore('settings/tags', {
             await tag.save()
         },
         setNewTag(){
-            this.editTag = new Tag()
+            this.editTag = new TransactionTag()
             this.storeDialog = true
         },
         setEditTag(tag) {

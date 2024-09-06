@@ -3,7 +3,7 @@ import ApiResource from './ApiResource.js'
 export default class TransactionCategoryResource extends ApiResource
 {
     getResource() {
-        return 'tags';
+        return 'transaction-tags';
     }
 
     static setSorting(orderNumbers) {
