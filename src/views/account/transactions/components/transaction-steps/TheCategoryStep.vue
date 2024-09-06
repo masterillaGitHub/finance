@@ -113,7 +113,6 @@ function done() {
         />
 <!-- Category block - start -->
         <div v-else-if="!showChildren && !categoryLoading">
-          <button @click="loadCategories">Push</button>
           <v-chip-group
               mandatory
               column
