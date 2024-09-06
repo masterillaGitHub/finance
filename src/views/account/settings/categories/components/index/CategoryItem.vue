@@ -17,10 +17,14 @@ defineProps({
 
 <template>
   <v-list-item
-      :prepend-icon="category.icon"
       :title="category.name"
       @click="store.setEditCategory(category)"
   >
+    <template #prepend>
+      <div class="s-handle-sorting-setting-category-item text-grey mr-3">
+        <v-icon :icon="category.icon"/>
+      </div>
+    </template>
   </v-list-item>
 </template>
 

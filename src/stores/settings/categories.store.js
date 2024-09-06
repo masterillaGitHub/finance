@@ -1,8 +1,9 @@
 import {defineStore} from "pinia";
 import TransactionCategory from "@/models_resources/models/TransactionCategory.js";
 import {TYPE_ID_EXPENSE} from "@/helpers/constants.js";
+import TransactionCategoryResource from "@/models_resources/resources/TransactionCategoryResource.js";
 
-export const useSettingsCategories = defineStore('settings/categories', {
+export const useSettingsCategoriesStore = defineStore('settings/categories', {
     state: () => ({
         categoryLoading: false,
         editCategory: null,
@@ -51,5 +52,10 @@ export const useSettingsCategories = defineStore('settings/categories', {
                 this.editCategory = false
             },1000)
         },
+        async setSorting(categories) {
+            const ids = categories.map(c => c.id)
+            this.categoryIds = ids
+            await TransactionCategoryResource.setSorting(ids)
+        }
     }
 })
