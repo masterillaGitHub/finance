@@ -8,6 +8,7 @@ const router = useRouter()
 const settings = [
   {icon: 'mdi-account-outline', title: 'Профіль', path: 'settings.profile'},
   {icon: 'mdi-format-list-bulleted-type', title: 'Категорії', path: 'settings.categories'},
+  {icon: 'mdi-tag-multiple', title: 'Теги', path: 'settings.tags'},
 ]
 
 const click = setting => {

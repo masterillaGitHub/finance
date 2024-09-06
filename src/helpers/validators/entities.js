@@ -3,6 +3,7 @@ import Currency from "@/models_resources/models/Currency.js";
 import Transaction from "@/models_resources/models/Transaction.js";
 import TransactionCategory from "@/models_resources/models/TransactionCategory.js";
 import AccountCategory from "@/models_resources/models/AccountCategory.js";
+import Tag from "@/models_resources/models/Tag.js";
 
 export function isAccountCategoryValid(value) {
     return value instanceof AccountCategory
@@ -42,4 +43,12 @@ export function isTransactionCategoryValid(value) {
 
 export function validateTransactionCategoryItems(items) {
     return items.every(isTransactionCategoryValid)
+}
+
+export function isTagValid(value) {
+    return value instanceof Tag
+}
+
+export function validateTagItems(items) {
+    return items.every(isTagValid)
 }
