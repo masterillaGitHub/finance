@@ -34,6 +34,7 @@ async function saveTransaction() {
   t.type = formStore.typeId
   t.account = formStore.accountId
   t.category = formStore.categoryId
+  t.setRelation('tags', formStore.tagIds) // TODO: Check relation for collection
   t.amount = formStore.amount
   t.note = null
   t.transaction_at = formatISO9075(formStore.date)

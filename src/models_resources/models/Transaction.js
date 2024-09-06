@@ -4,6 +4,7 @@ import Account from "@/models_resources/models/Account.js";
 import TransactionType from "@/models_resources/models/TransactionType.js";
 import Currency from "@/models_resources/models/Currency.js";
 import {TRANSACTION_CATEGORY_ID_INITIAL} from "@/helpers/constants.js";
+import TransactionTag from "@/models_resources/models/TransactionTag.js";
 
 
 export default class Transaction extends Model
@@ -39,6 +40,10 @@ export default class Transaction extends Model
         return this.hasOne('category', TransactionCategory)
     }
 
+    get tags() {
+        return this.hasMany('tags', TransactionTag)
+    }
+
     set currency(id) {
         this.belongsTo('currency', id)
     }
@@ -61,5 +66,10 @@ export default class Transaction extends Model
 
     set category(id) {
         this.belongsTo('category', id)
+    }
+
+    // TODO: Check 'belongsTo' with collection and if not, create 'belongsToMany'
+    set tags(ids) {
+        this.belongsTo('tags', ids)
     }
 }

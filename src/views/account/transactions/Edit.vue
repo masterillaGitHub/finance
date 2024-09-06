@@ -47,7 +47,7 @@ async function loadTransaction() {
     const response = await Transaction.query()
         .setUpdateMode(MODEL_UPDATE_ENTITY)
         .setParams({
-          include: 'currency,type,account,category,to_account,to_currency',
+          include: 'currency,type,account,category,to_account,to_currency,tags',
           'filter[id]': props.id,
         })
         .get()
@@ -62,7 +62,7 @@ function formFill() {
     typeId: transaction.value.getRelation('type'),
     accountId: transaction.value.getRelation('account'),
     categoryId: transaction.value.getRelation('category'),
-    tagIds: [],
+    tagIds: transaction.value.getRelation('tags'),
     date: new Date(transaction.value.transaction_at_timestamp * 1000),
     toAccountId: transaction.value.getRelation('to_account'),
     toCurrencyId: transaction.value.getRelation('to_currency'),

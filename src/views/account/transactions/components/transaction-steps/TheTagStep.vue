@@ -1,36 +1,38 @@
 <script setup>
 
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {STEP_TAG} from "@/services/transaction/step_transition_service.js";
+import {useFormStore} from "@/stores/transactions/form.store.js";
+import TransactionTag from "@/models_resources/models/TransactionTag.js";
 
+
+const formStore = useFormStore()
 const emit = defineEmits([
   'done'
 ])
-const selected = ref([])
-const itemsText = computed(() => selected.value.join(', '))
 
-const items = [
-  'Доходи',
-  'Витрати',
-  'Бюджет',
-  'Заощадження',
-  'Кредити',
-  'Депозити',
-  'Інвестиції',
-  'Податки',
-  'Зарплата',
-  'Пенсія',
-  'Страхування',
-  'Платежі',
-  'КомунальніПослуги',
-  'Продукти',
-  'Одяг',
-  'Транспорт',
-  'Розваги',
-  'Медицина',
-  'Освіта',
-  'Подарунки'
-]
+const tagsLoading = ref(false)
+const tags = computed(() => TransactionTag.findLoaded())
+const itemsText = computed(() => formStore.getTags.map(t => t.name).join(', '))
+
+onMounted(initComponent)
+
+async function initComponent() {
+  await loadTags()
+}
+
+async function loadTags() {
+  tagsLoading.value = true
+
+  try {
+    await TransactionTag.sync({
+      'filter[user_id]': 'auth'
+    })
+  }
+  finally {
+    tagsLoading.value = false
+  }
+}
 
 </script>
 
@@ -45,9 +47,9 @@ const items = [
           <v-col class="d-flex justify-start" cols="4">Теги:</v-col>
           <v-col class="text--secondary text-right" cols="8">
             <v-fade-transition leave-absolute>
-              <div v-if="selected.length === 0" class="text-grey">Вкажіть теги</div>
-              <div v-else-if="selected.length <= 3" class="text-truncate">{{ itemsText }}</div>
-              <div v-else>вибрано {{selected.length}} тегів</div>
+              <div v-if="formStore.getTags.length === 0" class="text-grey">Вкажіть теги</div>
+              <div v-else-if="formStore.getTags.length <= 3" class="text-truncate">{{ itemsText }}</div>
+              <div v-else>вибрано {{formStore.getTags.length}} тегів</div>
             </v-fade-transition>
           </v-col>
         </v-row>
@@ -58,15 +60,15 @@ const items = [
       <v-chip-group
           multiple
           column
-          v-model="selected"
+          v-model="formStore.tagIds"
       >
         <v-chip
-            v-for="(item, idx) in items"
-            :key="idx"
+            v-for="teg in tags"
+            :key="teg.id"
             label
             variant="text"
-            :text="item"
-            :value="item"
+            :text="teg.name"
+            :value="teg.id"
         />
       </v-chip-group>
     </v-expansion-panel-text>

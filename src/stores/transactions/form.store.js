@@ -7,6 +7,7 @@ import {useDateFormat} from "@/composables/date_format.js";
 import {nextStep, STEP_CLOSED} from "@/services/transaction/step_transition_service.js";
 import valid from "@/services/transaction/step_validate_service.js";
 import Transaction from "@/models_resources/models/Transaction.js";
+import TransactionTag from "@/models_resources/models/TransactionTag.js";
 
 const dateFormat = useDateFormat()
 
@@ -38,6 +39,7 @@ export const useFormStore = defineStore('transactions/form', {
         getAccount: state => Account.find(state.accountId) ?? null,
         getToAccount: state => Account.find(state.toAccountId) ?? null,
         getCategory: state => TransactionCategory.find(state.categoryId) ?? null,
+        getTags: state => TransactionTag.findIn(state.tagIds) ?? [],
         getDate: state => state.date ? dateFormat.text(state.date) : null,
 
         isValid: state => valid.check(state),
