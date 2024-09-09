@@ -23,7 +23,7 @@ function initComponent() {
 
 function formFill() {
   formStore.$patch({
-    openStep: STEP_ACCOUNT,
+    openStep: formStore.openStep ?? STEP_ACCOUNT,
     date: new Date(),
     typeId: TYPE_ID_EXPENSE,
     currencyId: appStore.getMainCurrency.id
