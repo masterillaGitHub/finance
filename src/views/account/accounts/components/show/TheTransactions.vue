@@ -14,6 +14,9 @@ const indexStore = useIndexStore()
 const isLazyLoadEnable = computed(() => indexStore.isAccessLazyLoad && !indexStore.isEmptyData)
 const transactions = computed(() => toGroupTransactions(Transaction.findLoaded()))
 const transactionsLoading = ref(true)
+const loadParams = {
+  'filter[account_id_or_to_account_id]': route.params.id,
+}
 
 onMounted(initComponent)
 onUnmounted(() => {
@@ -25,9 +28,7 @@ async function initComponent() {
   indexStore.reset()
 
   try {
-    await indexStore.firstLoadTransactions({
-      'filter[account_id]': route.params.id
-    })
+    await indexStore.firstLoadTransactions(loadParams)
   }
   finally {
     transactionsLoading.value = false
@@ -35,10 +36,9 @@ async function initComponent() {
 }
 
 const load = () => {
-  indexStore.lazyLoadTransactions({
-    'filter[account_id]': route.params.id
-  })
+  indexStore.lazyLoadTransactions(loadParams)
 }
+
 </script>
 
 <template>
