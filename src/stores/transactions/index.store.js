@@ -22,6 +22,7 @@ export const useIndexStore = defineStore('transaction/index', {
             const params = Object.assign({
                 include: 'category,account,currency,type,to_account,to_currency',
                 page: 1,
+                sort: '-transaction_at',
             }, newParams)
             const response = await loadTransactions(params)
 
@@ -39,6 +40,7 @@ export const useIndexStore = defineStore('transaction/index', {
                 const params = Object.assign({
                     include: 'category,account,currency,type,to_account,to_currency',
                     page: this.nextNumberPage,
+                    sort: '-transaction_at',
                 }, newParams)
 
                 const response = await loadTransactions(params)
