@@ -24,11 +24,16 @@ export const TRANSACTION_CATEGORY_ID_EXPENSIVE = 3
 export const TRANSACTION_CATEGORY_ID_INCOME = 4
 export const TRANSACTION_CATEGORY_ID_TRANSFER = 5
 
+export const ACCOUNT_CATEGORY_ID_CASH = 1
+export const ACCOUNT_CATEGORY_ID_BANK_ACCOUNT = 2
+export const ACCOUNT_CATEGORY_ID_DEBT = 3
+export const ACCOUNT_CATEGORY_ID_ANOTHER_ASSET = 4
+
 export const ACCOUNT_CATEGORY_ICONS = [
-    { id: 1, icon: 'mdi-cash'},
-    { id: 2, icon: 'mdi-credit-card-outline'},
-    { id: 3, icon: 'mdi-account-cash-outline'},
-    { id: 4, icon: 'mdi-cash-register'},
+    { id: ACCOUNT_CATEGORY_ID_CASH, icon: 'mdi-cash'},
+    { id: ACCOUNT_CATEGORY_ID_BANK_ACCOUNT, icon: 'mdi-credit-card-outline'},
+    { id: ACCOUNT_CATEGORY_ID_DEBT, icon: 'mdi-account-cash-outline'},
+    { id: ACCOUNT_CATEGORY_ID_ANOTHER_ASSET, icon: 'mdi-cash-register'},
 ]
 
 export const CURRENCIES = [
@@ -46,3 +51,6 @@ export const TRANSACTION_TYPES = [
     { id: TYPE_ID_INCOME, icon: CURRENCIES[1].icon, name: 'Дохід'},
     { id: TYPE_ID_TRANSFER, icon: CURRENCIES[2].icon, name: 'Переказ'},
 ]
+
+export const BANK_TYPE_INPUT_ID_AUTO = 1
+export const BANK_TYPE_INPUT_ID_MANUAL = 2
