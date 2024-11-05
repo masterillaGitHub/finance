@@ -25,8 +25,8 @@ export default class ApiResourceBase {
         return (new this()).find(id)
     }
 
-    static store() {
-        return (new this()).store()
+    static store(data) {
+        return (new this()).store(data)
     }
 
     static update(id, data) {
