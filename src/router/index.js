@@ -4,6 +4,8 @@ import {LAYOUT_AUTH, LAYOUT_MAIN} from "@/helpers/constants.js";
 import accounts from '@/router/routes/accounts.js'
 import transactions from '@/router/routes/transactions.js'
 import settings from '@/router/routes/settings.js'
+import banks from "@/router/routes/banks.js";
+import bank_accounts from "@/router/routes/bank_accounts.js";
 
 const Main = () => import('@/views/Main.vue')
 const Login = () => import('@/views/Login.vue')
@@ -23,6 +25,8 @@ const routes = [
 .concat(
     accounts,
     transactions,
+    banks,
+    bank_accounts,
     settings,
 )
 

@@ -8,9 +8,12 @@ import {useAddStore} from "@/stores/accounts/add.store.js";
 import TheAccountCategoryList from "@/views/account/accounts/components/create/TheAccountCategoryList.vue";
 import TheChoiceBankType from "@/views/account/accounts/components/create/TheChoiceBankType.vue";
 import {ACCOUNT_CATEGORY_ID_BANK_ACCOUNT, BANK_TYPE_INPUT_ID_MANUAL} from "@/helpers/constants.js";
+import {useRouter} from "vue-router";
 
 const createStore = useCreateStore()
 const addStore = useAddStore()
+const router = useRouter()
+
 const createPageDialog = ref(false)
 
 const openPanel = async () => {
@@ -38,7 +41,7 @@ function selectBankType(bankTypeId) {
     openDialog(ACCOUNT_CATEGORY_ID_BANK_ACCOUNT)
   }
   else {
-
+    router.push({name: 'banks.index'})
   }
 }
 

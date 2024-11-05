@@ -1,4 +1,5 @@
 import {LAYOUT_ACCOUNT_FULLSCREEN} from "@/helpers/constants.js";
+
 const Accounts = () => import('@/views/account/accounts/Index.vue')
 const AccountsShow = () => import('@/views/account/accounts/Show.vue')
 

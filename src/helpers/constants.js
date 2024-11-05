@@ -54,3 +54,10 @@ export const TRANSACTION_TYPES = [
 
 export const BANK_TYPE_INPUT_ID_AUTO = 1
 export const BANK_TYPE_INPUT_ID_MANUAL = 2
+
+export const BANK_ID_MONO = 1
+export const BANK_TEMPLATE_MONO = 'mono'
+
+export const BANK_TEMPLATES = [
+    {id: BANK_ID_MONO, template: BANK_TEMPLATE_MONO}
+]
