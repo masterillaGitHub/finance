@@ -15,7 +15,7 @@ const isLazyLoadEnable = computed(() => indexStore.isAccessLazyLoad && !indexSto
 const transactions = computed(() => toGroupTransactions(Transaction.findLoaded()))
 const transactionsLoading = ref(true)
 const loadParams = {
-  'filter[account_id_or_to_account_id]': route.params.id,
+  'filter[account_id]': route.params.id,
 }
 
 onMounted(initComponent)
