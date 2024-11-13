@@ -27,10 +27,14 @@ export const useFormStore = defineStore('transactions/form', {
         isEnabledValidate: false,
 
         transactionId: null,
+        transferTransactionId: null,
     }),
     getters: {
         getTransaction: state => state.transactionId
             ? Transaction.find(state.transactionId)
+            : new Transaction(),
+        getTransferTransaction: state => state.transferTransactionId
+            ? Transaction.find(state.transferTransactionId)
             : new Transaction(),
         getCurrency: state => Currency.find(state.currencyId) ?? null,
         getToCurrency: state => Currency.find(state.toCurrencyId) ?? null,

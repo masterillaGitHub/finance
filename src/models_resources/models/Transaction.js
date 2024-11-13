@@ -24,12 +24,8 @@ export default class Transaction extends Model
         return this.hasOne('currency', Currency)
     }
 
-    get to_currency() {
-        return this.hasOne('to_currency', Currency)
-    }
-
-    get to_account() {
-        return this.hasOne('to_account', Account)
+    get transfer_transaction() {
+        return this.hasOne('transfer_transaction', Transaction)
     }
 
     get type () {
@@ -48,10 +44,6 @@ export default class Transaction extends Model
         this.belongsTo('currency', id)
     }
 
-    set to_currency(id) {
-        this.belongsTo('to_currency', id)
-    }
-
     set type(id) {
         this.belongsTo('type', id)
     }
@@ -60,8 +52,8 @@ export default class Transaction extends Model
         this.belongsTo('account', id)
     }
 
-    set to_account(id) {
-        this.belongsTo('to_account', id)
+    set transfer_transaction(id) {
+        this.belongsTo('transfer_transaction', id)
     }
 
     set category(id) {

@@ -44,10 +44,21 @@ async function initComponent() {
 }
 
 async function loadTransaction() {
+  const includes = [
+    'category',
+    'account',
+    'currency',
+    'type',
+    'tags',
+    'transfer_transaction.category',
+    'transfer_transaction.currency',
+    'transfer_transaction.type',
+    'transfer_transaction.account',
+  ]
     const response = await Transaction.query()
         .setUpdateMode(MODEL_UPDATE_ENTITY)
         .setParams({
-          include: 'currency,type,account,category,to_account,to_currency,tags',
+          include: includes.join(','),
           'filter[id]': props.id,
         })
         .get()
@@ -64,11 +75,12 @@ function formFill() {
     categoryId: transaction.value.getRelation('category'),
     tagIds: transaction.value.getRelation('tags'),
     date: new Date(transaction.value.transaction_at_timestamp * 1000),
-    toAccountId: transaction.value.getRelation('to_account'),
-    toCurrencyId: transaction.value.getRelation('to_currency'),
-    toAmount: transaction.value.to_amount,
+    toAccountId: transaction.value.transfer_transaction.getRelation('account'),
+    toCurrencyId: transaction.value.transfer_transaction.getRelation('currency'),
+    toAmount: transaction.value.transfer_transaction.amount,
 
     transactionId: transaction.value.id,
+    transferTransactionId: transaction.value.transfer_transaction.id
   })
 }
 

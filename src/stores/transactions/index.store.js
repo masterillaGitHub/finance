@@ -19,10 +19,20 @@ export const useIndexStore = defineStore('transaction/index', {
     },
     actions: {
         async firstLoadTransactions(newParams) {
+            const includes = [
+                'type',
+                'account',
+                'currency',
+                'category',
+                'transfer_transaction.type',
+                'transfer_transaction.account',
+                'transfer_transaction.currency',
+                'transfer_transaction.category',
+            ]
             const params = Object.assign({
-                include: 'category,account,currency,type,to_account,to_currency',
+                include: includes.join(','),
                 page: 1,
-                sort: '-transaction_at',
+                sort: '-transaction_at,-id',
             }, newParams)
             const response = await loadTransactions(params)
 
@@ -33,14 +43,24 @@ export const useIndexStore = defineStore('transaction/index', {
             if (this.isLoadLock) {
                 return
             }
+            const includes = [
+                'type',
+                'account',
+                'currency',
+                'category',
+                'transfer_transaction.type',
+                'transfer_transaction.account',
+                'transfer_transaction.currency',
+                'transfer_transaction.category',
+            ]
 
             this.transactionsLoading = true
             this.isLoadLock = true
             try {
                 const params = Object.assign({
-                    include: 'category,account,currency,type,to_account,to_currency',
+                    include: includes.join(','),
                     page: this.nextNumberPage,
-                    sort: '-transaction_at',
+                    sort: '-transaction_at,-id',
                 }, newParams)
 
                 const response = await loadTransactions(params)

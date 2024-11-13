@@ -29,24 +29,37 @@ async function add() {
 }
 
 async function saveTransaction() {
+  const date = formatISO9075(formStore.date)
+
   const t = formStore.getTransaction
+  t.category = formStore.typeId === TYPE_ID_TRANSFER
+      ? TRANSACTION_CATEGORY_ID_TRANSFER
+      : formStore.categoryId
   t.currency = formStore.currencyId
   t.type = formStore.typeId
   t.account = formStore.accountId
-  t.category = formStore.categoryId
   t.setRelation('tags', formStore.tagIds) // TODO: Check relation for collection
   t.amount = formStore.amount
   t.note = null
-  t.transaction_at = formatISO9075(formStore.date)
+  t.transaction_at = date
+
+  const tServerId = await t.save()
 
   if (formStore.typeId === TYPE_ID_TRANSFER) {
-    t.category = TRANSACTION_CATEGORY_ID_TRANSFER
-    t.to_account = formStore.toAccountId
-    t.to_currency = formStore.toCurrencyId
-    t.to_amount = formStore.toAmount
+    const tt = formStore.getTransferTransaction
+    tt.type = formStore.typeId
+    tt.category = TRANSACTION_CATEGORY_ID_TRANSFER
+    tt.account = formStore.toAccountId
+    tt.currency = formStore.toCurrencyId
+    tt.transfer_transaction = tServerId
+    tt.amount = formStore.toAmount
+    tt.setRelation('tags', formStore.tagIds) // TODO: Check relation for collection
+    tt.note = null
+    tt.transaction_at = date
+
+    await tt.save()
   }
 
-  await t.save()
 }
 </script>
 
