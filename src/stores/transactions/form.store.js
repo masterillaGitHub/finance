@@ -36,13 +36,13 @@ export const useFormStore = defineStore('transactions/form', {
         getTransferTransaction: state => state.transferTransactionId
             ? Transaction.find(state.transferTransactionId)
             : new Transaction(),
-        getCurrency: state => Currency.find(state.currencyId) ?? null,
-        getToCurrency: state => Currency.find(state.toCurrencyId) ?? null,
+        getCurrency: state => Currency.find(state.currencyId) ?? new Currency(),
+        getToCurrency: state => Currency.find(state.toCurrencyId) ?? new Currency(),
         getType: state =>
             TRANSACTION_TYPES.find(t => t.id === state.typeId) ?? null,
-        getAccount: state => Account.find(state.accountId) ?? null,
-        getToAccount: state => Account.find(state.toAccountId) ?? null,
-        getCategory: state => TransactionCategory.find(state.categoryId) ?? null,
+        getAccount: state => Account.find(state.accountId) ?? new Account(),
+        getToAccount: state => Account.find(state.toAccountId) ?? new Account(),
+        getCategory: state => TransactionCategory.find(state.categoryId) ?? new TransactionCategory(),
         getTags: state => TransactionTag.findIn(state.tagIds) ?? [],
         getDate: state => state.date ? dateFormat.text(state.date) : null,
 

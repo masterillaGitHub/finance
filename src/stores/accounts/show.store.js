@@ -8,7 +8,7 @@ export const useShowStore = defineStore('accounts/show', {
         accountLoading: false,
     }),
     getters: {
-        getAccount: state => Account.find(state.accountId),
+        getAccount: state => Account.find(state.accountId) ?? new Account(),
     },
     actions: {
         async loadAccount(accountId) {
