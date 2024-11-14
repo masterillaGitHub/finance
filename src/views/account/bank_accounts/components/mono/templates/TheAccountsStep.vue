@@ -24,7 +24,15 @@ const bankAccounts = computed(() => monoCreateStore.getAccounts.map(a => {
 const formAccountsValidate = useFormValidate(formAccountsRef)
 
 onMounted(async () => {
-  await monoCreateStore.loadAccountsByBankId(bankCreateStore.bankId)
+  bankAccountsLoading.value = true
+
+  try {
+    await bankCreateStore.storeBankConnection()
+    await monoCreateStore.loadAccountsByBankId(bankCreateStore.bankId)
+  }
+  finally {
+    bankAccountsLoading.value = false
+  }
 })
 
 const readLabelData = (data, name) => JSON.parse(data)[name] ?? ''
@@ -44,7 +52,7 @@ defineExpose({
 
 <template>
   <v-form ref="formAccountsRef">
-    <v-progress-linear :active="monoCreateStore.accountsLoading" indeterminate/>
+    <v-progress-linear :active="bankAccountsLoading" indeterminate/>
     <template
         v-for="(account, idx) in bankAccounts"
         :key="account.id"
