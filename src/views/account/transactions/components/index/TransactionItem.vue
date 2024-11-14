@@ -24,7 +24,8 @@ function initAccounts() {
   fromAccount.value = {
     name: props.t.account.name,
     icon: props.t.account.icon,
-    amount: getAmount(convertor.toDecimal(props.t.amount), props.t.currency.alphabetic_code),
+    amount: props.t.amount,
+    amountDisplay: getAmount(convertor.toDecimal(props.t.amount), props.t.currency.alphabetic_code),
     isIncome,
   }
 
@@ -32,13 +33,15 @@ function initAccounts() {
     toAccount.value = {
       name: props.t.transfer_transaction.account.name,
       icon: props.t.transfer_transaction.account.icon,
-      amount: getAmount(
+      amount: props.t.transfer_transaction.amount,
+      amountDisplay: getAmount(
           convertor.toDecimal(props.t.transfer_transaction.amount),
           props.t.transfer_transaction.currency.alphabetic_code
       )
     }
   }
 
+  // TODO: Need configure correct change place between account. If account have plus amount that account stay first
   // if (isIncome) {
   //   const tempFromAccount = fromAccount.value
   //   fromAccount.value = toAccount.value
@@ -48,6 +51,10 @@ function initAccounts() {
 
 function getAmount(amount, alphabeticCode) {
   return toCurrency(amount, alphabeticCode, {signDisplay: 'exceptZero'}).replace('-', '')
+}
+
+function compareAmountsWithoutSign(a, b) {
+  return Math.abs(a) === Math.abs(b);
 }
 
 initAccounts()
@@ -67,13 +74,13 @@ initAccounts()
         </div>
         <div class="d-flex">
           <div :class="{'text-green': fromAccount.isIncome}">
-            {{fromAccount.amount}}
+            {{fromAccount.amountDisplay}}
           </div>
           <div
-              v-if="isTypeTransfer && fromAccount.amount !== toAccount.amount"
+              v-if="isTypeTransfer && !compareAmountsWithoutSign(fromAccount.amount, toAccount.amount)"
           >
             <v-icon icon="mdi-arrow-right-thin" class="mx-1 text-grey-darken-1"/>
-            <span class="text-green">{{toAccount.amount}}</span>
+            <span class="text-green">{{toAccount.amountDisplay}}</span>
           </div>
         </div>
 

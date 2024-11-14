@@ -6,10 +6,10 @@ import {useFormStore} from "@/stores/transactions/form.store.js";
 import TheTransactionSteps from "@/views/account/transactions/components/transaction-steps/TheTransactionSteps.vue";
 import TheSaveButton from "@/views/account/transactions/components/TheSaveButton.vue";
 import Transaction from "@/models_resources/models/Transaction.js";
-import {MODEL_UPDATE_ENTITY, TYPE_ID_EXPENSE, TYPE_ID_INCOME, TYPE_ID_TRANSFER} from "@/helpers/constants.js";
-import {STEP_CLOSED} from "@/services/transaction/step_transition_service.js";
+import {TYPE_ID_EXPENSE, TYPE_ID_INCOME, TYPE_ID_TRANSFER} from "@/helpers/constants.js";
 import {useCurrencyDecimalConvert} from "@/composables/currency_decimal_convert.js";
 import TheAmount from "@/views/account/transactions/components/TheAmount.vue";
+import {useCreateStore} from "@/stores/transactions/create.store.js";
 
 const props = defineProps({
   id: {
@@ -19,6 +19,7 @@ const props = defineProps({
 })
 const {toMinus, toPlus} = useCurrencyDecimalConvert()
 const formStore = useFormStore()
+const createStore = useCreateStore()
 const transactionId = ref()
 const transactionLoading = ref(true)
 
@@ -34,36 +35,13 @@ async function initComponent() {
   transactionLoading.value = true
 
   try {
-    await loadTransaction()
+    transactionId.value = await createStore.loadTransactionById(props.id)
     formFill()
   }
   finally {
     transactionLoading.value = false
   }
 
-}
-
-async function loadTransaction() {
-  const includes = [
-    'category',
-    'account',
-    'currency',
-    'type',
-    'tags',
-    'transfer_transaction.category',
-    'transfer_transaction.currency',
-    'transfer_transaction.type',
-    'transfer_transaction.account',
-  ]
-    const response = await Transaction.query()
-        .setUpdateMode(MODEL_UPDATE_ENTITY)
-        .setParams({
-          include: includes.join(','),
-          'filter[id]': props.id,
-        })
-        .get()
-
-    transactionId.value = response.data.data[0]
 }
 
 function formFill() {
@@ -75,12 +53,12 @@ function formFill() {
     categoryId: transaction.value.getRelation('category'),
     tagIds: transaction.value.getRelation('tags'),
     date: new Date(transaction.value.transaction_at_timestamp * 1000),
-    toAccountId: transaction.value.transfer_transaction.getRelation('account'),
-    toCurrencyId: transaction.value.transfer_transaction.getRelation('currency'),
-    toAmount: transaction.value.transfer_transaction.amount,
+    toAccountId: transaction.value.transfer_transaction?.getRelation('account'),
+    toCurrencyId: transaction.value.transfer_transaction?.getRelation('currency'),
+    toAmount: transaction.value.transfer_transaction?.amount,
 
     transactionId: transaction.value.id,
-    transferTransactionId: transaction.value.transfer_transaction.id
+    transferTransactionId: transaction.value.transfer_transaction?.id
   })
 }
 
