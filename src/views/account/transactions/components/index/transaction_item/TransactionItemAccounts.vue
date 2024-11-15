@@ -34,5 +34,11 @@ defineProps({
 </template>
 
 <style scoped>
+.s-min-width-0 {
+  min-width: 0;
+}
 
+.s-max-width-70 {
+  max-width: 70%;
+}
 </style>

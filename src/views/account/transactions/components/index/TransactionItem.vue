@@ -104,17 +104,4 @@ initAccounts()
 </template>
 
 <style lang="postcss" scoped>
-.s-text-truncate-wrapper {
-  flex: 1;
-  min-width: 0;
-}
-
-.s-min-width-0 {
-  min-width: 0;
-}
-
-.s-max-width-70 {
-  max-width: 70%;
-}
-
 </style>

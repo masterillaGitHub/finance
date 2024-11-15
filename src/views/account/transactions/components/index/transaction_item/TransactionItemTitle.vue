@@ -21,5 +21,8 @@ const title = computed(() => props.transaction.description || props.transaction.
 </template>
 
 <style scoped>
-
+.s-text-truncate-wrapper {
+  flex: 1;
+  min-width: 0;
+}
 </style>
