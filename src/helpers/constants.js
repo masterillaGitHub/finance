@@ -52,6 +52,9 @@ export const TRANSACTION_TYPES = [
     { id: TYPE_ID_TRANSFER, icon: CURRENCIES[2].icon, name: 'Переказ'},
 ]
 
+export const TYPE_INPUT_AUTO = 'auto'
+export const TYPE_INPUT_MANUAL = 'manual'
+
 export const BANK_TYPE_INPUT_ID_AUTO = 1
 export const BANK_TYPE_INPUT_ID_MANUAL = 2
 

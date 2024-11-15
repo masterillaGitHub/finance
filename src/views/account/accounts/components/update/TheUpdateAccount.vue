@@ -9,7 +9,7 @@ import Account from "@/models_resources/models/Account.js";
 import {useRoute, useRouter} from "vue-router";
 import BottomConfirm from "@/components/BottomConfirm.vue";
 import TheCategoryIcon from "@/views/account/settings/categories/components/TheCategoryIcon.vue";
-import {ACCOUNT_TYPE_INTERNAL, ACCOUNT_TYPES} from "@/helpers/constants.js";
+import {ACCOUNT_TYPE_INTERNAL, ACCOUNT_TYPES, TYPE_INPUT_MANUAL} from "@/helpers/constants.js";
 
 const emit = defineEmits([
   'accountUpdate',
@@ -114,7 +114,7 @@ function createdAccountSum(accountSum) {
           </div>
           <v-divider/>
         </div>
-        <template v-if="account.place_type === ACCOUNT_TYPE_INTERNAL">
+        <template v-if="account.place_type === ACCOUNT_TYPE_INTERNAL && account.input_type === TYPE_INPUT_MANUAL">
           <TheCurrenciesChoiceList
               :account-sums="accountSums"
               @created-account-sum="createdAccountSum"

@@ -10,7 +10,7 @@ const props = defineProps({
   }
 })
 
-const title = computed(() => props.transaction.description || transaction.category.name)
+const title = computed(() => props.transaction.description || props.transaction.category.name)
 
 </script>
 
