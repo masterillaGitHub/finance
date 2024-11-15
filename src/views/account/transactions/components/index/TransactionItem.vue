@@ -4,6 +4,16 @@ import {isTransactionValid} from "@/helpers/validators/entities.js";
 import {computed, ref} from "vue";
 import {TYPE_ID_TRANSFER} from "@/helpers/constants.js";
 import {useCurrencyDecimalConvert} from "@/composables/currency_decimal_convert.js";
+import TransactionItemAmount
+    from "@/views/account/transactions/components/index/transaction_item/TransactionItemAmount.vue";
+import TransactionItemAccounts
+  from "@/views/account/transactions/components/index/transaction_item/TransactionItemAccounts.vue";
+import TransactionItemTags
+  from "@/views/account/transactions/components/index/transaction_item/TransactionItemTags.vue";
+import TransactionItemTitle
+  from "@/views/account/transactions/components/index/transaction_item/TransactionItemTitle.vue";
+import TransactionItemNote
+  from "@/views/account/transactions/components/index/transaction_item/TransactionItemNote.vue";
 
 const props = defineProps({
   t: {
@@ -53,10 +63,6 @@ function getAmount(amount, alphabeticCode) {
   return toCurrency(amount, alphabeticCode, {signDisplay: 'exceptZero'}).replace('-', '')
 }
 
-function compareAmountsWithoutSign(a, b) {
-  return Math.abs(a) === Math.abs(b);
-}
-
 initAccounts()
 </script>
 
@@ -69,36 +75,28 @@ initAccounts()
     </div>
     <div class="d-flex flex-column flex-grow-1" style="min-width: 0;">
       <div class="d-flex flex-wrap flex-grow-1">
-        <div class="s-text-truncate-wrapper mr-3">
-          <div class="font-weight-bold text-truncate">{{t.category.name}}</div>
-        </div>
-        <div class="d-flex">
-          <div :class="{'text-green': fromAccount.isIncome}">
-            {{fromAccount.amountDisplay}}
-          </div>
-          <div
-              v-if="isTypeTransfer && !compareAmountsWithoutSign(fromAccount.amount, toAccount.amount)"
-          >
-            <v-icon icon="mdi-arrow-right-thin" class="mx-1 text-grey-darken-1"/>
-            <span class="text-green">{{toAccount.amountDisplay}}</span>
-          </div>
-        </div>
-
+        <TransactionItemTitle
+            :transaction="t"
+        />
+        <TransactionItemAmount
+            :is-type-transfer="isTypeTransfer"
+            :from-account="fromAccount"
+            :to-account="toAccount"
+        />
       </div>
-      <div class="d-flex  text-grey-darken-1" >
-          <div
-              class="d-flex s-min-width-0 "
-              :class="[isTypeTransfer ? 's-max-width-70' : 'w-100']"
-          >
-              <v-icon :icon="fromAccount.icon" class="mr-2"/>
-              <span class="text-truncate">{{ fromAccount.name }}</span>
-          </div>
-          <div v-if="isTypeTransfer" class="d-flex s-min-width-0 s-max-width-70">
-            <v-icon icon="mdi-arrow-right-thin" class="mx-1"/>
-            <v-icon :icon="toAccount.icon" class="mr-2"/>
-            <span class="text-truncate">{{ toAccount.name}}</span>
-          </div>
-      </div>
+      <TransactionItemAccounts
+          :is-type-transfer="isTypeTransfer"
+          :from-account="fromAccount"
+          :to-account="toAccount"
+      />
+      <TransactionItemTags
+          v-if="t.tags.length > 0"
+          :transaction="t"
+      />
+      <TransactionItemNote
+          v-if="t.note"
+          :transaction="t"
+      />
     </div>
 
 

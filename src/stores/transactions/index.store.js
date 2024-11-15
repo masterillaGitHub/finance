@@ -24,10 +24,12 @@ export const useIndexStore = defineStore('transaction/index', {
                 'account',
                 'currency',
                 'category',
+                'tags',
                 'transfer_transaction.type',
                 'transfer_transaction.account',
                 'transfer_transaction.currency',
                 'transfer_transaction.category',
+                'transfer_transaction.tags',
             ]
             const params = Object.assign({
                 include: includes.join(','),
@@ -48,10 +50,12 @@ export const useIndexStore = defineStore('transaction/index', {
                 'account',
                 'currency',
                 'category',
+                'tags',
                 'transfer_transaction.type',
                 'transfer_transaction.account',
                 'transfer_transaction.currency',
                 'transfer_transaction.category',
+                'transfer_transaction.tags',
             ]
 
             this.transactionsLoading = true
