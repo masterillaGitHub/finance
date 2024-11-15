@@ -9,6 +9,8 @@ import TheAccountsStepsChoice
   from "@/views/account/transactions/components/transaction-steps/TheAccountsStepsChoice.vue";
 import {TYPE_ID_TRANSFER} from "@/helpers/constants.js";
 import TheToAmount from "@/views/account/transactions/components/transaction-steps/TheToAmount.vue";
+import TheDescriptionStep from "@/views/account/transactions/components/transaction-steps/TheDescriptionStep.vue";
+import TheNoteStep from "@/views/account/transactions/components/transaction-steps/TheNoteStep.vue";
 
 const formStore = useFormStore()
 
@@ -21,12 +23,14 @@ const formStore = useFormStore()
         variant="accordion"
         elevation="0"
     >
+      <TheDescriptionStep/>
       <TheTypeStep/>
       <TheAccountsStepsChoice/>
       <TheCategoryStep v-if="formStore.typeId !== TYPE_ID_TRANSFER"/>
       <TheToAmount v-if="formStore.typeId === TYPE_ID_TRANSFER"/>
       <TheTagStep/>
       <TheDateStep/>
+      <TheNoteStep/>
     </v-expansion-panels>
   </div>
 </template>

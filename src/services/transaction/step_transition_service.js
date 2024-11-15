@@ -3,11 +3,13 @@ import {isEmpty, isNull} from "@/helpers/validators/index.js";
 import {TYPE_ID_TRANSFER} from "@/helpers/constants.js";
 
 export const STEP_CLOSED = null
+export const STEP_DESCRIPTION = 'description'
 export const STEP_TYPE = 'type'
 export const STEP_ACCOUNT = 'account'
 export const STEP_CATEGORY = 'category'
 export const STEP_DATE = 'date'
 export const STEP_TAG = 'tag'
+export const STEP_NOTE = 'note'
 export const STEP_TO_ACCOUNT = 'to_account'
 export const STEP_TO_AMOUNT = 'to_amount'
 

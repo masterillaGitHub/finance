@@ -34,18 +34,21 @@ async function saveTransaction() {
   const typeId = formStore.typeId
   const date = formatISO9075(formStore.date)
   const tagsIds = formStore.tagIds // TODO: Check relation for collection
+  const description = formStore.description
+  const note = formStore.note
 
   const t = formStore.getTransaction
 
+  t.type = typeId
+  t.currency = formStore.currencyId
+  t.account = formStore.accountId
   t.category = formStore.typeId === TYPE_ID_TRANSFER
       ? TRANSACTION_CATEGORY_ID_TRANSFER
       : formStore.categoryId
-  t.currency = formStore.currencyId
-  t.type = typeId
-  t.account = formStore.accountId
+  t.description = description
   t.setRelation('tags', tagsIds)
   t.amount = formStore.amount
-  t.note = null
+  t.note = note
   t.transaction_at = date
 
   const tServerId = await t.save()
@@ -58,9 +61,10 @@ async function saveTransaction() {
     tt.account = formStore.toAccountId
     tt.currency = formStore.toCurrencyId
     tt.transfer_transaction = tServerId
+    tt.description = description
     tt.amount = formStore.toAmount
     tt.setRelation('tags', tagsIds)
-    tt.note = null
+    tt.note = note
     tt.transaction_at = date
 
     await tt.save()
