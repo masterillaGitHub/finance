@@ -65,6 +65,7 @@ export const useFormStore = defineStore('transactions/form', {
             this.typeId = null
             this.accountId = null
             this.categoryId = null
+            this.description = null
             this.tagIds = []
             this.date = null
             this.toCurrencyId = null
