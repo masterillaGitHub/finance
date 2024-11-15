@@ -1,7 +1,7 @@
 <script setup>
 
 import TheAppBar from "@/views/account/accounts/components/show/TheAppBar.vue";
-import TheTitleSection from "@/views/account/accounts/components/show/TheTitleSection.vue";
+import TheAccountInfo from "@/views/account/accounts/components/show/TheAccountInfo.vue";
 import TheTransactions from "@/views/account/accounts/components/show/TheTransactions.vue";
 import TheEditAccount from "@/views/account/accounts/components/update/TheEditAccount.vue";
 import TheButtonAddTransaction from "@/views/account/accounts/components/show/TheButtonAddTransaction.vue";
@@ -16,7 +16,7 @@ const account = computed(() => showStore.getAccount)
 
 <template>
   <TheAppBar />
-  <TheTitleSection class="mb-4"/>
+  <TheAccountInfo class="mb-4"/>
   <template v-if="account.place_type === ACCOUNT_TYPE_INTERNAL">
     <TheTransactions/>
     <TheButtonAddTransaction/>
