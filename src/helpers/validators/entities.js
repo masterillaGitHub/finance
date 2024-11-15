@@ -4,6 +4,7 @@ import Transaction from "@/models_resources/models/Transaction.js";
 import TransactionCategory from "@/models_resources/models/TransactionCategory.js";
 import AccountCategory from "@/models_resources/models/AccountCategory.js";
 import TransactionTag from "@/models_resources/models/TransactionTag.js";
+import Account from "@/models_resources/models/Account.js";
 
 export function isAccountCategoryValid(value) {
     return value instanceof AccountCategory
@@ -11,6 +12,14 @@ export function isAccountCategoryValid(value) {
 
 export function validateAccountCategoryItems(items) {
     return items.every(isAccountCategoryValid)
+}
+
+export function isAccountValid(value) {
+    return value instanceof Account
+}
+
+export function validateAccountItems(items) {
+    return items.every(isAccountValid)
 }
 
 export function isAccountSumValid(value) {
