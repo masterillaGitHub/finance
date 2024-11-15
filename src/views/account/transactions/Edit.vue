@@ -88,7 +88,7 @@ const removeTransaction = () => {
 
     <div v-else class="fill-height d-flex flex-column">
       <div class="flex-grow-1"></div>
-      <TheAmount/>
+      <TheAmount :readonly="true"/>
       <TheTransactionSteps/>
       <TheSaveButton/>
     </div>

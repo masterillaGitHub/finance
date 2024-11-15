@@ -8,6 +8,10 @@ defineProps({
   amount: {
     type: [String, Number],
     default: '0',
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   }
 })
 const emit = defineEmits([
@@ -31,7 +35,13 @@ async function initComponent() {
       <v-icon v-if="!formStore.isAmountValid" color="error" icon="mdi-alert-circle"/>
     </div>
 
-    <v-menu>
+    <template v-if="readonly">
+      <div class="mr-4">
+        <v-icon :icon="formStore.getCurrency.icon"/>
+      </div>
+    </template>
+
+    <v-menu v-else>
       <template v-slot:activator="{ props }">
         <v-btn
             variant="outlined"

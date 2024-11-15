@@ -11,6 +11,10 @@ const props = defineProps({
   isCalcShow: {
     type: Boolean,
     default: false
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
   }
 })
 
@@ -39,13 +43,22 @@ const handleAmount = val => {
 const setAmount = val => {
   formStore.amount = handleAmount(toInteger(val))
 }
+
+const openCalculator = () => {
+  if (props.readonly) {
+    return
+  }
+
+  isCalcShow.value = true
+}
 </script>
 
 <template>
 
   <TheCreateAmount
       :amount="amount"
-      @on-click-on-amount="isCalcShow = true"
+      :readonly="readonly"
+      @on-click-on-amount="openCalculator"
   />
 
   <BottomCalculator
