@@ -1,0 +1,1 @@
+import{R as n}from"./index-DubSSYkJ.js";function u(t){return n(t)?!0:"Поле не може бути пустим."}function c(t){const a=async()=>{const{valid:r}=await t.value.validate();return r},e=()=>t.value.resetValidation();return{validate:a,resetValidation:e,check:async()=>(e(),await a())}}export{u as r,c as u};
