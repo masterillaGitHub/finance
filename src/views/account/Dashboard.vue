@@ -6,10 +6,11 @@
 <div class="pa-2">
   <v-alert
       icon="$vuetify"
-      title="Welcome to the world of finance"
       type="info"
       variant="tonal"
-  />
+  >
+    Welcome to <b>Denarius</b> - the world of finance
+  </v-alert>
 
 </div>
 </template>
