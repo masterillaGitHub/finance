@@ -6,7 +6,7 @@ export const useBankCreateStore = defineStore('accounts/bank-create', {
     state: () => ({
         bankId: null,
         bankLoading: false,
-        token: 'uivZZwLaHq1DvHd0kHWLB_Oq9QmFuzG71v6_5f5HnjqI',
+        token: '',
     }),
     getters: {
         getBanks: () => Bank.findLoaded()
