@@ -1,0 +1,37 @@
+{
+  "name": "Denarius - Finance App",
+  "short_name": "Denarius",
+  "icons": [
+    {
+      "src": "assets/images/icons/web-app-manifest-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/icons/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/images/icons/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "lang":"en",
+  "scope":"/",
+  "start_url":"/",
+  "id":"/",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "screenshots":[
+    {"src":"assets/images/mobile_1.jpg","sizes":"576x1280","type":"image/jpg","form_factor":"narrow","label":"Рахунки"},
+    {"src":"assets/images/mobile_2.jpg","sizes":"576x1280","type":"image/jpg","form_factor":"narrow","label":"Типи рахунків"},
+    {"src":"assets/images/mobile_3.jpg","sizes":"576x1280","type":"image/jpg","form_factor":"wide","label":"Додати новий рахунок"},
+    {"src":"assets/images/mobile_4.jpg","sizes":"576x1280","type":"image/jpg","form_factor":"wide","label":"Історія транзакцій"}
+  ]
+}

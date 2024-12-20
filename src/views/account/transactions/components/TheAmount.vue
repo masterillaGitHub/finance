@@ -22,7 +22,7 @@ const formStore = useFormStore()
 const {toInteger, toMinus, toPlus, toDecimal} = useCurrencyDecimalConvert()
 const isCalcShow = ref(props.isCalcShow)
 const amount = computed(() =>
-    toPlus(toDecimal(formStore.amount))
+    toDecimal(formStore.amount)
 )
 const typeId = computed(() => formStore.typeId)
 

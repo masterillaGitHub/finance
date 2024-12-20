@@ -30,6 +30,23 @@ export const useFormStore = defineStore('transactions/form', {
 
         transactionId: null,
         transferTransactionId: null,
+
+        mainTransaction: {
+            id: null,
+            typeInput: null,
+            currencyId: null,
+            accountId: null,
+            categoryId: null,
+            amount: 0,
+        },
+        transferTransaction: {
+            id: null,
+            typeInput: null,
+            currencyId: null,
+            accountId: null,
+            categoryId: null,
+            amount: 0,
+        },
     }),
     getters: {
         getTransaction: state => state.transactionId

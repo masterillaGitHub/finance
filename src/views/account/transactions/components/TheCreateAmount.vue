@@ -31,7 +31,7 @@ async function initComponent() {
 <template>
   <div class="d-flex justify-end align-center pa-2">
     <div class="text-right mr-4 d-flex align-center" @click="emit('onClickOnAmount')">
-      <span class="text-h3 ">{{amount}}</span>
+      <span class="text-h3 "><span v-if="amount > 0">+</span>{{amount}}</span>
       <v-icon v-if="!formStore.isAmountValid" color="error" icon="mdi-alert-circle"/>
     </div>
 
